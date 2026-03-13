@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 리터러시의 이해 포트폴리오 | 김진서</title>
+    <!-- Tailwind CSS CDN with Dark Mode support -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: '#CCFF00',
+                        deep: '#050A18',
+                        card: '#0A1428'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;700;900&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Fade-in Animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modal Blur Effect */
+        #modal-overlay {
+            backdrop-filter: blur(16px);
+            display: none;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #1A202C;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CCFF00;
+        }
+
+        /* Theme Toggle Transitions */
+        .theme-transition {
+            transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-deep dark:text-white selection:bg-cyber selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 px-8 py-6 flex justify-between items-center bg-white/80 dark:bg-deep/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 theme-transition">
+        <div class="text-xl font-bold tracking-tighter flex items-center gap-2">
+            <div class="w-3 h-3 bg-cyber rounded-full animate-pulse shadow-[0_0_10px_rgba(204,255,0,0.8)]"></div>
+            AI LITERACY LAB
+        </div>
+        <div class="flex items-center gap-8">
+            <div class="hidden md:flex gap-8 text-sm font-medium tracking-widest text-slate-500 dark:text-gray-400">
+                <a href="#hero" class="hover:text-cyber transition-colors uppercase">Vision</a>
+                <a href="#projects" class="hover:text-cyber transition-colors uppercase">Assignments</a>
+                <a href="#footer" class="hover:text-cyber transition-colors uppercase">Contact</a>
+            </div>
+            <!-- Theme Toggle Button -->
+            <button onclick="toggleTheme()" class="p-2 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-cyber dark:hover:bg-cyber hover:text-black transition-all">
+                <i data-lucide="sun" id="theme-sun" class="hidden dark:block w-5 h-5"></i>
+                <i data-lucide="moon" id="theme-moon" class="block dark:hidden w-5 h-5"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-6 pt-20 relative overflow-hidden">
+        <!-- Decoration BG -->
+        <div class="absolute top-1/4 -right-20 w-96 h-96 bg-cyber/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-1/4 -left-20 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]"></div>
+
+        <div class="max-w-6xl w-full z-10">
+            <p class="text-cyber dark:text-cyber text-sm md:text-base mb-6 tracking-[0.4em] font-bold uppercase drop-shadow-sm">Understanding AI Literacy</p>
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-black leading-[1.1] tracking-tight mb-8 text-slate-900 dark:text-white">
+                AI 리터러시 : <br />
+                <span class="text-slate-800 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-white dark:to-gray-500">현실을 읽고,</span><br />
+                <span class="italic text-cyber drop-shadow-sm">이야기로 그리다.</span>
+            </h1>
+            <p class="text-slate-600 dark:text-gray-400 text-lg md:text-2xl max-w-3xl leading-relaxed font-light">
+                생성형 AI와 데이터 분석 도구를 활용하여 현실 세계의 문제를 이해하고, 데이터를 해석하며, 그 결과를 의미 있는 이야기와 콘텐츠로 표현하는 능력을 함양합니다.
+            </p>
+            <div class="mt-12 flex flex-wrap gap-4">
+                <div class="px-4 py-2 border border-slate-200 dark:border-white/10 rounded-full text-xs font-mono text-slate-500 dark:text-gray-400 uppercase tracking-widest bg-white dark:bg-transparent">Generative AI</div>
+                <div class="px-4 py-2 border border-slate-200 dark:border-white/10 rounded-full text-xs font-mono text-slate-500 dark:text-gray-400 uppercase tracking-widest bg-white dark:bg-transparent">Data Analysis</div>
+                <div class="px-4 py-2 border border-slate-200 dark:border-white/10 rounded-full text-xs font-mono text-slate-500 dark:text-gray-400 uppercase tracking-widest bg-white dark:bg-transparent">Ethics & Literacy</div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span class="text-[10px] text-slate-400 dark:text-gray-500 uppercase tracking-[0.3em]">Scroll Down</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-cyber to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section id="projects" class="px-6 py-32 bg-slate-100 dark:bg-white/[0.01] theme-transition">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-24 fade-in-section flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-4xl font-black mb-4 uppercase tracking-tighter text-slate-900 dark:text-white">Course Assignments</h2>
+                    <div class="w-24 h-2 bg-cyber shadow-[0_2px_10px_rgba(204,255,0,0.5)]"></div>
+                </div>
+                <p class="text-slate-500 dark:text-gray-500 max-w-md text-sm leading-relaxed">
+                    AI의 기본 작동 방식 이해부터 실제 데이터 프로젝트 수행까지, 15주간의 학습 여정을 기록합니다.
+                </p>
+            </div>
+
+            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- JS will inject cards here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Author Section -->
+    <footer id="footer" class="px-6 py-32 border-t border-slate-200 dark:border-white/5 bg-white dark:bg-[#030712] theme-transition">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-16">
+                <!-- Left: Student Info -->
+                <div class="w-full lg:w-3/4 fade-in-section">
+                    <h2 class="text-6xl font-black mb-12 text-slate-900 dark:text-cyber uppercase tracking-tighter">Student Info</h2>
+                    
+                    <div class="flex flex-col md:flex-row gap-12 items-start">
+                        <!-- Profile Image Section -->
+                        <div class="relative group">
+                            <div class="w-48 h-56 bg-slate-100 dark:bg-white/5 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden flex items-center justify-center relative transition-all group-hover:border-cyber/50">
+                                <img id="profile-preview" src="https://www.pusan.ac.kr/_contents/kor/_Img/07Intro/character01.jpg" class="w-full h-full object-cover" onerror="this.classList.add('hidden'); document.getElementById('upload-placeholder').classList.remove('hidden')" />
+                                <div id="upload-placeholder" class="hidden flex flex-col items-center gap-3 text-slate-400 transition-colors group-hover:text-cyber">
+                                    <i data-lucide="user" class="w-10 h-10 stroke-[1]"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Add Photo</span>
+                                </div>
+                            </div>
+                            <label for="photo-upload" class="absolute -bottom-3 -right-3 p-3 bg-cyber text-black rounded-full cursor-pointer hover:scale-110 transition-transform shadow-[0_4px_15px_rgba(204,255,0,0.4)] z-10">
+                                <i data-lucide="camera" class="w-5 h-5"></i>
+                            </label>
+                            <input type="file" id="photo-upload" class="hidden" accept="image/*" onchange="previewProfileImage(this)" />
+                        </div>
+
+                        <!-- Info Details -->
+                        <div class="space-y-8 flex-1">
+                            <div class="flex flex-col gap-2">
+                                <span class="text-[10px] text-cyber font-mono tracking-widest uppercase bg-black w-fit px-3 py-1">Student ID</span>
+                                <div class="text-3xl font-light text-slate-700 dark:text-gray-200 tracking-tight">202366243</div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-[10px] text-cyber font-mono tracking-widest uppercase bg-black w-fit px-3 py-1">Name</span>
+                                <div class="text-3xl font-light text-slate-700 dark:text-gray-200 tracking-tight">
+                                    김진서 <span class="text-slate-400 dark:text-gray-500 text-xl ml-3 font-normal">Jinseo Kim</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-[10px] text-cyber font-mono tracking-widest uppercase bg-black w-fit px-3 py-1">Contact</span>
+                                <div class="text-3xl font-light text-slate-700 dark:text-gray-200 tracking-tight">jinseo03212@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: Social & Quote -->
+                <div class="w-full lg:w-auto flex flex-col items-start lg:items-end gap-10 fade-in-section mt-10 lg:mt-0">
+                    <div class="flex gap-4">
+                        <a href="#" class="p-6 border border-slate-200 dark:border-white/10 hover:border-cyber hover:text-cyber transition-all group rounded-2xl bg-slate-50 dark:bg-transparent shadow-sm">
+                            <i data-lucide="github" class="group-hover:scale-110 transition-transform"></i>
+                        </a>
+                        <a href="mailto:jinseo03212@gmail.com" class="p-6 border border-slate-200 dark:border-white/10 hover:border-cyber hover:text-cyber transition-all group rounded-2xl bg-slate-50 dark:bg-transparent shadow-sm">
+                            <i data-lucide="mail" class="group-hover:scale-110 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="text-left lg:text-right space-y-4">
+                        <p class="text-slate-500 dark:text-gray-400 text-lg leading-relaxed max-w-xs font-light italic">
+                            "AI는 도구일 뿐이며, 진정한 가치는 이를 활용하는 인간의 통찰력에서 나옵니다."
+                        </p>
+                        <div class="h-px w-20 bg-cyber ml-auto hidden lg:block"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-32 pt-12 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-400 dark:text-gray-600 tracking-[0.4em] uppercase">
+                <p>© 2024 AI LITERACY PORTFOLIO</p>
+                <p>Created for "Understanding AI Literacy" Course</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Window -->
+    <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 dark:bg-deep/90" onclick="closeModal()"></div>
+        
+        <div id="modal-content" class="relative w-full max-w-4xl bg-white dark:bg-card border border-slate-200 dark:border-cyber/20 overflow-hidden rounded-2xl shadow-2xl scale-95 opacity-0 transition-all duration-500">
+            <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors z-20 bg-slate-100 dark:bg-white/5 p-2 rounded-full">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="flex flex-col md:flex-row h-full">
+                <!-- Modal Visual -->
+                <div id="modal-visual-bg" class="w-full md:w-1/3 p-12 flex flex-col justify-center items-center relative overflow-hidden transition-colors duration-500">
+                    <div id="modal-id-large" class="text-9xl font-black text-white/10 absolute -left-4 -bottom-4 italic"></div>
+                    <div id="modal-icon-container" class="w-20 h-20 border-2 flex items-center justify-center rotate-45 mb-8 shadow-lg">
+                        <div id="modal-icon-wrapper" class="-rotate-45"></div>
+                    </div>
+                    <span id="modal-tag" class="text-[10px] font-mono tracking-[0.3em] text-white border border-white/30 px-3 py-1 rounded-full uppercase bg-black/20 backdrop-blur-sm"></span>
+                </div>
+
+                <!-- Modal Info -->
+                <div class="w-full md:w-2/3 p-10 md:p-16">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span id="modal-id" class="text-4xl font-black italic text-slate-900 dark:text-white"></span>
+                        <div class="h-px flex-1 bg-slate-100 dark:bg-white/10"></div>
+                    </div>
+                    <h3 id="modal-title" class="text-3xl md:text-5xl font-extrabold mb-8 tracking-tighter text-slate-900 dark:text-white"></h3>
+                    <p id="modal-detail" class="text-slate-600 dark:text-gray-300 text-lg md:text-xl leading-relaxed mb-12 font-light"></p>
+                    <div class="grid grid-cols-2 gap-8 text-sm border-t border-slate-100 dark:border-white/5 pt-10">
+                        <div>
+                            <h4 id="modal-tool-label" class="font-bold mb-3 tracking-widest uppercase text-[10px] w-fit px-2 py-0.5">Key Tool</h4>
+                            <p id="modal-tools" class="text-slate-500 dark:text-gray-400 font-mono"></p>
+                        </div>
+                        <div>
+                            <h4 id="modal-point-label" class="font-bold mb-3 tracking-widest uppercase text-[10px] w-fit px-2 py-0.5">Literacy Point</h4>
+                            <p id="modal-point" class="text-slate-500 dark:text-gray-400">비판적 사고 및 데이터 해석</p>
+                        </div>
+                    </div>
+                    <!-- 버튼에 ID 추가 및 연결 기능 구현 -->
+                    <button id="modal-btn" class="mt-12 w-full py-5 text-black font-black flex items-center justify-center gap-3 transition-all transform hover:-translate-y-1 shadow-lg">
+                        VIEW PROJECT CASE <i data-lucide="arrow-right" size="20"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Updated Assignments Data
+        const assignments = [
+            { 
+                id: '01', title: 'AI의 이해', 
+                description: '구글 노트북LM을 활용하여 AI란 무엇이고 AI역사와 생성형 AI에 대해 자료 정리하는 실습', 
+                detail: '구글 노트북LM을 통해 인공지능의 정의부터 역사적 변천사, 그리고 최신 기술인 생성형 AI의 작동 원리까지를 체계적으로 정리했습니다. 방대한 자료를 업로드하여 질문과 답변 형식으로 핵심 정보를 추출하고, AI에 대한 기초 리터러시를 다지는 실습을 진행했습니다.',
+                type: 'AI Foundations', tools: 'Google NotebookLM',
+                color: '#CCFF00', shadow: 'rgba(204,255,0,0.3)', bg: 'from-cyber/20',
+                icon: 'book-open',
+                link: './02/index.html' // 이동할 링크 추가
+            },
+            { 
+                id: '02', title: 'AI 환각 현상 검증 및 분석', 
+                description: 'AI가 생성한 정보의 신뢰도를 평가하고 사실 관계를 검증하는 팩트체크 리터러시를 함양합니다.', 
+                detail: '할루시네이션(Hallucination)의 발생 원인을 분석하고, 교차 검증 도구를 활용하여 생성된 정보의 오류를 찾아내어 올바르게 수정하는 기술을 학습했습니다.',
+                type: 'Critical Thinking', tools: 'Perplexity, Google Search',
+                color: '#3B82F6', shadow: 'rgba(59,130,246,0.3)', bg: 'from-blue-500/20',
+                icon: 'search-check'
+            },
+            { 
+                id: '03', title: '데이터 수집 및 정제 자동화', 
+                description: 'AI 도구를 활용하여 비정형 데이터를 수집하고 분석 가능한 형태로 가공하는 과정을 실습합니다.', 
+                detail: '텍스트나 웹 데이터를 AI를 이용해 구조화된 데이터(CSV/JSON)로 변환하고, 데이터 정제 과정을 자동화하여 분석 효율성을 극대화하는 방법을 익혔습니다.',
+                type: 'Data Engineering', tools: 'Tableau Prep, AI Agents',
+                color: '#A855F7', shadow: 'rgba(168,85,247,0.3)', bg: 'from-purple-500/20',
+                icon: 'database-zap'
+            },
+            { 
+                id: '04', title: '탐색적 데이터 분석(EDA)', 
+                description: '데이터 시각화 도구를 사용해 수치 속에 숨겨진 패턴과 인사이트를 발견합니다.', 
+                detail: '현실 세계의 공공 데이터를 활용하여 변수 간의 상관관계를 파악하고, 직관적인 차트를 디자인하여 데이터가 말하고자 하는 바를 시각적으로 정리했습니다.',
+                type: 'Data Analysis', tools: 'Excel, Python, RAWGraphs',
+                color: '#EC4899', shadow: 'rgba(236,72,153,0.3)', bg: 'from-pink-500/20',
+                icon: 'bar-chart-big'
+            },
+            { 
+                id: '05', title: '생성형 미디어 스토리텔링', 
+                description: 'AI 이미지 및 영상 생성 도구를 활용하여 데이터 인사이트를 시각적 서사로 변환합니다.', 
+                detail: '분석된 데이터 결과를 기반으로 메시지를 정교화하고, Midjourney 등을 활용해 데이터의 감성적인 측면을 극대화하는 비주얼 에셋을 제작했습니다.',
+                type: 'AI Creativity', tools: 'Midjourney, Runway Gen-2',
+                color: '#06B6D4', shadow: 'rgba(6,182,212,0.3)', bg: 'from-cyan-500/20',
+                icon: 'sparkles'
+            },
+            { 
+                id: '06', title: 'AI 윤리와 책임 있는 활용', 
+                description: 'AI 기술 활용 시 발생하는 저작권, 개인정보 보호, 편향성 문제를 비판적으로 고찰합니다.', 
+                detail: '인공지능 가이드라인을 분석하고, 자신의 프로젝트에서 발생할 수 있는 윤리적 위험 요소를 사전에 진단하여 올바른 AI 활용 윤리를 수립했습니다.',
+                type: 'Ethics', tools: 'AI Ethics Guidelines',
+                color: '#F97316', shadow: 'rgba(249,115,22,0.3)', bg: 'from-orange-500/20',
+                icon: 'scale'
+            },
+            { 
+                id: '07', title: '인터랙티브 데이터 대시보드', 
+                description: '사용자가 직접 데이터를 탐색할 수 있는 상호작용형 시각화 환경을 구축합니다.', 
+                detail: '고정된 이미지가 아닌, 필터와 툴팁을 통해 사용자가 능동적으로 정보를 습득할 수 있는 웹 기반 대시보드를 기획하고 제작했습니다.',
+                type: 'Interaction', tools: 'Flourish, Datawrapper',
+                color: '#10B981', shadow: 'rgba(16,185,129,0.3)', bg: 'from-emerald-500/20',
+                icon: 'layout-dashboard'
+            },
+            { 
+                id: '08', title: 'AI 협업 문제 해결 시나리오', 
+                description: '현실의 난제를 AI와 함께 분석하고 구체적인 해결 방안을 시나리오로 제시합니다.', 
+                detail: '기후 변화나 사회적 소외 등 복잡한 문제를 주제로 선정하여 AI와 브레인스토밍하고, 데이터 기반의 설득력 있는 해결 시나리오를 완성했습니다.',
+                type: 'Collaboration', tools: 'Miro, ChatGPT-4o',
+                color: '#6366F1', shadow: 'rgba(99,102,241,0.3)', bg: 'from-indigo-500/20',
+                icon: 'brain-circuit'
+            },
+            { 
+                id: '09', title: '데이터 리터러시 에세이', 
+                description: '데이터 해석 과정에서 얻은 인사이트를 논리적인 텍스트와 콘텐츠로 구성합니다.', 
+                detail: '시각화된 결과물을 단순히 나열하는 것을 넘어, 전후 맥락을 파악하고 비전문가도 이해할 수 있도록 쉬운 언어로 풀어내는 스토리텔링 역량을 발휘했습니다.',
+                type: 'Storytelling', tools: 'Notion, Canva',
+                color: '#F14646', shadow: 'rgba(241,70,70,0.3)', bg: 'from-red-500/20',
+                icon: 'pen-tool'
+            },
+            { 
+                id: '10', title: '종합 캡스톤: AI 리터러시 리포트', 
+                description: '한 학기 동안 학습한 모든 기술을 집약하여 하나의 완성된 AI 기반 리포트를 배포합니다.', 
+                detail: '문제 정의, 데이터 분석, AI 시각화, 윤리적 검토를 모두 포함한 최종 프로젝트로, AI 리터러시 역량을 종합적으로 입증하는 결과물입니다.',
+                type: 'Final Project', tools: 'All Integration',
+                color: '#CCFF00', shadow: 'rgba(204,255,0,0.3)', bg: 'from-cyber/20',
+                icon: 'rocket'
+            }
+        ];
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            lucide.createIcons();
+        }
+
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        function previewProfileImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('profile-preview');
+                    const placeholder = document.getElementById('upload-placeholder');
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        const grid = document.getElementById('project-grid');
+        assignments.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'fade-in-section';
+            card.innerHTML = `
+                <div onclick="openModal(${index})" class="group relative h-[480px] bg-white dark:bg-card border border-slate-200 dark:border-white/5 hover:border-[${item.color}] dark:hover:border-[${item.color}]/40 transition-all duration-700 cursor-pointer overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl">
+                    <div class="absolute inset-0 opacity-10 group-hover:opacity-40 transition-opacity duration-700">
+                        <div class="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br ${item.bg} to-transparent rounded-full -mr-32 -mt-32 blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div class="absolute bottom-10 left-10 transition-transform group-hover:rotate-12 duration-1000">
+                            <i data-lucide="${item.icon}" class="w-24 h-24 stroke-[0.5] text-slate-300 dark:text-white/10" style="color: ${item.color}22"></i>
+                        </div>
+                    </div>
+                    <div class="relative h-full p-10 flex flex-col justify-between z-10">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="text-6xl font-black text-slate-100 dark:text-white/5 group-hover:opacity-10 transition-opacity duration-500 italic" style="color: ${item.color}">
+                                    ${item.id}
+                                </span>
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 group-hover:scale-110 transition-transform duration-500">
+                                    <i data-lucide="${item.icon}" class="w-6 h-6" style="color: ${item.color}"></i>
+                                </div>
+                            </div>
+                            <p class="text-[10px] font-mono tracking-[0.3em] uppercase mb-3 px-3 py-1 rounded-full w-fit bg-slate-900 text-white" style="border: 1px solid ${item.color}">${item.type}</p>
+                            <h3 class="text-2xl font-bold leading-tight text-slate-800 dark:text-white transition-colors group-hover:translate-x-1 duration-500">
+                                ${item.title}
+                            </h3>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 dark:text-gray-500 text-sm leading-relaxed line-clamp-2 mb-8 group-hover:text-slate-700 dark:group-hover:text-gray-300 transition-colors">
+                                ${item.description}
+                            </p>
+                            <div class="flex items-center gap-3 text-[10px] font-black tracking-[0.2em] px-4 py-3 rounded-lg transition-all" style="background-color: ${item.color}; color: black; box-shadow: 0 4px 15px ${item.shadow}">
+                                <span class="h-px w-6 bg-black/40 group-hover:w-10 transition-all"></span>
+                                EXPLORE DETAILS
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        lucide.createIcons();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+
+        const overlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        
+        window.openModal = function(index) {
+            const item = assignments[index];
+            const visualBg = document.getElementById('modal-visual-bg');
+            visualBg.style.backgroundColor = item.color + '15';
+            
+            const iconWrapper = document.getElementById('modal-icon-wrapper');
+            iconWrapper.innerHTML = `<i data-lucide="${item.icon}" class="w-10 h-10" style="color: ${item.color}"></i>`;
+            
+            const iconContainer = document.getElementById('modal-icon-container');
+            iconContainer.style.borderColor = item.color;
+            iconContainer.style.boxShadow = `0 0 20px ${item.shadow}`;
+            
+            document.getElementById('modal-id').innerText = item.id;
+            document.getElementById('modal-id').style.color = item.color;
+            document.getElementById('modal-id-large').innerText = item.id;
+            const modalTag = document.getElementById('modal-tag');
+            modalTag.innerText = item.type;
+            modalTag.style.backgroundColor = item.color;
+            modalTag.style.color = 'black';
+            
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-detail').innerText = item.detail;
+            document.getElementById('modal-tools').innerText = item.tools;
+            
+            const toolLabel = document.getElementById('modal-tool-label');
+            toolLabel.style.backgroundColor = item.color;
+            toolLabel.style.color = 'black';
+            
+            const pointLabel = document.getElementById('modal-point-label');
+            pointLabel.style.backgroundColor = item.color;
+            pointLabel.style.color = 'black';
+            
+            const modalBtn = document.getElementById('modal-btn');
+            modalBtn.style.backgroundColor = item.color;
+            modalBtn.style.boxShadow = `0 10px 25px ${item.shadow}`;
+            
+            // 버튼 클릭 시 이동 경로 설정
+            modalBtn.onclick = function() {
+                if (item.link) {
+                    window.location.href = item.link;
+                } else {
+                    // 링크가 없는 경우 알림창 대신 커스텀 콘솔 메시지 (실제 서비스시 빈 링크 처리)
+                    console.log("No detailed page available yet.");
+                }
+            };
+
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 50);
+        };
+        
+        window.closeModal = function() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => overlay.style.display = 'none', 500);
+        };
+    </script>
+</body>
+</html>
