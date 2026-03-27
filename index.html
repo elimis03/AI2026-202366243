@@ -276,15 +276,16 @@
                 type: 'AI Foundations', tools: 'Google NotebookLM',
                 color: '#CCFF00', shadow: 'rgba(204,255,0,0.3)', bg: 'from-cyber/20',
                 icon: 'book-open',
-                link: './02/index.html' // 이동할 링크 추가
+                link: './02/index.html'
             },
             { 
-                id: '02', title: 'AI 환각 현상 검증 및 분석', 
-                description: 'AI가 생성한 정보의 신뢰도를 평가하고 사실 관계를 검증하는 팩트체크 리터러시를 함양합니다.', 
-                detail: '할루시네이션(Hallucination)의 발생 원인을 분석하고, 교차 검증 도구를 활용하여 생성된 정보의 오류를 찾아내어 올바르게 수정하는 기술을 학습했습니다.',
-                type: 'Critical Thinking', tools: 'Perplexity, Google Search',
+                id: '02', title: '데이터 스토리텔링', 
+                description: '공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 바꾸기', 
+                detail: 'Gemini 스토리북을 활용하여 복잡한 공공 데이터를 대중이 이해하기 쉬운 서사 구조로 변환하는 실습을 진행했습니다. 데이터 이면의 의미를 파악하고, 시각적 요소와 내러티브를 결합하여 설득력 있는 데이터 리포트를 완성했습니다.',
+                type: 'Data Storytelling', tools: 'Gemini 스토리북',
                 color: '#3B82F6', shadow: 'rgba(59,130,246,0.3)', bg: 'from-blue-500/20',
-                icon: 'search-check'
+                icon: 'pen-tool',
+                link: './03/index.html' // 클릭 시 이동할 링크 업데이트
             },
             { 
                 id: '03', title: '데이터 수집 및 정제 자동화', 
@@ -478,7 +479,6 @@
                 if (item.link) {
                     window.location.href = item.link;
                 } else {
-                    // 링크가 없는 경우 알림창 대신 커스텀 콘솔 메시지 (실제 서비스시 빈 링크 처리)
                     console.log("No detailed page available yet.");
                 }
             };
