@@ -1,6 +1,6 @@
 <!-- Palette: Vibrant Contrast (Primary: Deep Blue #1E3A8A, Accent 1: Vibrant Orange #F97316, Accent 2: Teal #14B8A6, Background: Slate 50 #F8FAFC) -->
-<!-- Plan: 1. Navigation Update (Add Home button linking to ../index.html). 2. Header & Hero Metrics (Inform: Big numbers). 3. Demographic Shift (Change: Combo chart). 4. District Extremes (Compare: Horizontal bar). 5. Speed of Aging (Change: Bar chart). 6. Policy Actions (Organize: Cards). -->
-<!-- Visualizations: 1. Big Numbers (HTML/CSS - NO SVG). 2. Combo Bar/Line Chart (Chart.js - NO SVG). 3. Horizontal Bar Chart (Chart.js - NO SVG). 4. Vertical Bar Chart (Chart.js - NO SVG). -->
+<!-- Plan: 1. Navigation (Home button). 2. Header (Title, Intro Paragraph, and NEW Storybook Button). 3. Hero Metrics. 4. Demographic Shift (Combo chart). 5. District Extremes (Horizontal bar). 6. Speed of Aging (Change: Bar chart). 7. Policy Actions. -->
+<!-- Visualizations: 1. Big Numbers (HTML/CSS). 2. Combo Bar/Line Chart (Chart.js). 3. Horizontal Bar Chart (Chart.js). 4. Vertical Bar Chart (Chart.js). -->
 <!-- Explicit Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -51,9 +51,19 @@
         <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
             붕괴되는 30%의 벽,<br><span class="gradient-text">부산광역시 초고령화 리포트</span>
         </h2>
-        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto mb-8">
             지난 5년(2020~2024), 부산의 총인구는 9.2만 명 감소한 반면 60세 이상 고령 인구는 폭발적으로 증가했습니다. 본 인포그래픽은 행정구역별 고령화 강도와 속도를 진단하고 시급한 정책적 대응 방향을 제시합니다.
         </p>
+        
+        <!-- 스토리북 보기 버튼 추가 -->
+        <div class="flex justify-center">
+            <a href="https://gemini.google.com/share/a08080f4ec15" 
+               target="_blank"
+               class="inline-flex items-center gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-2xl shadow-lg hover:bg-orange-600 hover:shadow-orange-200/50 hover:-translate-y-1 transition-all duration-300 group">
+                <span class="text-2xl group-hover:animate-bounce">📖</span>
+                <span class="text-lg">스토리북 보기</span>
+            </a>
+        </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-6 pb-20 space-y-16">
