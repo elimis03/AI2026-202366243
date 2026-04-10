@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 기술의 이해: 인체 구조 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-primary: #ffffff;
+            --text-primary: #1a202c;
+            --card-bg: #f7fafc;
+            --accent: #3182ce;
+        }
+
+        .dark {
+            --bg-primary: #1a202c;
+            --text-primary: #f7fafc;
+            --card-bg: #2d3748;
+            --accent: #63b3ed;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .glass-header {
+            background: rgba(26, 32, 44, 0.8);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .dark th, .dark td {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 w-full z-50 glass-header border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <a href="https://elimis03.github.io/AI2026-202366243/" 
+                   class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                   title="홈으로 이동">
+                    <i class="fas fa-home text-xl text-blue-500"></i>
+                </a>
+                <h1 class="text-xl font-bold tracking-tight">웹 기술의 이해</h1>
+            </div>
+            
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 pt-24 pb-12">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-12 py-12">
+            <h2 class="text-4xl font-bold mb-4">디지털 생명체의 삼위일체</h2>
+            <p class="text-lg opacity-80 max-w-2xl mx-auto mb-10">
+                웹 페이지는 브라우저라는 환경 속에서 살아 숨 쉬는 '디지털 생명체'와 같습니다.
+                이 생명체를 구성하는 세 가지 핵심 요소를 인체 구조에 비유하여 그 본질을 꿰뚫어 봅시다.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://notebooklm.google.com/notebook/def5a4b5-60c5-4901-b029-4af69093bded/artifact/7125fd53-527f-4cf6-bde3-5915b42a7a72" 
+                   target="_blank" 
+                   class="action-btn bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/30">
+                    <i class="fas fa-play-circle mr-2"></i>동영상보기
+                </a>
+                <a href="web tech.png" 
+                   target="_blank" 
+                   class="action-btn bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+                    <i class="fas fa-image mr-2"></i>인포그래픽으로 보기
+                </a>
+                <a href="Modern_Web_Architecture.pdf" 
+                   target="_blank" 
+                   class="action-btn bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/30">
+                    <i class="fas fa-file-pdf mr-2"></i>슬라이드 자료보기
+                </a>
+            </div>
+        </section>
+
+        <!-- The Trinity Map Table -->
+        <section class="mb-16 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
+            <div class="table-container">
+                <table>
+                    <thead class="bg-gray-50 dark:bg-gray-800">
+                        <tr>
+                            <th class="text-left">기술 이름</th>
+                            <th class="text-left">신체 비유</th>
+                            <th class="text-left">핵심 기능</th>
+                            <th class="text-left">학습자 이점</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold text-red-500">HTML</td>
+                            <td>뼈대와 근육</td>
+                            <td>구조 정의 및 정보 위계 설정</td>
+                            <td>데이터 의미와 설계 파악</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-blue-500">CSS</td>
+                            <td>피부와 의상</td>
+                            <td>시각적 스타일링 및 레이아웃</td>
+                            <td>사용자 경험(UX) 향상</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-yellow-500">JavaScript</td>
+                            <td>신경계와 뇌</td>
+                            <td>동적 반응 및 데이터 로직 처리</td>
+                            <td>인터랙티브 앱 구현</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Detailed Content Sections -->
+        <div class="space-y-24">
+            
+            <!-- 1. HTML Section -->
+            <section id="html" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-8 border-b pb-4 border-red-500/20">
+                    <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">1</span>
+                    <h3 class="text-2xl font-bold text-red-500">HTML: 웹의 뼈대와 내장 기관</h3>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                        <h4 class="text-xl font-bold">문서의 계층 구조</h4>
+                        <div class="p-5 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                            <h5 class="font-bold mb-2">&lt;head&gt; (보이지 않는 사고 영역)</h5>
+                            <p class="text-sm opacity-80">브라우저가 페이지를 렌더링하기 전 처리해야 할 사전 정보(메타데이터, 스타일 링크, 스크립트 등)를 담는 영역입니다.</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                            <h5 class="font-bold mb-2">&lt;body&gt; (보이는 외형 영역)</h5>
+                            <p class="text-sm opacity-80">사용자가 직접 보고 상호작용하는 모든 시각적 콘텐츠(텍스트, 이미지, 영상)가 배치되는 핵심 영역입니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8">
+                        <h4 class="text-xl font-bold mb-4">시맨틱 마크업의 가치</h4>
+                        <p class="text-sm mb-6 opacity-80">의미 있는 태그를 사용하면 검색 엔진 최적화(SEO)에서 유리하며, 장애를 가진 사용자를 위한 웹 접근성을 보장합니다.</p>
+                        <div class="grid grid-cols-2 gap-4 text-xs">
+                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;header&gt;</strong> 얼굴과 머리말</div>
+                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;nav&gt;</strong> 신경망 경로</div>
+                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;main&gt;</strong> 핵심 장기</div>
+                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;article&gt;</strong> 독립 신체 기관</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CSS Section -->
+            <section id="css" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-8 border-b pb-4 border-blue-500/20">
+                    <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">2</span>
+                    <h3 class="text-2xl font-bold text-blue-500">CSS: 웹의 피부와 의상</h3>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <div class="lg:col-span-2 card p-8">
+                        <h4 class="text-xl font-bold mb-4">명시도 점수 (Specificity)</h4>
+                        <p class="text-sm mb-6 opacity-80">여러 스타일이 충돌할 때, 브라우저는 수학적 점수 체계에 따라 우선순위를 결정합니다.</p>
+                        <div class="table-container">
+                            <table class="text-xs">
+                                <thead class="text-left">
+                                    <tr>
+                                        <th>선택자 유형</th>
+                                        <th>점수(ID-Class-Type)</th>
+                                        <th>비유</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Inline Style</td>
+                                        <td>(1, 0, 0, 0)</td>
+                                        <td>태그에 새긴 지울 수 없는 문신</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ID Selector</td>
+                                        <td>(0, 1, 0, 0)</td>
+                                        <td>오직 한 사람만을 지칭하는 이름표</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Class Selector</td>
+                                        <td>(0, 0, 1, 0)</td>
+                                        <td>특정 그룹이 입는 유니폼</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Element Selector</td>
+                                        <td>(0, 0, 0, 1)</td>
+                                        <td>'사람' 종족 전체의 특징</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8 flex flex-col justify-center">
+                        <h4 class="text-xl font-bold mb-4">현대적 레이아웃</h4>
+                        <div class="space-y-4 text-sm">
+                            <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
+                                <strong>Flexbox (1차원)</strong>
+                                <p class="text-xs mt-1">직선(행/열) 중심 정렬 (메뉴 바 등)</p>
+                            </div>
+                            <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
+                                <strong>Grid (2차원)</strong>
+                                <p class="text-xs mt-1">가로와 세로 동시 제어 (대시보드 등)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-8">
+                    <h4 class="text-xl font-bold mb-6">박스 모델 (Box Model)</h4>
+                    <div class="relative w-full h-64 border-2 border-dashed border-gray-400 flex items-center justify-center rounded-lg mb-6">
+                        <div class="bg-blue-200 dark:bg-blue-900 w-4/5 h-4/5 flex items-center justify-center rounded border-4 border-blue-500 p-6 relative">
+                            <div class="bg-blue-400 dark:bg-blue-700 w-full h-full flex items-center justify-center text-xs text-center font-bold">
+                                CONTENT (본체)
+                            </div>
+                            <div class="absolute top-1 left-2 text-[10px] uppercase font-bold text-blue-600 dark:text-blue-300">Border / Padding</div>
+                        </div>
+                        <div class="absolute top-2 left-4 text-[10px] uppercase font-bold text-gray-400">Margin (사회적 거리)</div>
+                    </div>
+                    <p class="text-sm opacity-80 text-center">현대 개발자들은 레이아웃 계산의 편의를 위해 <code>box-sizing: border-box;</code>를 기본으로 사용합니다.</p>
+                </div>
+            </section>
+
+            <!-- 3. JS Section -->
+            <section id="js" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-8 border-b pb-4 border-yellow-500/20">
+                    <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold">3</span>
+                    <h3 class="text-2xl font-bold text-yellow-500">JavaScript: 신경계와 뇌</h3>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="card p-8">
+                        <h4 class="text-xl font-bold mb-4">DOM (문서 객체 모델)</h4>
+                        <p class="text-sm opacity-80 leading-relaxed">
+                            JavaScript는 브라우저가 생성한 DOM이라는 '신체 지도'를 통해 요소를 탐색합니다.
+                            클릭이나 스크롤 같은 자극(이벤트)이 감지되면, 이 지도를 참고하여 특정 UI의 근육을 움직이는 명령을 내립니다.
+                        </p>
+                    </div>
+                    <div class="card p-8">
+                        <h4 class="text-xl font-bold mb-4">메모리 저장 메커니즘</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded">
+                                <strong>기본 자료형 (Primitive):</strong> Stack 메모리에 실제 값을 직접 저장합니다. 작고 명확한 데이터(숫자, 문자 등)에 적합합니다.
+                            </li>
+                            <li class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded">
+                                <strong>참조 자료형 (Reference):</strong> 본체는 Heap에 저장하고 Stack에는 그 <strong>'주소(Pointer)'</strong>만 저장합니다. 복사 시 주소가 전달되므로 부수 효과를 주의해야 합니다.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rendering Pipeline -->
+            <section class="py-12 px-8 bg-gray-50 dark:bg-gray-800 rounded-3xl">
+                <h3 class="text-2xl font-bold mb-10 text-center">브라우저 렌더링 파이프라인 (6단계)</h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                        <div class="text-lg font-bold text-blue-500 mb-1">01</div>
+                        <div class="text-xs font-bold">DOM 트리 구축</div>
+                    </div>
+                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                        <div class="text-lg font-bold text-blue-500 mb-1">02</div>
+                        <div class="text-xs font-bold">CSSOM 트리 구축</div>
+                    </div>
+                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                        <div class="text-lg font-bold text-blue-500 mb-1">03</div>
+                        <div class="text-xs font-bold">렌더 트리 형성</div>
+                    </div>
+                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                        <div class="text-lg font-bold text-blue-500 mb-1">04</div>
+                        <div class="text-xs font-bold">레이아웃 계산</div>
+                    </div>
+                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                        <div class="text-lg font-bold text-blue-500 mb-1">05</div>
+                        <div class="text-xs font-bold">페인팅</div>
+                    </div>
+                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                        <div class="text-lg font-bold text-blue-500 mb-1">06</div>
+                        <div class="text-xs font-bold">합성 (Comp.)</div>
+                    </div>
+                </div>
+
+                <div class="card p-8">
+                    <h4 class="text-lg font-bold mb-4 text-center">JavaScript 로드 최적화</h4>
+                    <div class="table-container">
+                        <table class="text-xs">
+                            <thead class="text-left">
+                                <tr>
+                                    <th>속성</th>
+                                    <th>동작 방식</th>
+                                    <th>권장 용도</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Default</td>
+                                    <td>파싱 즉시 중단 및 실행</td>
+                                    <td>필수적인 초기화 로직</td>
+                                </tr>
+                                <tr>
+                                    <td>Async</td>
+                                    <td>병렬 다운로드 후 즉시 실행</td>
+                                    <td>독립적인 외부 도구 (광고 등)</td>
+                                </tr>
+                                <tr>
+                                    <td>Defer</td>
+                                    <td>병렬 다운로드 후 파싱 완료 시 실행</td>
+                                    <td>일반적인 애플리케이션 로직</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Frameworks & Future -->
+            <section class="py-12 text-center max-w-3xl mx-auto">
+                <h3 class="text-2xl font-bold mb-6">더 넓은 세상으로: 프레임워크와 미래</h3>
+                <p class="text-sm opacity-80 mb-8 leading-relaxed">
+                    현대 웹 개발은 React, Vue, Angular와 같은 '강화 슈트'를 활용합니다.
+                    AI가 코드를 생성하는 시대에는 단순 타이핑 능력을 넘어, 생성된 코드를 검증하고 최적의 시스템 아키텍처를 설계하는 능력이 핵심이 될 것입니다.
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <div class="opacity-50 hover:opacity-100 transition-opacity">React</div>
+                    <div class="opacity-50 hover:opacity-100 transition-opacity">Vue</div>
+                    <div class="opacity-50 hover:opacity-100 transition-opacity">TypeScript</div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-24 pt-8 border-t border-gray-200 dark:border-gray-700 text-center opacity-60 text-sm">
+            <p>© 2026 웹 기술의 이해 가이드. IT 교육 커리큘럼 아키텍트.</p>
+        </footer>
+    </main>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>
