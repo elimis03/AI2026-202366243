@@ -285,15 +285,16 @@
                 type: 'Data Storytelling', tools: 'Gemini 스토리북',
                 color: '#3B82F6', shadow: 'rgba(59,130,246,0.3)', bg: 'from-blue-500/20',
                 icon: 'pen-tool',
-                link: './03/index.html' // 클릭 시 이동할 링크 업데이트
+                link: './03/index.html'
             },
             { 
-                id: '03', title: '데이터 수집 및 정제 자동화', 
-                description: 'AI 도구를 활용하여 비정형 데이터를 수집하고 분석 가능한 형태로 가공하는 과정을 실습합니다.', 
-                detail: '텍스트나 웹 데이터를 AI를 이용해 구조화된 데이터(CSV/JSON)로 변환하고, 데이터 정제 과정을 자동화하여 분석 효율성을 극대화하는 방법을 익혔습니다.',
-                type: 'Data Engineering', tools: 'Tableau Prep, AI Agents',
+                id: '03', title: '웹 기술의 이해', 
+                description: '전통적인 웹 구성요소, HTML, CSS, JavaScripit에 대해 소개합니다', 
+                detail: '현대 웹 서비스의 근간이 되는 HTML(구조), CSS(표현), JavaScript(동작)의 역할을 이해하고 학습합니다. 노트북 LM과 제미니를 활용하여 각 기술의 특징과 최신 트렌드를 정리하며 웹 프로젝트의 기초 지식을 배양하는 실습을 진행했습니다.',
+                type: 'Web Technologies', tools: '노트북 LM, 제미니',
                 color: '#A855F7', shadow: 'rgba(168,85,247,0.3)', bg: 'from-purple-500/20',
-                icon: 'database-zap'
+                icon: 'globe',
+                link: './04/index.html'
             },
             { 
                 id: '04', title: '탐색적 데이터 분석(EDA)', 
@@ -323,7 +324,7 @@
                 id: '07', title: '인터랙티브 데이터 대시보드', 
                 description: '사용자가 직접 데이터를 탐색할 수 있는 상호작용형 시각화 환경을 구축합니다.', 
                 detail: '고정된 이미지가 아닌, 필터와 툴팁을 통해 사용자가 능동적으로 정보를 습득할 수 있는 웹 기반 대시보드를 기획하고 제작했습니다.',
-                type: 'Interaction', tools: 'Flourish, Datawrapper',
+                type: 'Interaction', tools: 'Flourish, 데이터래퍼',
                 color: '#10B981', shadow: 'rgba(16,185,129,0.3)', bg: 'from-emerald-500/20',
                 icon: 'layout-dashboard'
             },
@@ -474,7 +475,6 @@
             modalBtn.style.backgroundColor = item.color;
             modalBtn.style.boxShadow = `0 10px 25px ${item.shadow}`;
             
-            // 버튼 클릭 시 이동 경로 설정
             modalBtn.onclick = function() {
                 if (item.link) {
                     window.location.href = item.link;
