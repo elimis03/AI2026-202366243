@@ -68,6 +68,23 @@
         .seek-bar { width: 100px; }
         .volume-bar { width: 70px; }
 
+        /* 음악 선택창 가독성 수정 */
+        .track-select {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            padding: 0.25rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .track-select option {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
         @media (max-width: 768px) {
             .bgm-info, .volume-control, .track-select { display: none; }
             .seek-bar { width: 60px; }
@@ -183,7 +200,7 @@
                 BGM: <span id="currentTrackName">디자인 AX1</span>
             </div>
 
-            <select id="trackSelector" class="bg-transparent border border-gray-300 dark:border-gray-600 rounded text-[0.7rem] p-1 text-color">
+            <select id="trackSelector" class="track-select">
                 <option value="./디자인 AX1.mp3">디자인 AX1</option>
                 <option value="./디자인 AX2.mp3">디자인 AX2</option>
             </select>
@@ -213,7 +230,7 @@
     </header>
 
     <main>
-        <!-- 01. 자기소개 섹션: 성향과 관심사의 연결 -->
+        <!-- 01. 자기소개 섹션 -->
         <section id="intro" class="section-container">
             <h2 class="text-3xl font-extrabold mb-12 flex items-center gap-3">
                 <span class="text-blue-600">01.</span> Identity: 전략적 사고의 기원
@@ -237,7 +254,7 @@
             </div>
         </section>
 
-        <!-- 02. 전공 소개 섹션: 개인의 역량이 전공으로 치환되는 지점 -->
+        <!-- 02. 전공 소개 섹션 -->
         <section id="major" class="section-container">
             <h2 class="text-3xl font-extrabold mb-12">
                 <span class="text-blue-600">02.</span> Major: 기술과 인간의 가교
@@ -261,7 +278,7 @@
             </div>
         </section>
 
-        <!-- 03. 데이터 인사이트 섹션: 분석 경험과 전문 지식의 결합 -->
+        <!-- 03. 데이터 인사이트 섹션 -->
         <section id="data" class="section-container">
             <h2 class="text-3xl font-extrabold mb-12">
                 <span class="text-blue-600">03.</span> Evidence: 데이터 드리븐 전략
@@ -295,7 +312,7 @@
             </div>
         </section>
 
-        <!-- 04. 멀티미디어 섹션: 실무 경험의 실증 -->
+        <!-- 04. 멀티미디어 섹션 -->
         <section id="multimedia" class="section-container">
             <h2 class="text-3xl font-extrabold mb-12">
                 <span class="text-blue-600">04.</span> Archive: 실행의 민주화와 큐레이션
@@ -324,7 +341,7 @@
             </div>
         </section>
 
-        <!-- 05. 미래 계획 섹션: 최종 지향점 -->
+        <!-- 05. 미래 계획 섹션 -->
         <section id="future" class="section-container">
             <h2 class="text-3xl font-extrabold mb-12">
                 <span class="text-blue-600">05.</span> Vision: 2026+ 어카운터블 디렉터
