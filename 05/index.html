@@ -178,6 +178,7 @@
             max-width: 90%;
             max-height: 80vh;
             border-radius: 0.5rem;
+            object-fit: contain;
         }
 
         .track-select {
@@ -207,7 +208,6 @@
         <a href="https://elimis03.github.io/AI2026-202366243/" class="home-btn">HOME</a>
         
         <div class="bgm-player">
-            <!-- 재생 제어 및 진행바 -->
             <div class="player-controls">
                 <button id="playPauseBtn" class="text-accent-color">
                     <svg id="playIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168l4.2 2.4a1 1 0 010 1.732l-4.2 2.4A1 1 0 018 12.832V7.168a1 1 0 011.555-.832z" clip-rule="evenodd"></path></svg>
@@ -216,7 +216,6 @@
                 <input type="range" id="seekBar" class="seek-bar" value="0" step="0.1">
             </div>
 
-            <!-- 음량 조절 -->
             <div class="volume-control">
                 <svg class="w-4 h-4 opacity-70" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.95a1 1 0 11-1.414-1.414 5 5 0 000-7.072 1 1 0 011.414-1.414 7 7 0 010 9.9z" clip-rule="evenodd"></path></svg>
                 <input type="range" id="volumeBar" class="volume-bar" value="100" step="1" min="0" max="100">
@@ -258,7 +257,7 @@
     </div>
 
     <header id="hero" class="min-h-[80vh] flex flex-col justify-center items-center px-6 text-center border-b border-gray-200 dark:border-gray-800">
-        <h1 class="text-4xl md:text-6xl mb-4 font-black">웹 기술의 이해</h1>
+        <h1 class="text-4xl md:text-6xl mb-4 font-black text-blue-500">웹 기술의 이해</h1>
         <p class="text-lg md:text-xl opacity-70 max-w-xl">
             디자인앤테크놀러지 전공 기반의 기술 융합 포트폴리오
         </p>
@@ -299,7 +298,7 @@
                 <p class="mb-6 opacity-80 text-sm">
                     컴퓨터 공학적 메커니즘을 이해하는 디자이너를 양성하며, 개발자와의 협업 효율을 극대화하는 역량을 배양합니다.
                 </p>
-                <button onclick="openResource('./info')" class="action-btn text-xs">전공 정보 인포그래픽 보기</button>
+                <button onclick="openResource('./info.png')" class="action-btn text-xs">전공 정보 인포그래픽 보기</button>
             </div>
         </section>
 
@@ -308,7 +307,7 @@
             <div class="content-card">
                 <h3 class="text-xl font-bold mb-2">증거 기반 디자인</h3>
                 <p class="text-sm opacity-80 mb-4">데이터 분석을 통한 객관적 사용자 경험 설계</p>
-                <button onclick="openResource('./future')" class="action-btn text-xs">관련 통계 보기</button>
+                <button onclick="openResource('./future.png')" class="action-btn text-xs">관련 통계 보기</button>
             </div>
         </section>
 
@@ -318,13 +317,13 @@
                 <div class="grid md:grid-cols-2 gap-4">
                     <div class="p-4 border border-border-color rounded">
                         <h4 class="font-bold text-sm mb-2">AI 영상 프로젝트</h4>
-                        <button onclick="openVideoPopup('./AI.mp4')" class="action-btn text-xs">영상 재생</button>
+                        <button onclick="openVideoPopup('./AI .mp4')" class="action-btn text-xs">영상 재생</button>
                     </div>
                     <div class="p-4 border border-border-color rounded">
                         <h4 class="font-bold text-sm mb-2">아카이브 자료</h4>
                         <div class="flex gap-2">
-                            <button onclick="openGallery()" class="action-btn text-xs">카드뉴스</button>
-                            <button onclick="openResource('./Future_Tech_Designer')" class="action-btn text-xs bg-purple-500">슬라이드</button>
+                            <button onclick="openGallery()" class="action-btn text-xs">카드뉴스 보기</button>
+                            <button onclick="openResource('./Future_Tech_Designer.pdf')" class="action-btn text-xs bg-purple-500">슬라이드 보기</button>
                         </div>
                     </div>
                 </div>
@@ -360,76 +359,49 @@
 
         let isPlaying = false;
 
-        // 재생 및 일시정지
         playPauseBtn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
             } else {
-                audio.play().catch(e => console.log("상호작용 후 재생 가능"));
+                audio.play().catch(e => console.log("Interfere required"));
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
             }
             isPlaying = !isPlaying;
         });
 
-        // 진행바 업데이트
-        audio.ontimeupdate = () => {
-            if (audio.duration) {
-                seekBar.value = (audio.currentTime / audio.duration) * 100;
-            }
-        };
+        audio.ontimeupdate = () => { if (audio.duration) seekBar.value = (audio.currentTime / audio.duration) * 100; };
+        seekBar.oninput = () => { audio.currentTime = (seekBar.value / 100) * audio.duration; };
+        volumeBar.oninput = () => { audio.volume = volumeBar.value / 100; };
 
-        // 진행바 탐색
-        seekBar.oninput = () => {
-            audio.currentTime = (seekBar.value / 100) * audio.duration;
-        };
-
-        // 음량 조절
-        volumeBar.oninput = () => {
-            audio.volume = volumeBar.value / 100;
-        };
-
-        // 트랙 변경
         trackSelector.onchange = () => {
-            const selectedTrack = trackSelector.value;
-            const trackName = trackSelector.options[trackSelector.selectedIndex].text;
-            
-            audioSource.src = selectedTrack;
-            currentTrackNameDisplay.innerText = trackName;
+            audioSource.src = trackSelector.value;
+            currentTrackNameDisplay.innerText = trackSelector.options[trackSelector.selectedIndex].text;
             audio.load();
             if (isPlaying) audio.play();
         };
 
-        // 테마 관리
         const themeToggle = document.getElementById('themeToggle');
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
         const html = document.documentElement;
         let isDark = true;
-
         function updateTheme() {
             if (isDark) {
                 html.setAttribute('data-theme', 'dark');
-                sunIcon.classList.remove('hidden');
-                moonIcon.classList.add('hidden');
+                document.getElementById('sunIcon').classList.remove('hidden');
+                document.getElementById('moonIcon').classList.add('hidden');
             } else {
                 html.removeAttribute('data-theme');
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
             }
         }
-        themeToggle.addEventListener('click', () => {
-            isDark = !isDark;
-            updateTheme();
-        });
+        themeToggle.addEventListener('click', () => { isDark = !isDark; updateTheme(); });
         updateTheme();
 
-        // 리소스 열기
         function openResource(path) { window.open(path, '_blank'); }
 
-        // 비디오 팝업
         function openVideoPopup(videoPath) {
             const width = 800; const height = 450;
             const left = (window.screen.width / 2) - (width / 2);
@@ -441,8 +413,12 @@
             }
         }
 
-        // 카드뉴스 갤러리
-        const cardNewsImages = ['./card news/1.jpg', './card news/2.jpg', './card news/3.jpg'];
+        // 폴더 이름에 공백이 있을 경우 %20으로 인코딩
+        const cardNewsImages = [
+            './card%20news/1.png', 
+            './card%20news/2.png', 
+            './card%20news/3.png'
+        ];
         let currentImgIdx = 0;
         const modal = document.getElementById('galleryModal');
         const galleryImg = document.getElementById('galleryImg');
@@ -453,11 +429,11 @@
         function updateGalleryUI() {
             galleryImg.src = cardNewsImages[currentImgIdx];
             imgCounter.innerText = `${currentImgIdx + 1} / ${cardNewsImages.length}`;
+            galleryImg.onerror = () => { galleryImg.alt = "이미지를 찾을 수 없습니다."; };
         }
         function nextImg() { currentImgIdx = (currentImgIdx + 1) % cardNewsImages.length; updateGalleryUI(); }
         function prevImg() { currentImgIdx = (currentImgIdx - 1 + cardNewsImages.length) % cardNewsImages.length; updateGalleryUI(); }
 
-        // 섹션 관찰 및 내비게이션 점 업데이트
         const dots = document.querySelectorAll('.nav-dot');
         const sections = document.querySelectorAll('section, header');
         const observer = new IntersectionObserver((entries) => {
