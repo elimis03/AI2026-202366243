@@ -160,27 +160,6 @@
             cursor: pointer;
         }
 
-        #galleryModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        #galleryImg {
-            max-width: 90%;
-            max-height: 80vh;
-            border-radius: 0.5rem;
-            object-fit: contain;
-        }
-
         .track-select {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -248,16 +227,6 @@
         <div class="nav-dot" data-target="future"></div>
     </div>
 
-    <div id="galleryModal">
-        <span class="modal-close" onclick="closeGallery()">&times;</span>
-        <img id="galleryImg" src="" alt="카드 뉴스 이미지">
-        <div class="modal-controls">
-            <button onclick="prevImg()" class="text-2xl font-bold">❮</button>
-            <span id="imgCounter">1 / 1</span>
-            <button onclick="nextImg()" class="text-2xl font-bold">❯</button>
-        </div>
-    </div>
-
     <header id="hero" class="min-h-[80vh] flex flex-col justify-center items-center px-6 text-center border-b border-gray-200 dark:border-gray-800">
         <h1 class="text-4xl md:text-6xl mb-4 font-black text-blue-500">웹 기술의 이해</h1>
         <p class="text-lg md:text-xl opacity-70 max-w-xl">
@@ -319,12 +288,13 @@
                 <div class="grid md:grid-cols-2 gap-4">
                     <div class="p-4 border border-border-color rounded">
                         <h4 class="font-bold text-sm mb-2">AI 영상 프로젝트</h4>
-                        <button onclick="openVideoPopup('./AI .mp4')" class="action-btn text-xs">영상 재생</button>
+                        <button onclick="openVideoPopup('./AI%20.mp4')" class="action-btn text-xs">영상 재생</button>
                     </div>
                     <div class="p-4 border border-border-color rounded">
                         <h4 class="font-bold text-sm mb-2">아카이브 자료</h4>
                         <div class="flex gap-2">
-                            <button onclick="openGallery()" class="action-btn text-xs">카드뉴스 보기</button>
+                            <!-- 카드뉴스 보기를 팝업창으로 변경 -->
+                            <button onclick="openResourcePopup('./card_news.png')" class="action-btn text-xs">카드뉴스 보기</button>
                             <button onclick="openResourcePopup('./Future_Tech_Designer.pdf')" class="action-btn text-xs bg-purple-500">슬라이드 보기</button>
                         </div>
                     </div>
@@ -367,7 +337,7 @@
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
             } else {
-                audio.play().catch(e => console.log("Interfere required"));
+                audio.play().catch(e => console.log("상호작용 필요"));
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
             }
@@ -402,7 +372,7 @@
         themeToggle.addEventListener('click', () => { isDark = !isDark; updateTheme(); });
         updateTheme();
 
-        // 모든 외부 리소스를 팝업창으로 여는 함수
+        // 리소스 팝업 함수 (이미지, PDF 등)
         function openResourcePopup(path) {
             const width = 1000;
             const height = 800;
@@ -411,7 +381,7 @@
             window.open(path, "ResourcePopup", `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes`);
         }
 
-        // 비디오 팝업 (통합된 팝업 스타일 유지)
+        // 비디오 전용 팝업 함수
         function openVideoPopup(videoPath) {
             const width = 800; 
             const height = 450;
@@ -419,30 +389,22 @@
             const top = (window.screen.height / 2) - (height / 2);
             const popup = window.open("", "VideoPopup", `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes`);
             if (popup) {
-                popup.document.write(`<html><body style="margin:0;background:black;display:flex;align-items:center;justify-content:center;height:100vh;"><video controls autoplay style="max-width:100%;max-height:100%;"><source src="${videoPath}" type="video/mp4"></video></body></html>`);
+                popup.document.write(`
+                    <html>
+                        <head>
+                            <title>영상 재생</title>
+                        </head>
+                        <body style="margin:0;background:black;display:flex;align-items:center;justify-content:center;height:100vh;">
+                            <video controls autoplay style="max-width:100%;max-height:100%;">
+                                <source src="${videoPath}" type="video/mp4">
+                                브라우저가 지원하지 않는 형식입니다.
+                            </video>
+                        </body>
+                    </html>
+                `);
                 popup.document.close();
             }
         }
-
-        const cardNewsImages = [
-            './card_news/1.png', 
-            './card_news/2.png', 
-            './card_news/3.png'
-        ];
-        let currentImgIdx = 0;
-        const modal = document.getElementById('galleryModal');
-        const galleryImg = document.getElementById('galleryImg');
-        const imgCounter = document.getElementById('imgCounter');
-
-        function openGallery() { currentImgIdx = 0; updateGalleryUI(); modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-        function closeGallery() { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }
-        function updateGalleryUI() {
-            galleryImg.src = cardNewsImages[currentImgIdx];
-            imgCounter.innerText = `${currentImgIdx + 1} / ${cardNewsImages.length}`;
-            galleryImg.onerror = () => { galleryImg.alt = "이미지를 찾을 수 없습니다."; };
-        }
-        function nextImg() { currentImgIdx = (currentImgIdx + 1) % cardNewsImages.length; updateGalleryUI(); }
-        function prevImg() { currentImgIdx = (currentImgIdx - 1 + cardNewsImages.length) % cardNewsImages.length; updateGalleryUI(); }
 
         const dots = document.querySelectorAll('.nav-dot');
         const sections = document.querySelectorAll('section, header');
