@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>웹 기술의 이해 - 디자인앤테크놀러지</title>
+    <title>웹 기술의 이해 - 전략적 디렉터 포트폴리오</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
-            --accent-color: #3b82f6;
-            --card-bg: #f3f4f6;
-            --border-color: #e5e7eb;
+            --accent-color: #2563eb;
+            --card-bg: #f8fafc;
+            --border-color: #e2e8f0;
             --header-bg: rgba(255, 255, 255, 0.9);
         }
 
         [data-theme='dark'] {
             --bg-color: #0f172a;
             --text-color: #f1f5f9;
-            --accent-color: #60a5fa;
+            --accent-color: #3b82f6;
             --card-bg: #1e293b;
             --border-color: #334155;
             --header-bg: rgba(15, 23, 42, 0.9);
@@ -28,9 +28,8 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            line-height: 1.6;
-            margin: 0;
+            font-family: 'Pretendard', sans-serif;
+            line-height: 1.7;
             padding-top: 5rem;
         }
 
@@ -43,9 +42,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             z-index: 999;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             background-color: var(--header-bg);
             border-bottom: 1px solid var(--border-color);
         }
@@ -56,124 +55,104 @@
             gap: 1rem;
             flex-grow: 1;
             justify-content: center;
-            max-width: 800px;
-            margin: 0 1rem;
-        }
-
-        .player-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            max-width: 700px;
         }
 
         .seek-bar, .volume-bar {
             height: 4px;
             cursor: pointer;
             accent-color: var(--accent-color);
+            border-radius: 2px;
         }
 
-        .seek-bar { width: 80px; }
-        .volume-bar { width: 60px; }
+        .seek-bar { width: 100px; }
+        .volume-bar { width: 70px; }
 
         @media (max-width: 768px) {
-            .bgm-info, .volume-control { display: none; }
-            .seek-bar { width: 50px; }
-        }
-
-        .home-btn {
-            padding: 0.5rem 1rem;
-            background-color: var(--accent-color);
-            color: white;
-            border-radius: 0.25rem;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.875rem;
-            flex-shrink: 0;
-        }
-
-        .theme-toggle {
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            background-color: var(--card-bg);
-            cursor: pointer;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            flex-shrink: 0;
+            .bgm-info, .volume-control, .track-select { display: none; }
+            .seek-bar { width: 60px; }
         }
 
         .section-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 4rem 1.5rem;
+            padding: 6rem 1.5rem;
         }
 
         .content-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
         }
 
         .nav-dots {
             position: fixed;
-            right: 1.5rem;
+            right: 2rem;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
             z-index: 40;
         }
 
         .nav-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background-color: var(--border-color);
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .nav-dot.active {
             background-color: var(--accent-color);
+            transform: scale(1.3);
         }
 
-        .tag {
+        .badge {
             font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 0.25rem;
-            background-color: rgba(59, 130, 246, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            background-color: rgba(37, 99, 235, 0.1);
             color: var(--accent-color);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-weight: 600;
+            border: 1px solid rgba(37, 99, 235, 0.2);
         }
 
         .action-btn {
             display: inline-flex;
             align-items: center;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             background-color: var(--accent-color);
             color: white;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 700;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
 
-        .track-select {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            padding: 0.2rem;
-            color: var(--text-color);
-            outline: none;
+        .action-btn:hover { opacity: 0.9; }
+
+        .highlight {
+            color: var(--accent-color);
+            font-weight: 800;
         }
 
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
+        .organic-link {
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -184,41 +163,39 @@
     </audio>
 
     <nav class="fixed-nav">
-        <div class="flex items-center gap-4">
-            <a href="https://elimis03.github.io/AI2026-202366243/" class="home-btn">HOME</a>
-        </div>
+        <a href="https://elimis03.github.io/AI2026-202366243/" class="px-4 py-2 bg-blue-600 text-white rounded font-bold text-sm">HOME</a>
         
         <div class="bgm-player">
-            <div class="player-controls">
-                <button id="playPauseBtn" class="text-accent-color">
-                    <svg id="playIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168l4.2 2.4a1 1 0 010 1.732l-4.2 2.4A1 1 0 018 12.832V7.168a1 1 0 011.555-.832z" clip-rule="evenodd"></path></svg>
-                    <svg id="pauseIcon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+            <div class="flex items-center gap-3">
+                <button id="playPauseBtn">
+                    <svg id="playIcon" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168l4.2 2.4a1 1 0 010 1.732l-4.2 2.4A1 1 0 018 12.832V7.168a1 1 0 011.555-.832z"></path></svg>
+                    <svg id="pauseIcon" class="w-8 h-8 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"></path></svg>
                 </button>
                 <input type="range" id="seekBar" class="seek-bar" value="0" step="0.1">
             </div>
 
-            <div class="volume-control">
-                <svg class="w-4 h-4 opacity-70" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.95a1 1 0 11-1.414-1.414 5 5 0 000-7.072 1 1 0 011.414-1.414 7 7 0 010 9.9z" clip-rule="evenodd"></path></svg>
-                <input type="range" id="volumeBar" class="volume-bar" value="100" step="1" min="0" max="100">
+            <div class="volume-control flex items-center gap-2 ml-4">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z"></path></svg>
+                <input type="range" id="volumeBar" class="volume-bar" value="100" step="1">
             </div>
 
-            <div class="bgm-info text-[0.7rem] font-bold truncate max-w-[100px]">
-                재생 중: <span id="currentTrackName">디자인 AX1</span>
+            <div class="bgm-info text-[0.7rem] font-bold mx-4 truncate">
+                BGM: <span id="currentTrackName">디자인 AX1</span>
             </div>
 
-            <select id="trackSelector" class="track-select">
+            <select id="trackSelector" class="bg-transparent border border-gray-300 dark:border-gray-600 rounded text-[0.7rem] p-1 text-color">
                 <option value="./디자인 AX1.mp3">디자인 AX1</option>
                 <option value="./디자인 AX2.mp3">디자인 AX2</option>
             </select>
         </div>
 
-        <button class="theme-toggle" id="themeToggle">
-            <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <button id="themeToggle" class="p-2 border rounded border-gray-300 dark:border-gray-600">
+            <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" stroke-width="2" stroke-linecap="round"></path></svg>
+            <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="2" stroke-linecap="round"></path></svg>
         </button>
     </nav>
 
-    <div class="nav-dots" id="navDots">
+    <div class="nav-dots">
         <div class="nav-dot active" data-target="hero"></div>
         <div class="nav-dot" data-target="intro"></div>
         <div class="nav-dot" data-target="major"></div>
@@ -227,95 +204,156 @@
         <div class="nav-dot" data-target="future"></div>
     </div>
 
-    <header id="hero" class="min-h-[80vh] flex flex-col justify-center items-center px-6 text-center border-b border-gray-200 dark:border-gray-800">
-        <h1 class="text-4xl md:text-6xl mb-4 font-black text-blue-500">웹 기술의 이해</h1>
-        <p class="text-lg md:text-xl opacity-70 max-w-xl">
-            디자인앤테크놀러지 전공 기반의 기술 융합 포트폴리오
+    <header id="hero" class="min-h-[85vh] flex flex-col justify-center items-center px-6 text-center border-b border-gray-100 dark:border-gray-800">
+        <div class="badge mb-6">DESIGN & TECHNOLOGY</div>
+        <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">기술을 지휘하는<br><span class="text-blue-600">전략적 디렉터</span></h1>
+        <p class="text-lg md:text-xl opacity-80 max-w-3xl font-medium">
+            사용자의 관심사, 강점, 전공이 만나 AX(AI Transformation) 시대의 새로운 디자인 패러다임을 설계합니다.
         </p>
     </header>
 
     <main>
+        <!-- 01. 자기소개 섹션: 성향과 관심사의 연결 -->
         <section id="intro" class="section-container">
-            <h2 class="text-2xl font-bold mb-8 border-l-4 border-blue-500 pl-4">01. 자기소개</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="content-card">
-                    <h3 class="text-xl font-bold mb-4">인적 특성</h3>
-                    <div class="space-y-4">
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="tag">INTJ</span>
-                            <span class="tag">게이머</span>
-                            <span class="tag">전략적 사고</span>
-                        </div>
-                        <p class="text-sm opacity-80">
-                            단순한 시각 기획을 넘어 코딩과 AI 기술을 결합하여 실질적인 결과물을 도출하는 융합형 인재입니다.
-                        </p>
+            <h2 class="text-3xl font-extrabold mb-12 flex items-center gap-3">
+                <span class="text-blue-600">01.</span> Identity: 전략적 사고의 기원
+            </h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="content-card mb-0">
+                    <h3 class="text-xl font-bold mb-4">INTJ 전략가 & 게이머</h3>
+                    <p class="text-sm opacity-90">
+                        게임을 통해 복잡한 시스템의 논리를 파악하고 최적의 경로를 설계하는 <span class="highlight">전략적 사고</span>를 길러왔습니다. 이는 단순히 시각적인 디자인에 머무르지 않고, 기술적 메커니즘을 총괄적으로 이해하려는 추진력의 근간이 됩니다.
+                    </p>
+                    <div class="organic-link">
+                        "게임의 인터랙션 시스템을 분석하던 관심사가 이제는 AI와 인간을 잇는 UX 설계로 확장되었습니다."
                     </div>
                 </div>
-                <div class="content-card">
-                    <h3 class="text-xl font-bold mb-4">핵심 역량</h3>
-                    <ul class="text-sm space-y-2 opacity-80">
-                        <li>• 기술 기반 융합형 디자인</li>
-                        <li>• 미학적 감수성과 인터랙션 설계</li>
-                        <li>• 생성형 AI 워크플로우 최적화</li>
-                    </ul>
+                <div class="content-card mb-0">
+                    <h3 class="text-xl font-bold mb-4">자기주도적 AX 추진 강점</h3>
+                    <p class="text-sm opacity-90">
+                        목표를 설정하면 기술적 한계를 뛰어넘어 구현해내는 실행력이 저의 가장 큰 강점입니다. 군 생활과 대학 생활에서 증명된 이 <span class="highlight">추진력</span>은 급격한 AI 전환 환경에서 도태되지 않고 변화를 이끄는 원동력이 됩니다.
+                    </p>
                 </div>
             </div>
         </section>
 
+        <!-- 02. 전공 소개 섹션: 개인의 역량이 전공으로 치환되는 지점 -->
         <section id="major" class="section-container">
-            <h2 class="text-2xl font-bold mb-8 border-l-4 border-blue-500 pl-4">02. 전공 소개</h2>
+            <h2 class="text-3xl font-extrabold mb-12">
+                <span class="text-blue-600">02.</span> Major: 기술과 인간의 가교
+            </h2>
             <div class="content-card">
-                <h3 class="text-xl font-bold mb-4">디자인앤테크놀러지</h3>
-                <p class="mb-6 opacity-80 text-sm">
-                    컴퓨터 공학적 메커니즘을 이해하는 디자이너를 양성하며, 개발자와의 협업 효율을 극대화하는 역량을 배양합니다.
+                <h3 class="text-2xl font-bold mb-6">부산대 디자인앤테크놀러지(D&T)</h3>
+                <p class="mb-8 opacity-90 leading-relaxed">
+                    저의 전공은 단순한 조형 예술을 넘어, 공학적 이해를 바탕으로 기술을 인간 중심의 경험으로 변환하는 <span class="highlight">테크-디자이너(Tech-Designer)</span>의 요람입니다. 저의 '코드 구현 능력'과 '미학적 감수성'은 이 다학제적 환경에서 비로소 완성된 시너지를 발휘합니다.
                 </p>
-                <button onclick="openResourcePopup('./info.png')" class="action-btn text-xs">전공 정보 인포그래픽 보기</button>
-            </div>
-        </section>
-
-        <section id="data" class="section-container">
-            <h2 class="text-2xl font-bold mb-8 border-l-4 border-blue-500 pl-4">03. 데이터 인사이트</h2>
-            <div class="content-card">
-                <h3 class="text-xl font-bold mb-2">증거 기반 디자인</h3>
-                <p class="text-sm opacity-80 mb-4">데이터 분석을 통한 객관적 사용자 경험 설계</p>
-                <button onclick="openResourcePopup('./future.png')" class="action-btn text-xs">관련 통계 보기</button>
-            </div>
-        </section>
-
-        <section id="multimedia" class="section-container">
-            <h2 class="text-2xl font-bold mb-8 border-l-4 border-blue-500 pl-4">04. 멀티미디어</h2>
-            <div class="content-card">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="p-4 border border-border-color rounded">
-                        <h4 class="font-bold text-sm mb-2">AI 영상 프로젝트</h4>
-                        <button onclick="openVideoPopup('./AI%20.mp4')" class="action-btn text-xs">영상 재생</button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="p-5 bg-blue-600/5 border border-blue-600/20 rounded-xl">
+                        <h4 class="font-bold text-blue-600 mb-2">학문적 의미</h4>
+                        <p class="text-xs opacity-80">4단계 BK21 사업 기반의 고도화된 연구 인프라를 통해 디자인 AX 선도 프로젝트를 수행하며, 기술의 블랙박스를 해독하는 역량을 배양합니다.</p>
                     </div>
-                    <div class="p-4 border border-border-color rounded">
-                        <h4 class="font-bold text-sm mb-2">아카이브 자료</h4>
-                        <div class="flex gap-2">
-                            <!-- 카드뉴스 보기를 팝업창으로 변경 -->
-                            <button onclick="openResourcePopup('./card_news.png')" class="action-btn text-xs">카드뉴스 보기</button>
-                            <button onclick="openResourcePopup('./Future_Tech_Designer.pdf')" class="action-btn text-xs bg-purple-500">슬라이드 보기</button>
+                    <div class="p-5 bg-blue-600/5 border border-blue-600/20 rounded-xl">
+                        <h4 class="font-bold text-blue-600 mb-2">사회적 의미</h4>
+                        <p class="text-xs opacity-80">첨단 기술이 소외 계층 없이 모두에게 혜택으로 전달되도록 문턱을 낮추는 사회적 안전망으로서의 UX 가이드를 수립합니다.</p>
+                    </div>
+                </div>
+                <button onclick="openResourcePopup('info.png')" class="action-btn">전공 성과 및 인프라 확인</button>
+            </div>
+        </section>
+
+        <!-- 03. 데이터 인사이트 섹션: 분석 경험과 전문 지식의 결합 -->
+        <section id="data" class="section-container">
+            <h2 class="text-3xl font-extrabold mb-12">
+                <span class="text-blue-600">03.</span> Evidence: 데이터 드리븐 전략
+            </h2>
+            <div class="content-card">
+                <div class="grid md:grid-cols-5 gap-10">
+                    <div class="md:col-span-3">
+                        <h3 class="text-xl font-bold mb-4">증거 기반 디자인의 가치</h3>
+                        <p class="text-sm opacity-90 mb-6">
+                            통계 분석 경험과 반도체 산업에 대한 인사이트를 바탕으로, 수치 이면의 사용자 맥락을 읽어냅니다. 이는 AI의 판단 근거를 사용자에게 투명하게 전달하는 <span class="highlight">설명 가능한 UX(XAI)</span> 설계의 핵심 역량이 됩니다.
+                        </p>
+                        <div class="organic-link text-xs">
+                            "무역 통계의 복잡함을 시각적 언어로 치환했던 경험은 이제 비즈니스 문제를 해결하는 데이터 전략으로 진화했습니다."
+                        </div>
+                        <button onclick="openResourcePopup('future.png')" class="action-btn mt-4">산업 데이터 분석 결과</button>
+                    </div>
+                    <div class="md:col-span-2 flex flex-col justify-center">
+                        <div class="p-6 bg-gray-500/5 border border-dashed rounded-xl space-y-4">
+                            <div class="text-center font-bold text-sm">AX 경제적 가치 전망</div>
+                            <div class="flex justify-between items-end h-24 gap-2 px-2">
+                                <div class="w-full bg-blue-400 rounded-t h-[20%]"></div>
+                                <div class="w-full bg-blue-500 rounded-t h-[45%]"></div>
+                                <div class="w-full bg-blue-600 rounded-t h-[90%]"></div>
+                            </div>
+                            <div class="flex justify-between text-[0.6rem] opacity-60">
+                                <span>2022</span><span>2025</span><span>2030 (AI 70%)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="future" class="section-container">
-            <h2 class="text-2xl font-bold mb-8 border-l-4 border-blue-500 pl-4">05. 미래 계획</h2>
+        <!-- 04. 멀티미디어 섹션: 실무 경험의 실증 -->
+        <section id="multimedia" class="section-container">
+            <h2 class="text-3xl font-extrabold mb-12">
+                <span class="text-blue-600">04.</span> Archive: 실행의 민주화와 큐레이션
+            </h2>
             <div class="content-card">
-                <ul class="text-sm space-y-4 opacity-80">
-                    <li>• SW 구현 능력을 갖춘 풀스택 디자이너</li>
-                    <li>• 생성형 AI 기반 콘텐츠 디렉터</li>
-                    <li>• 데이터 기반 비즈니스 전략가</li>
-                </ul>
+                <p class="text-sm mb-10 opacity-90">
+                    단순한 결과물 제작을 넘어 AI 도구를 선별하고 조합하는 <span class="highlight">큐레이션 역량</span>을 증명합니다. 저의 AI 영상 제작 경험은 기술 원천을 이해하고 이를 고부가가치 콘텐츠로 치환하는 디렉팅 실습의 과정이었습니다.
+                </p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="p-6 bg-white/5 border border-border-color rounded-2xl">
+                        <h4 class="font-bold text-base mb-3">혁신 교육 가이드라인 영상</h4>
+                        <p class="text-xs opacity-70 mb-6">한국의 AI 전환에 대응하는 대학의 교육 혁신 모델과 PNU D&T가 지향하는 테크-디자이너 양성 과정을 담은 보고서 기반 영상입니다.</p>
+                        <button onclick="openVideoPopup('AI%20.mp4')" class="w-full py-3 bg-blue-600 text-white rounded font-bold text-sm">영상 리포트 재생</button>
+                    </div>
+                    <div class="p-6 bg-white/5 border border-border-color rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-base mb-3">전략적 시각화 아카이브</h4>
+                            <p class="text-xs opacity-70">AI 전환(AX) 시대의 신규 직무 역량 모델링과 산업 연계 분석 리포트 자료입니다.</p>
+                        </div>
+                        <div class="flex gap-3 mt-6">
+                            <button onclick="openResourcePopup('card_news.png')" class="flex-1 py-3 border border-blue-600 text-blue-600 rounded font-bold text-xs">AX 역량 카드뉴스</button>
+                            <button onclick="openResourcePopup('Future_Tech_Designer.pdf')" class="flex-1 py-3 bg-purple-600 text-white rounded font-bold text-xs">D&T 연구 리포트</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. 미래 계획 섹션: 최종 지향점 -->
+        <section id="future" class="section-container">
+            <h2 class="text-3xl font-extrabold mb-12">
+                <span class="text-blue-600">05.</span> Vision: 2026+ 어카운터블 디렉터
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="content-card mb-0 p-6 text-center">
+                    <div class="text-blue-600 font-black text-2xl mb-2">01</div>
+                    <h4 class="font-bold mb-3">풀스택 제품 디자이너</h4>
+                    <p class="text-[0.7rem] opacity-80 leading-relaxed">정보컴퓨터공학부 융합을 통한 SW 구현력 확보. 개발자와 완벽하게 소통하는 제품 설계자.</p>
+                </div>
+                <div class="content-card mb-0 p-6 text-center">
+                    <div class="text-blue-600 font-black text-2xl mb-2">02</div>
+                    <h4 class="font-bold mb-3">생성형 AI 콘텐츠 디렉터</h4>
+                    <p class="text-[0.7rem] opacity-80 leading-relaxed">AI 리터러시를 기반으로 제작 공정을 설계하고 고부가가치 디지털 자산을 창출하는 디렉터.</p>
+                </div>
+                <div class="content-card mb-0 p-6 text-center">
+                    <div class="text-blue-600 font-black text-2xl mb-2">03</div>
+                    <h4 class="font-bold mb-3">데이터 비즈니스 전략가</h4>
+                    <p class="text-[0.7rem] opacity-80 leading-relaxed">디자인적 직관과 데이터 분석을 결합하여 투명한 AI 인터랙션(XAI) 솔루션을 제안하는 전략가.</p>
+                </div>
+            </div>
+            <div class="text-center p-8 bg-blue-600 text-white rounded-2xl">
+                <p class="text-lg font-bold">"저는 AX 시대, 기술의 신뢰를 설계하고 지휘하는 리더가 되겠습니다."</p>
             </div>
         </section>
     </main>
 
-    <footer class="py-10 text-center border-t border-border-color opacity-50 text-xs">
-        <p>© 2024 Design & Technology Interface.</p>
+    <footer class="py-16 text-center border-t border-gray-100 dark:border-gray-800 opacity-50 text-xs">
+        <p>© 2024 PNU Design & Technology Portfolio.<br>All Strategic Designs by Accountable Director.</p>
     </footer>
 
     <script>
@@ -337,7 +375,7 @@
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
             } else {
-                audio.play().catch(e => console.log("상호작용 필요"));
+                audio.play().catch(e => console.log("Interaction required"));
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
             }
@@ -372,36 +410,26 @@
         themeToggle.addEventListener('click', () => { isDark = !isDark; updateTheme(); });
         updateTheme();
 
-        // 리소스 팝업 함수 (이미지, PDF 등)
         function openResourcePopup(path) {
-            const width = 1000;
-            const height = 800;
+            const width = 1100; const height = 850;
             const left = (window.screen.width / 2) - (width / 2);
             const top = (window.screen.height / 2) - (height / 2);
-            window.open(path, "ResourcePopup", `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes`);
+            window.open(encodeURI(path), "ResourcePopup", `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes`);
         }
 
-        // 비디오 전용 팝업 함수
         function openVideoPopup(videoPath) {
-            const width = 800; 
-            const height = 450;
+            const width = 854; const height = 480;
             const left = (window.screen.width / 2) - (width / 2);
             const top = (window.screen.height / 2) - (height / 2);
             const popup = window.open("", "VideoPopup", `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes`);
             if (popup) {
                 popup.document.write(`
-                    <html>
-                        <head>
-                            <title>영상 재생</title>
-                        </head>
-                        <body style="margin:0;background:black;display:flex;align-items:center;justify-content:center;height:100vh;">
-                            <video controls autoplay style="max-width:100%;max-height:100%;">
-                                <source src="${videoPath}" type="video/mp4">
-                                브라우저가 지원하지 않는 형식입니다.
-                            </video>
-                        </body>
-                    </html>
-                `);
+                    <html><head><title>BGM Off and Watch</title></head>
+                    <body style="margin:0;background:black;display:flex;align-items:center;justify-content:center;height:100vh;">
+                        <video controls autoplay style="max-width:100%;max-height:100%;">
+                            <source src="${encodeURI(videoPath)}" type="video/mp4">
+                        </video>
+                    </body></html>`);
                 popup.document.close();
             }
         }
