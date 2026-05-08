@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4년간의 교통사고 기록: 특수차량 위험도 분석</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f8fafc; color: #0f172a; }
+.chart-container { position: relative; width: 100%; max-width: 100%; margin: 0 auto; height: 350px; max-height: 400px; }
+@media (min-width: 768px) { .chart-container { height: 400px; } }
+.material-card { background: #ffffff; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); transition: transform 0.2s ease-in-out; }
+.material-card:hover { transform: translateY(-2px); }
+.text-gradient { background: linear-gradient(to right, #1e3a8a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-sticky { position: sticky; top: 0; z-index: 50; background: rgba(248, 250, 252, 0.8); backdrop-filter: blur(8px); }
+</style>
+</head>
+<body class="antialiased pb-12">
+<!--
+Plan Summary:
+1. Navigation: Added a sticky "Home" button at the top linking to the specified portfolio project page.
+2. Header: Introduce the 4-year scope and main focus (Special Vehicles).
+3. KPIs: Highlight total accidents, deaths, and high-risk months.
+4. Chart 1 (Trend): Dual-axis line/bar chart showing 4-year accident vs death trends. Goal: Change.
+5. Chart 2 (Monthly): Bar chart showing accident distribution in 2023, highlighting Q4. Goal: Change/Compare.
+6. Chart 3 (Fatality): Bar chart showing fatality rate. Goal: Compare.
+Palette: Vibrant Blue (#1e3a8a, #3b82f6) & Alert Red (#ef4444, #f87171).
+Confirming that NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+-->
+
+<nav class="nav-sticky py-4 border-b border-slate-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-start">
+<a href="https://elimis03.github.io/AI2026-202366243/#projects" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-colors">
+<span class="mr-2 text-base">&#x1F3E0;</span>
+홈으로 돌아가기
+</a>
+</div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+
+<header class="mb-10 text-center">
+<div class="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-4">
+<span class="text-3xl">&#x1F6A8;</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gradient">줄지 않는 교통사고, 위험에 노출된 특수차</h1>
+<p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">2020년부터 2023년까지의 교통사고 데이터를 분석한 결과, 전체적인 사고 건수의 유의미한 감소는 없었으며 특히 대형 사고로 이어질 수 있는 <strong>'특수차량'</strong>의 높은 치사율과 하반기 집중 현상이 확인되었습니다.</p>
+</header>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<div class="material-card p-6 border-l-4 border-blue-600">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">연평균 특수차 사고</h3>
+<span class="text-2xl">&#x1F4CA;</span>
+</div>
+<div class="text-3xl font-black text-slate-800">약 1,200<span class="text-lg text-slate-500 font-normal ml-1">건</span></div>
+<p class="text-xs text-slate-500 mt-2">2020~2023 4년 평균 유지</p>
+</div>
+<div class="material-card p-6 border-l-4 border-red-500">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">누적 특수차 사망자</h3>
+<span class="text-2xl">&#x26A0;&#xFE0F;</span>
+</div>
+<div class="text-3xl font-black text-red-600">137<span class="text-lg text-red-400 font-normal ml-1">명</span></div>
+<p class="text-xs text-slate-500 mt-2">최근 4년간 특수차 사고로 인한 사망</p>
+</div>
+<div class="material-card p-6 border-l-4 border-orange-500">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">최고 위험 시기</h3>
+<span class="text-2xl">&#x1F4C5;</span>
+</div>
+<div class="text-3xl font-black text-orange-600">10~11<span class="text-lg text-orange-400 font-normal ml-1">월</span></div>
+<p class="text-xs text-slate-500 mt-2">물동량 증가 및 야외 활동 집중기</p>
+</div>
+<div class="material-card p-6 border-l-4 border-slate-700">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">주요 관리 대상</h3>
+<span class="text-2xl">&#x1F69C;</span>
+</div>
+<div class="text-xl font-black text-slate-800 mt-1">특수차 &middot; 화물차</div>
+<p class="text-xs text-slate-500 mt-2">높은 치사율로 인한 집중 관리 요망</p>
+</div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+<div class="material-card p-6 lg:col-span-2">
+<div class="mb-6 border-b border-slate-100 pb-4">
+<h2 class="text-2xl font-bold text-slate-800 flex items-center">
+<span class="bg-blue-600 text-white w-8 h-8 rounded-full inline-flex items-center justify-center mr-3 text-sm">1</span>
+연도별 교통사고 발생 및 사망 추이 (특수차)
+</h2>
+<p class="text-slate-600 mt-2">코로나19 팬데믹 시기(2020~2021)와 일상 회복기(2022~2023) 사이 사고 건수의 큰 폭의 감소세는 나타나지 않았으며, 연간 1,200건 내외의 사고가 꾸준히 발생하고 있습니다.</p>
+</div>
+<div class="chart-container">
+<canvas id="trendChart"></canvas>
+</div>
+</div>
+
+<div class="material-card p-6">
+<div class="mb-6 border-b border-slate-100 pb-4">
+<h2 class="text-2xl font-bold text-slate-800 flex items-center">
+<span class="bg-orange-500 text-white w-8 h-8 rounded-full inline-flex items-center justify-center mr-3 text-sm">2</span>
+월별 특수차 사고 발생 집중도 (2023년)
+</h2>
+<p class="text-slate-600 mt-2">계절적 요인과 산업 물동량 증가로 인해 주로 하반기인 10월과 11월에 사고가 급증하는 경향을 보입니다.</p>
+</div>
+<div class="chart-container">
+<canvas id="monthChart"></canvas>
+</div>
+</div>
+
+<div class="material-card p-6">
+<div class="mb-6 border-b border-slate-100 pb-4">
+<h2 class="text-2xl font-bold text-slate-800 flex items-center">
+<span class="bg-red-500 text-white w-8 h-8 rounded-full inline-flex items-center justify-center mr-3 text-sm">3</span>
+연도별 특수차 사고 100건당 사망자 수 (치사율)
+</h2>
+<p class="text-slate-600 mt-2">사고 건수 자체는 승용차가 많지만, 대형/특수차량은 한 번의 사고가 사망으로 이어질 확률이 매우 높습니다.</p>
+</div>
+<div class="chart-container">
+<canvas id="fatalityChart"></canvas>
+</div>
+</div>
+</div>
+
+<div class="material-card p-8 bg-slate-800 text-white mt-12 border-t-4 border-blue-500">
+<h2 class="text-2xl font-bold mb-4 flex items-center">
+<span class="text-3xl mr-3">&#x1F4A1;</span>
+결론 및 안전 관리 시사점
+</h2>
+<p class="text-slate-300 leading-relaxed mb-4">
+4년간의 교통사고 데이터는 특정 차종과 특정 시기에 사고가 집중되는 경향을 명확히 보여줍니다. 전체 발생 건수의 단순한 감소에 만족하기보다는, <strong>치사율이 압도적으로 높은 화물차 및 특수차량에 대한 핀셋형 안전 관리 강화</strong>가 시급합니다.
+</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+<div class="bg-slate-700 p-4 rounded-lg">
+<div class="font-bold text-blue-400 mb-1">하반기 집중 모니터링</div>
+<p class="text-sm text-slate-400">통행량과 물동량이 급증하는 10월~11월에 특수차량 운행 경로 중심의 단속 및 안전 캠페인 강화가 필요합니다.</p>
+</div>
+<div class="bg-slate-700 p-4 rounded-lg">
+<div class="font-bold text-red-400 mb-1">차종 맞춤형 대책 수립</div>
+<p class="text-sm text-slate-400">특수차량의 제동 거리, 사각지대 특성을 고려한 운전자 교육 이수 의무화 및 첨단 안전장치 보급 지원이 요구됩니다.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+function wrapLabel(label) {
+    if (label.length <= 16) return label;
+    const words = label.split(' ');
+    let lines = [];
+    let currentLine = '';
+    for (let word of words) {
+        if ((currentLine + word).length > 16) {
+            if (currentLine) lines.push(currentLine.trim());
+            currentLine = word + ' ';
+        } else {
+            currentLine += word + ' ';
+        }
+    }
+    if (currentLine) lines.push(currentLine.trim());
+    return lines;
+}
+
+const customTooltipConfig = {
+    callbacks: {
+        title: function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        }
+    }
+};
+
+const commonOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+        tooltip: customTooltipConfig,
+        legend: { position: 'bottom', labels: { font: { family: 'Pretendard' } } }
+    }
+};
+
+const trendLabelsRaw = ['2020년 (코로나19 발생기)', '2021년 (팬데믹 지속기)', '2022년 (일상 회복기)', '2023년 (활동 정상화기)'];
+const trendLabels = trendLabelsRaw.map(wrapLabel);
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+new Chart(trendCtx, {
+    type: 'bar',
+    data: {
+        labels: trendLabels,
+        datasets: [
+            {
+                type: 'line',
+                label: '사망자 수 (명)',
+                data: [38, 35, 30, 34],
+                borderColor: '#ef4444',
+                backgroundColor: '#ef4444',
+                borderWidth: 3,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                yAxisID: 'y1',
+                tension: 0.3
+            },
+            {
+                type: 'bar',
+                label: '발생 건수 (건)',
+                data: [1177, 1228, 1148, 1201],
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                borderRadius: 4,
+                yAxisID: 'y'
+            }
+        ]
+    },
+    options: {
+        ...commonOptions,
+        scales: {
+            y: { type: 'linear', display: true, position: 'left', title: { display: true, text: '발생 건수' }, min: 1000 },
+            y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '사망자 수' }, min: 0 }
+        }
+    }
+});
+
+const monthLabelsRaw = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월 집중기', '11월 최고치', '12월'];
+const monthLabels = monthLabelsRaw.map(wrapLabel);
+const monthData = [104, 80, 82, 100, 107, 105, 95, 105, 119, 118, 120, 90];
+const monthColors = monthData.map(val => val >= 118 ? '#f97316' : 'rgba(203, 213, 225, 0.8)');
+const monthCtx = document.getElementById('monthChart').getContext('2d');
+new Chart(monthCtx, {
+    type: 'bar',
+    data: {
+        labels: monthLabels,
+        datasets: [{
+            label: '2023년 월별 발생 건수',
+            data: monthData,
+            backgroundColor: monthColors,
+            borderRadius: 4
+        }]
+    },
+    options: {
+        ...commonOptions,
+        plugins: {
+            ...commonOptions.plugins,
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true, title: { display: true, text: '발생 건수' } }
+        }
+    }
+});
+
+const fatalityLabelsRaw = ['2020년 치사율 지표', '2021년 치사율 지표', '2022년 치사율 지표', '2023년 치사율 지표'];
+const fatalityLabels = fatalityLabelsRaw.map(wrapLabel);
+const fatalityRate = [
+    ((38 / 1177) * 100).toFixed(2),
+    ((35 / 1228) * 100).toFixed(2),
+    ((30 / 1148) * 100).toFixed(2),
+    ((34 / 1201) * 100).toFixed(2)
+];
+const fatalityCtx = document.getElementById('fatalityChart').getContext('2d');
+new Chart(fatalityCtx, {
+    type: 'line',
+    data: {
+        labels: fatalityLabels,
+        datasets: [{
+            label: '사고 100건당 사망자 (명)',
+            data: fatalityRate,
+            backgroundColor: 'rgba(239, 68, 68, 0.2)',
+            borderColor: '#ef4444',
+            borderWidth: 3,
+            fill: true,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: '#ef4444',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            tension: 0.4
+        }]
+    },
+    options: {
+        ...commonOptions,
+        scales: {
+            y: { beginAtZero: true, min: 2.0, max: 3.5, title: { display: true, text: '치사율 (%)' } }
+        }
+    }
+});
+</script>
+</body>
+</html>
