@@ -19,15 +19,10 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
 <body class="antialiased pb-12">
 <!--
 Plan Summary:
-1. Navigation: Included a Home button and a "View Article" button. The latter links to "07/교통사고 데이터 분석 기사.pdf" as requested.
-2. Header: Defined the scope (2020-2023) and the analytical focus on special vehicles.
-3. KPI Section: Core statistics including average accidents, total deaths, and high-risk periods.
-4. Visualizations: 
-   - Trend Chart: Bar/Line combo for 4-year trends.
-   - Monthly Distribution: Bar chart for 2023 seasonal patterns.
-   - Fatality Rate: Line chart highlighting the severity of accidents.
-5. Technical: Strictly adhered to NO SVG/Mermaid JS, used Chart.js with required label wrapping and tooltip configurations.
-Confirming that NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+1. Navigation: Updated "View Article" (기사보기) button link to "../07/교통사고 데이터 분석 기사.pdf" with download attribute.
+2. Narrative: Visualizes the 2020-2023 traffic accident data with a focus on special vehicles.
+3. Technical: Uses Chart.js for all visualizations. Labels longer than 16 chars are wrapped. Tooltip logic handles multi-line titles.
+4. Constraints Check: NO SVG used. NO Mermaid JS used.
 -->
 
 <nav class="nav-sticky py-4 border-b border-slate-200">
@@ -36,9 +31,9 @@ Confirming that NEITHER Mermaid JS NOR SVG were used anywhere in the output.
 <span class="mr-2 text-base">&#x1F3E0;</span>
 홈으로 돌아가기
 </a>
-<a href="07/교통사고 데이터 분석 기사.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-blue-700 rounded-lg text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors">
+<a href="../07/교통사고 데이터 분석 기사.pdf" download="교통사고_데이터_분석_기사.pdf" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-blue-700 rounded-lg text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors">
 <span class="mr-2 text-base">&#x1F4F0;</span>
-기사보기
+기사 다운로드
 </a>
 </div>
 </nav>
