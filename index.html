@@ -257,7 +257,6 @@
                             <p id="modal-point" class="text-slate-500 dark:text-gray-400">비판적 사고 및 데이터 해석</p>
                         </div>
                     </div>
-                    <!-- 버튼에 ID 추가 및 연결 기능 구현 -->
                     <button id="modal-btn" class="mt-12 w-full py-5 text-black font-black flex items-center justify-center gap-3 transition-all transform hover:-translate-y-1 shadow-lg">
                         VIEW PROJECT CASE <i data-lucide="arrow-right" size="20"></i>
                     </button>
@@ -267,7 +266,7 @@
     </div>
 
     <script>
-        // Assignments Data
+        // Updated Assignments Data
         const assignments = [
             { 
                 id: '01', title: 'AI의 이해', 
@@ -324,12 +323,13 @@
                 link: './07/index.html'
             },
             { 
-                id: '07', title: '인터랙티브 데이터 대시보드', 
-                description: '사용자가 직접 데이터를 탐색할 수 있는 상호작용형 시각화 환경을 구축합니다.', 
-                detail: '고정된 이미지가 아닌, 필터와 툴팁을 통해 사용자가 능동적으로 정보를 습득할 수 있는 웹 기반 대시보드를 기획하고 제작했습니다.',
-                type: 'Interaction', tools: 'Flourish, 데이터래퍼',
+                id: '07', title: '도시와 해변, 로컬과 글로벌을 잇다', 
+                description: '코랩을 이용한 데이터 분석 후 영상 본문과 댓글 분석 내용을 기반으로 새로운 부산 관광 콘텐츠 기획서를 작성 및 인터랙티브한 웹페이지를 작성', 
+                detail: '구글 콜라보토리와 제미니를 활용하여 유튜브 영상 및 댓글 데이터를 분석하고, 이를 바탕으로 글로벌 관광객을 타겟팅한 부산의 새로운 관광 루트를 기획했습니다. 분석된 데이터를 기반으로 도심과 해변을 잇는 차별화된 콘텐츠를 구성하여 인터랙티브한 웹 프레젠테이션으로 구현했습니다.',
+                type: 'Tourism Innovation', tools: '제미니, 구글 콜라보토리',
                 color: '#10B981', shadow: 'rgba(16,185,129,0.3)', bg: 'from-emerald-500/20',
-                icon: 'layout-dashboard'
+                icon: 'map',
+                link: './08/index.html'
             },
             { 
                 id: '08', title: 'AI 협업 문제 해결 시나리오', 
