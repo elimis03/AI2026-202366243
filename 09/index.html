@@ -13,6 +13,8 @@
     </script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- html2pdf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght=300;400;500;600;700;800&display=swap');
         body {
@@ -65,6 +67,11 @@
             </div>
             
             <div class="flex items-center space-x-3">
+                <!-- Home Link Button -->
+                <a href="https://elimis03.github.io/AI2026-202366243/" class="p-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition flex items-center justify-center" title="홈으로 이동">
+                    <i data-lucide="home" class="w-4.5 h-4.5"></i>
+                </a>
+
                 <!-- Theme Toggle Button -->
                 <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-255 dark:hover:bg-gray-800 transition">
                     <i id="theme-icon" data-lucide="sun" class="w-4.5 h-4.5"></i>
@@ -105,7 +112,11 @@
                 </div>
                 <div class="relative z-10 mt-6 pt-6 border-t border-gray-200 dark:border-gray-800/60 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                     <span>최종 업데이트: 2026. 05. 22</span>
-                    <span class="flex items-center text-blue-600 dark:text-blue-400 font-semibold">데이터 연동 활성화 <span class="w-2 h-2 rounded-full bg-green-500 ml-1.5 animate-pulse"></span></span>
+                    <!-- Report 1 PDF Download Button -->
+                    <button onclick="downloadPDF('spending')" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                        <span>PDF 다운로드</span>
+                    </button>
                 </div>
             </div>
 
@@ -161,7 +172,14 @@
                         <span class="px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs text-purple-600 dark:text-purple-400 font-medium">인식 격차 분석</span>
                         <h2 class="text-lg font-bold text-gray-900 dark:text-white mt-2">뉴스 보도 vs 유튜브 댓글 감성 대조</h2>
                     </div>
-                    <i data-lucide="git-compare" class="w-5 h-5 text-purple-500 dark:text-purple-400"></i>
+                    <div class="flex items-center space-x-2">
+                        <!-- Report 2 PDF Download Button -->
+                        <button onclick="downloadPDF('comments')" class="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            <span>PDF 다운로드</span>
+                        </button>
+                        <i data-lucide="git-compare" class="w-5 h-5 text-purple-500 dark:text-purple-400"></i>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -359,7 +377,12 @@
                         <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-600 dark:text-emerald-400 font-medium">개선 기획서</span>
                         <h2 class="text-xl font-bold text-gray-900 dark:text-white mt-2">상생 관광을 위한 부산광역시 정책 건의서</h2>
                     </div>
-                    <div class="flex space-x-2 mt-4 md:mt-0">
+                    <div class="flex items-center space-x-2 mt-4 md:mt-0">
+                        <!-- Report 3 PDF Download Button -->
+                        <button onclick="downloadPDF('policy')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            <span>PDF 다운로드</span>
+                        </button>
                         <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-900/40">
                             <i data-lucide="shield-check" class="w-3.5 h-3.5 mr-1"></i> 주민 정주권 보호
                         </span>
@@ -561,6 +584,110 @@
             tryLoadImage('word-cloud-img', 'word-cloud-placeholder', 'word.png');
             tryLoadImage('graph-img', 'graph-placeholder', 'graph.png');
         });
+
+        // 실시간 보고서 데이터 PDF 생성 및 다운로드 함수
+        function downloadPDF(reportType) {
+            const opt = {
+                margin:       15,
+                filename:     '',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            const container = document.createElement('div');
+            container.style.padding = '20px';
+            container.style.color = '#1f2937';
+            container.style.fontFamily = 'Pretendard, sans-serif';
+            container.style.backgroundColor = '#ffffff';
+
+            let title = '';
+            let content = '';
+
+            if (reportType === 'spending') {
+                opt.filename = '부산외국인관광객지출1조원돌입분석보고서.pdf';
+                title = '부산 외국인 관광객 지출 1조 원 돌입 분석 보고서';
+                content = `
+                    <div style="border-bottom: 2px solid #3b82f6; padding-bottom: 12px; margin-bottom: 20px;">
+                        <span style="font-size: 12px; color: #3b82f6; font-weight: bold;">[정량 지표 정밀 보고서]</span>
+                        <h1 style="font-size: 22px; font-weight: 800; margin-top: 4px; color: #111827;">부산 외국인 지출 1조 원 돌입 성과 분석</h1>
+                    </div>
+                    <h2 style="font-size: 14px; font-weight: bold; color: #1e3a8a; margin-top: 16px;">1. 분석 요약</h2>
+                    <p style="font-size: 12px; line-height: 1.6; color: #4b5563;">부산광역시 외국인 카드 사용액 조사 결과, 외국인 연간 카드 지출액이 역사상 최초로 1조 원을 초과 돌파하는 성과를 달성했습니다. 이는 전국 주요 광역지자체 중 서울에 이은 2위(인천 추월)에 달하는 수준입니다.</p>
+                    
+                    <h2 style="font-size: 14px; font-weight: bold; color: #1e3a8a; margin-top: 16px;">2. 핵심 거시 지표</h2>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px;">
+                        <thead>
+                            <tr style="background-color: #f3f4f6;">
+                                <th style="border: 1px solid #d1d5db; padding: 8px; text-align: left;">지표 항목</th>
+                                <th style="border: 1px solid #d1d5db; padding: 8px; text-align: right;">달성 수치</th>
+                                <th style="border: 1px solid #d1d5db; padding: 8px; text-align: left;">특이 사항</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid #d1d5db; padding: 8px;">연간 외국인 총 카드 소비액</td>
+                                <td style="border: 1px solid #d1d5db; padding: 8px; text-align: right; font-weight: bold;">1.13조 원</td>
+                                <td style="border: 1px solid #d1d5db; padding: 8px;">전년 대비 비약적 양적 팽창</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #d1d5db; padding: 8px;">전국 순위</td>
+                                <td style="border: 1px solid #d1d5db; padding: 8px; text-align: right; font-weight: bold;">전국 2위</td>
+                                <td style="border: 1px solid #d1d5db; padding: 8px;">인천국제공항 인프라 수혜지역 추월</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 style="font-size: 14px; font-weight: bold; color: #1e3a8a; margin-top: 16px;">3. 지출 증가 원인 대조</h2>
+                    <p style="font-size: 12px; line-height: 1.6; color: #4b5563;">글로벌 도시 인지도 제고와 비짓부산패스 등 다각도 유치 마케팅 전략이 유효하게 연계된 결과입니다. 그러나 최근 원화 가치 절하에 따른 환율 반사 효과 역시 강하게 작용하였으므로 대내외적 인프라 안정화 작업이 요구됩니다.</p>
+                `;
+            } else if (reportType === 'comments') {
+                opt.filename = '부산외국인관광뉴스댓글분석보고서.pdf';
+                title = '부산 외국인 관광 뉴스 댓글 분석 보고서';
+                content = `
+                    <div style="border-bottom: 2px solid #a855f7; padding-bottom: 12px; margin-bottom: 20px;">
+                        <span style="font-size: 12px; color: #a855f7; font-weight: bold;">[대중 인지도 추적 분석]</span>
+                        <h1 style="font-size: 22px; font-weight: 800; margin-top: 4px; color: #111827;">외국인 관광 뉴스 수집 댓글 감성 여론 조사</h1>
+                    </div>
+                    <h2 style="font-size: 14px; font-weight: bold; color: #581c87; margin-top: 16px;">1. 조사 분석 배경</h2>
+                    <p style="font-size: 12px; line-height: 1.6; color: #4b5563;">지출 성과 뉴스 보도에 대해 실제 시민과 시청자가 표출하는 실시간 정성 피드백을 기반으로 잠재적 수용 리스크 및 인프라 고충을 파악하기 위해 형태소 분석을 실시했습니다.</p>
+                    
+                    <h2 style="font-size: 14px; font-weight: bold; color: #581c87; margin-top: 16px;">2. 댓글 데이터 유형별 주요 통계</h2>
+                    <ul style="font-size: 12px; line-height: 1.8; color: #4b5563; padding-left: 20px;">
+                        <li><strong>교통 인프라 문제 (32%):</strong> 김해공항의 여객 터미널 수용 규모 한계 극복 요구 및 크루즈항 연결성 부족.</li>
+                        <li><strong>정주여건 괴리 (24%):</strong> 실거주민 대상의 "관광 특화 도시 전락과 거주 피로도 상승" 지적.</li>
+                        <li><strong>환율 반사이익 지적 (18%):</strong> 내부 콘텐츠 완성도보다 외부 거시적 경제 조건에 의한 기여 분석론 대두.</li>
+                    </ul>
+
+                    <h2 style="font-size: 14px; font-weight: bold; color: #581c87; margin-top: 16px;">3. 진단 결론</h2>
+                    <p style="font-size: 12px; line-height: 1.6; color: #4b5563;">정량 보도 지표와 현장 시민 수용성 일치도는 약 35%로 집계되었습니다. 지속 성장을 위해서는 시민과 행정의 괴리 원인을 밝혀낼 다층적 정밀 조사가 필수적으로 요구됩니다.</p>
+                `;
+            } else if (reportType === 'policy') {
+                opt.filename = '부산시지속가능한상생관광정책기획서.pdf';
+                title = '부산시 지속 가능한 상생 관광 정책 기획서';
+                content = `
+                    <div style="border-bottom: 2px solid #10b981; padding-bottom: 12px; margin-bottom: 20px;">
+                        <span style="font-size: 12px; color: #10b981; font-weight: bold;">[행정 건의 제안서]</span>
+                        <h1 style="font-size: 22px; font-weight: 800; margin-top: 4px; color: #111827;">지속 가능한 시민 상생 관광 생태계 구축 방안</h1>
+                    </div>
+                    <h2 style="font-size: 14px; font-weight: bold; color: #064e3b; margin-top: 16px;">1. 정책 목표</h2>
+                    <p style="font-size: 12px; line-height: 1.6; color: #4b5563;">양적 외형 팽창에서 시민 삶의 가치를 보호하고 지속 가용성을 갖춘 상생형 체류 콘텐츠 중심의 질적 고도화 패러다임 전환.</p>
+                    
+                    <h2 style="font-size: 14px; font-weight: bold; color: #064e3b; margin-top: 16px;">2. 6대 핵심 실행 정책안</h2>
+                    <ol style="font-size: 12px; line-height: 1.8; color: #4b5563; padding-left: 20px; margin-top: 8px;">
+                        <li><strong>관문 연계 교통 혁신:</strong> 김해공항 스마트 수하물 딜리버리(Lugg-Up) 체계화 및 크루즈 급행 노선 증설.</li>
+                        <li><strong>지역 순환 경제화:</strong> 해외 간편결제 가맹점망 골목상권 확대 및 로컬 페이 활성화 지원.</li>
+                        <li><strong>지역 불균형 완화:</strong> 친환경 모노레일 및 저소음 산악 관광 트랩 구축을 통한 내륙 유입 확대.</li>
+                        <li><strong>공정 물가 인증제:</strong> 부산 불꽃축제 등 대형 축제 시즌 바가지 숙박 방지단 및 부산 퀄리티 인증(BQ)제 정비.</li>
+                        <li><strong>정주권 보장 보상체계:</strong> 주민 보호 Silent Hour 법적 보강 및 관광 세수의 지역 기반 낙수 인프라 재정비 조례 신설.</li>
+                        <li><strong>시민 실태조사 및 해결 리빙랩:</strong> 시민 의견 상시 모니터링을 통한 민관 괴리율 추적 완화.</li>
+                    </ol>
+                `;
+            }
+
+            container.innerHTML = content;
+            html2pdf().set(opt).from(container).save();
+        }
 
         // 정책 세부 텍스트 데이터 맵 (6개 항목으로 연장)
         const policyData = [
