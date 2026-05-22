@@ -416,13 +416,14 @@
                 </div>
             </div>
 
-            <!-- HIGH-LIGHT CARD: 시민(제안자) 의견 반영 핵심 전략 분석 (감성 대조 카드 및 분포 카드 아래로 최종 이동 및 제안 과제 내용 추가 완료) -->
+            <!-- HIGH-LIGHT CARD: 시민(제안자) 의견 반영 핵심 전략 분석 (감성 대조 카드 및 분포 카드 아래로 최종 이동 및 제안 과제 레이아웃 최적화 완료) -->
             <div class="md:col-span-3 lg:col-span-4 bento-card p-6 rounded-2xl border-2 border-orange-500 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/5 section-comments section-policy relative overflow-hidden">
                 <!-- Decorative background light -->
                 <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
                 
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 relative z-10">
-                    <div class="lg:max-w-2xl">
+                <div class="flex flex-col lg:flex-row lg:items-stretch gap-6 relative z-10">
+                    <!-- 본문 설명 텍스트 영역: 가로 폭을 확보하여 쾌적하게 렌더링되도록 flex-1 설정 -->
+                    <div class="flex-1 flex flex-col justify-center">
                         <div class="flex items-center space-x-2 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider mb-2">
                             <span class="px-2 py-0.5 rounded-full bg-orange-500/20 border border-orange-500/30">사용자 역량 제안 반영</span>
                             <span class="flex items-center"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 mr-1"></i> 거시-미시 괴리율 타겟 통제 수립</span>
@@ -435,28 +436,33 @@
                         </p>
                     </div>
                     
-                    <div class="flex-shrink-0 grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col gap-3 min-w-[280px]">
-                        <!-- 제안 과제 1의 세부 내용을 구체적으로 채움 -->
-                        <div class="p-4 bg-white dark:bg-gray-900/80 rounded-xl border border-orange-500/30 shadow-md">
-                            <span class="text-[10px] text-orange-600 dark:text-orange-400 block font-semibold uppercase">제안 과제 1</span>
-                            <span class="text-xs font-bold text-gray-900 dark:text-gray-150 mt-1 block flex items-center mb-1">
-                                <i data-lucide="clipboard-list" class="w-4 h-4 text-orange-500 mr-2 flex-shrink-0"></i>
-                                정기 설문 및 FGI 추적조사
-                            </span>
-                            <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                                부산 시민 3,000명 대상의 반기별 설문조사와 고밀도 유입구역 거주민 대상 표적집단인터뷰(FGI)를 상설 운영하여, 정량 통계와 정성 체감 간 차이를 수치화(B-TCCI 지수 산출)하고 시정에 피드백합니다.
-                            </p>
+                    <!-- 제안 과제 영역: 대화면(lg)에서 가로 너비를 제한하여 좌우 비율의 균형을 정밀 제어 -->
+                    <div class="flex-shrink-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 lg:w-[380px] w-full">
+                        <!-- 제안 과제 1 -->
+                        <div class="p-4 bg-white dark:bg-gray-900/80 rounded-xl border border-orange-500/30 shadow-md flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] text-orange-600 dark:text-orange-400 block font-semibold uppercase">제안 과제 1</span>
+                                <span class="text-xs font-bold text-gray-900 dark:text-gray-150 mt-1 block flex items-center mb-1">
+                                    <i data-lucide="clipboard-list" class="w-4 h-4 text-orange-500 mr-2 flex-shrink-0"></i>
+                                    정기 설문 및 FGI 추적조사
+                                </span>
+                                <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    부산 시민 3,000명 대상의 반기별 설문조사와 고밀도 유입구역 거주민 대상 표적집단인터뷰(FGI)를 상설 운영하여, 정량 통계와 정성 체감 간 차이를 수치화(B-TCCI 지수 산출)하고 시정에 피드백합니다.
+                                </p>
+                            </div>
                         </div>
-                        <!-- 제안 과제 2의 세부 내용을 구체적으로 채움 -->
-                        <div class="p-4 bg-white dark:bg-gray-900/80 rounded-xl border border-emerald-500/30 shadow-md">
-                            <span class="text-[10px] text-emerald-600 dark:text-emerald-400 block font-semibold uppercase">제안 과제 2</span>
-                            <span class="text-xs font-bold text-gray-900 dark:text-gray-150 mt-1 block flex items-center mb-1">
-                                <i data-lucide="users" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
-                                고용 연계 계도반 및 리빙랩
-                            </span>
-                            <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                                해당 주거지 중장년 및 청년을 '관광지 상생 보안관'으로 고용하여 쓰레기 및 소음(Silent Hour)을 자체 단속합니다. 민·관·기술 연합 리빙랩을 가동하여 주차공유 등 골목 현안 솔루션을 스마트하게 해결합니다.
-                            </p>
+                        <!-- 제안 과제 2 -->
+                        <div class="p-4 bg-white dark:bg-gray-900/80 rounded-xl border border-emerald-500/30 shadow-md flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 block font-semibold uppercase">제안 과제 2</span>
+                                <span class="text-xs font-bold text-gray-900 dark:text-gray-150 mt-1 block flex items-center mb-1">
+                                    <i data-lucide="users" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
+                                    고용 연계 계도반 및 리빙랩
+                                </span>
+                                <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    해당 주거지 중장년 및 청년을 '관광지 상생 보안관'으로 고용하여 쓰레기 및 소음(Silent Hour)을 자체 단속합니다. 민·관·기술 연합 리빙랩을 가동하여 주차공유 등 골목 현안 솔루션을 스마트하게 해결합니다.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
