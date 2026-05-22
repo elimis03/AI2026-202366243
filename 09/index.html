@@ -1,1 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산 관광 대시보드 & 상생 정책 기획안</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght=300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Pretendard', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .bento-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .bento-card {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+        .dark .text-glow {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-[#060810] text-gray-900 dark:text-f3f4f6 pb-12">
 
+    <!-- Header -->
+    <header class="border-b border-gray-200 dark:border-gray-800 bg-white/85 dark:bg-[#0b0f19]/80 backdrop-blur-md sticky top-0 z-50 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-blue-600 rounded-lg text-white">
+                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">BUSAN TOURISM REPORT</span>
+                    <span class="text-xs block text-gray-500 dark:text-gray-400">외국인 관광 지출 1조원 분석 & 상생 정책 제안</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-255 dark:hover:bg-gray-800 transition">
+                    <i id="theme-icon" data-lucide="sun" class="w-4.5 h-4.5"></i>
+                </button>
+
+                <!-- Navigation Tabs -->
+                <div class="flex items-center space-x-1 bg-gray-100 dark:bg-gray-900 p-1 rounded-lg border border-gray-200 dark:border-gray-800">
+                    <button onclick="switchTab('all')" id="tab-btn-all" class="px-3 py-1.5 text-xs font-semibold rounded-md transition bg-blue-600 text-white">전체</button>
+                    <button onclick="switchTab('news')" id="tab-btn-news" class="px-3 py-1.5 text-xs font-semibold rounded-md transition text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">1조 분석</button>
+                    <button onclick="switchTab('comments')" id="tab-btn-comments" class="px-3 py-1.5 text-xs font-semibold rounded-md transition text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">댓글 분석</button>
+                    <button onclick="switchTab('policy')" id="tab-btn-policy" class="px-3 py-1.5 text-xs font-semibold rounded-md transition text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">정책안</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6" id="bento-container">
+            
+            <!-- CARD 1: 대표 타이틀 카드 -->
+            <div class="md:col-span-2 lg:col-span-2 bento-card p-6 rounded-2xl flex flex-col justify-between overflow-hidden relative group section-news">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-600/5 dark:from-blue-600/10 dark:to-indigo-900/10 opacity-50 group-hover:opacity-80 transition-opacity"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 text-sm font-medium mb-3">
+                        <span class="px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs">보도 성과</span>
+                        <span>NEWS REPORT</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
+                        부산 외국인 지출<br>
+                        <span class="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent text-glow">1조 원 시대</span>의 빛과 그림자
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-3 leading-relaxed max-w-md">
+                        외국인 카드 지출액 전국 2위 달성이라는 쾌거 이면에 가려진 실거주민의 수용 한계와 극복 과제를 입체적으로 조명합니다.
+                    </p>
+                </div>
+                <div class="relative z-10 mt-6 pt-6 border-t border-gray-200 dark:border-gray-800/60 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <span>최종 업데이트: 2026. 05. 22</span>
+                    <span class="flex items-center text-blue-600 dark:text-blue-400 font-semibold">데이터 연동 활성화 <span class="w-2 h-2 rounded-full bg-green-500 ml-1.5 animate-pulse"></span></span>
+                </div>
+            </div>
+
+            <!-- CARD 2: 주요 핵심 정량 수치 -->
+            <div class="bento-card p-6 rounded-2xl flex flex-col justify-between section-news">
+                <div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">외국인 총 지출액</span>
+                        <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500 dark:text-emerald-400"></i>
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">1.13<span class="text-lg font-normal text-gray-500 dark:text-gray-400 ml-1">조 원</span></div>
+                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1 flex items-center">
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 mr-0.5"></i>
+                            역대 최대 소비 성과 달성
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800/60">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                        <span>전국 지자체 순위</span>
+                        <span class="font-bold text-blue-600 dark:text-blue-400">인천 추월, 전국 2위</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: 성장 요인 현황 -->
+            <div class="bento-card p-6 rounded-2xl flex flex-col justify-between section-news">
+                <div>
+                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">주요 성장 요인</span>
+                    <div class="space-y-3 mt-4">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-600 dark:text-gray-400">글로벌 도시 경쟁력</span>
+                            <span class="text-blue-600 dark:text-blue-400 font-medium">강화</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-600 dark:text-gray-400">원화 약세 (고환율)</span>
+                            <span class="text-cyan-600 dark:text-cyan-400 font-medium">반사이익</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-600 dark:text-gray-400">수요 다변화</span>
+                            <span class="text-indigo-600 dark:text-indigo-400 font-medium">체류 연장</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-[10px] text-gray-400 dark:text-gray-500 mt-2">※ 한국은행 및 카드사 통계 분석 기반</div>
+            </div>
+
+            <!-- CARD 4: 뉴스 vs 여론 비교 (초대형) -->
+            <div class="md:col-span-3 lg:col-span-3 bento-card p-6 rounded-2xl section-comments">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <span class="px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs text-purple-600 dark:text-purple-400 font-medium">인식 격차 분석</span>
+                        <h2 class="text-lg font-bold text-gray-900 dark:text-white mt-2">뉴스 보도 vs 유튜브 댓글 감성 대조</h2>
+                    </div>
+                    <i data-lucide="git-compare" class="w-5 h-5 text-purple-500 dark:text-purple-400"></i>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-500/5 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 p-4 rounded-xl">
+                        <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold mb-3">
+                            <i data-lucide="tv" class="w-4 h-4"></i>
+                            <span class="text-sm">보도가 강조한 내용 (정량적 성과)</span>
+                        </div>
+                        <ul class="space-y-2 text-xs text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">•</span>
+                                1조 원 대지출 돌입을 통한 지역 상권 활성화 수혜
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">•</span>
+                                인천을 압도하는 전국 2위 도약 및 브랜드 인지도 상승
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">•</span>
+                                워케이션 및 글로벌 체류지로서의 정체성 전환
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-500/5 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 p-4 rounded-xl">
+                        <div class="flex items-center space-x-2 text-purple-600 dark:text-purple-400 font-semibold mb-3">
+                            <i data-lucide="message-square" class="w-4 h-4"></i>
+                            <span class="text-sm">댓글에 투영된 대중 시선 (불편과 성찰)</span>
+                        </div>
+                        <ul class="space-y-2 text-xs text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-2">•</span>
+                                "관광하긴 좋으나 살기 싫다" 오버투어리즘 및 삶의 질 저하 우려
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-2">•</span>
+                                고환율로 얻은 일시적 수치에 안주할 뿐 내부 체감경기는 냉골
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-2">•</span>
+                                공항·크루즈항 등 협소한 관문 인프라와 만성적인 주차지옥 호소
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 매칭도 게이지 -->
+                <div class="mt-6">
+                    <div class="flex justify-between items-center text-xs mb-1">
+                        <span class="text-gray-500 dark:text-gray-400">보도와 실제 주민 인지 정밀 일치도</span>
+                        <span class="text-rose-500 dark:text-rose-400 font-bold">35% (불일치)</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-red-500 to-yellow-500 h-2 rounded-full" style="width: 35%"></div>
+                    </div>
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1.5">거시 통계 지표(화려한 1조원)와 정주 여건에 따른 미시 고충 간 격차가 큽니다. <strong>현장 설문과 심층 조사를 통한 괴리 완화가 필수적입니다.</strong></p>
+                </div>
+            </div>
+
+            <!-- CARD 5: 댓글 분류 분포 비율 -->
+            <div class="bento-card p-6 rounded-2xl flex flex-col justify-between section-comments">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">주요 민원·관심사 분포</span>
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-purple-500 dark:text-purple-400"></i>
+                    </div>
+                    <div class="space-y-2.5">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-700 dark:text-gray-300">교통 문제 (공항/주차/혼잡)</span>
+                                <span class="text-gray-900 dark:text-white font-semibold">32%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-800 h-1.5 rounded-full">
+                                <div class="bg-blue-500 h-1.5 rounded-full" style="width: 32%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-700 dark:text-gray-300">지역 자부심 / 실주거 괴리</span>
+                                <span class="text-gray-900 dark:text-white font-semibold">24%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-800 h-1.5 rounded-full">
+                                <div class="bg-purple-500 h-1.5 rounded-full" style="width: 24%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-700 dark:text-gray-300">환율 반사경 및 경제효과</span>
+                                <span class="text-gray-900 dark:text-white font-semibold">18%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-800 h-1.5 rounded-full">
+                                <div class="bg-cyan-500 h-1.5 rounded-full" style="width: 18%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-700 dark:text-gray-300">관광지 쏠림 / 불공정물가</span>
+                                <span class="text-gray-900 dark:text-white font-semibold">15%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-800 h-1.5 rounded-full">
+                                <div class="bg-rose-500 h-1.5 rounded-full" style="width: 15%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-[10px] text-gray-500 dark:text-gray-400 mt-4 border-t border-gray-200 dark:border-gray-800 pt-3">
+                    * 업로드된 수집 댓글 전수 가공 및 자동 텍스트 분석 결과
+                </div>
+            </div>
+
+            <!-- HIGH-LIGHT CARD: 정부-시민 간 인식 괴리율 진단 및 극복 방안 (인식 격차 분석 후속 강조 카드로 재조정) -->
+            <div class="md:col-span-3 lg:col-span-4 bento-card p-6 rounded-2xl border-2 border-amber-500/50 dark:border-amber-500/30 bg-gradient-to-br from-amber-500/5 via-transparent to-orange-500/5 section-comments section-policy">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                    <div class="lg:max-w-2xl">
+                        <div class="flex items-center space-x-2 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
+                            <span class="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30">핵심 관리 과제</span>
+                            <span class="flex items-center"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 mr-1"></i> 민·관 인식 괴리율 통제 필요</span>
+                        </div>
+                        <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-snug">
+                            정부 성과 지표와 시민 체감 고충 간 괴리율 극복 방안
+                        </h2>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 leading-relaxed">
+                            정부가 주도하는 양적 지표(1조 원 돌입) 위주의 긍정적 보도와 실제 시민들이 직면한 교통 정체 및 오버투어리즘 등 미시적 불편 사이에는 심각한 격차가 존재합니다. 이를 해소하기 위해 <strong>시민 대상 실태 조사(설문·인터뷰)를 정기화</strong>하고, 시민들이 문제 해결의 주체로서 <strong>의사결정 및 현장 단속에 적극 참여</strong>할 수 있도록 유도하는 거버넌스 개편이 시급합니다.
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0 grid grid-cols-2 lg:flex lg:flex-col gap-3 min-w-[240px]">
+                        <div class="p-3.5 bg-white dark:bg-gray-900/60 rounded-xl border border-amber-500/20 shadow-sm">
+                            <span class="text-[10px] text-gray-500 dark:text-gray-400 block font-medium">인식 개선 로드맵 01</span>
+                            <span class="text-xs font-bold text-gray-800 dark:text-gray-200 mt-1 block flex items-center">
+                                <i data-lucide="clipboard-list" class="w-4 h-4 text-amber-500 mr-1.5 flex-shrink-0"></i>
+                                대시민 설문 및 FGI 정례화
+                            </span>
+                        </div>
+                        <div class="p-3.5 bg-white dark:bg-gray-900/60 rounded-xl border border-emerald-500/20 shadow-sm">
+                            <span class="text-[10px] text-gray-500 dark:text-gray-400 block font-medium">인식 개선 로드맵 02</span>
+                            <span class="text-xs font-bold text-gray-800 dark:text-gray-200 mt-1 block flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 text-emerald-500 mr-1.5 flex-shrink-0"></i>
+                                리빙랩 시민 공동 단속반 구성
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 10: 유튜브 영상 댓글 분석 워드 클라우드 이미지 -->
+            <div class="md:col-span-2 bento-card p-6 rounded-2xl flex flex-col justify-between section-comments">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">주요 언급 키워드 시각화</span>
+                        <i data-lucide="cloud" class="w-4 h-4 text-blue-500 dark:text-blue-400"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white mb-3">유튜브 댓글 워드 클라우드</h3>
+                    
+                    <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-gray-100/50 dark:bg-gray-900/40 flex items-center justify-center transition-colors border border-gray-200 dark:border-gray-800">
+                        <img src="./09/워드클라우드.png" class="absolute inset-0 w-full h-full object-contain" alt="워드 클라우드 분석 결과" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                        <div class="hidden flex-col items-center justify-center text-center p-4">
+                            <i data-lucide="image" class="w-8 h-8 text-gray-400 dark:text-gray-600 mb-2"></i>
+                            <span class="text-xs text-gray-600 dark:text-gray-400 font-semibold">워드 클라우드 이미지 영역</span>
+                            <span class="text-[10px] text-gray-500 dark:text-gray-500 mt-1 max-w-[240px]">이미지 파일을 불러올 수 없습니다. 경로를 확인하십시오.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-[10px] text-gray-500 dark:text-gray-400 mt-4 border-t border-gray-200 dark:border-gray-800 pt-3">
+                    * 다빈도 키워드: 공항, 살기싫다, 주차장, 크루즈, 환율효과 등
+                </div>
+            </div>
+
+            <!-- CARD 11: 유튜브 영상 댓글 문제 분류 막대그래프 이미지 -->
+            <div class="md:col-span-2 bento-card p-6 rounded-2xl flex flex-col justify-between section-comments">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">민원 성향 유형별 계측</span>
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-purple-500 dark:text-purple-400"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white mb-3">유형별 문제 분류 막대그래프</h3>
+                    
+                    <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-gray-100/50 dark:bg-gray-900/40 flex items-center justify-center transition-colors border border-gray-200 dark:border-gray-800">
+                        <img src="./09/문제 분류 막대 그래프.png" class="absolute inset-0 w-full h-full object-contain" alt="문제 분류 막대그래프" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                        <div class="hidden flex-col items-center justify-center text-center p-4">
+                            <i data-lucide="image" class="w-8 h-8 text-gray-400 dark:text-gray-600 mb-2"></i>
+                            <span class="text-xs text-gray-600 dark:text-gray-400 font-semibold">분류 막대그래프 이미지 영역</span>
+                            <span class="text-[10px] text-gray-500 dark:text-gray-500 mt-1 max-w-[240px]">이미지 파일을 불러올 수 없습니다. 경로를 확인하십시오.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-[10px] text-gray-500 dark:text-gray-400 mt-4 border-t border-gray-200 dark:border-gray-800 pt-3">
+                    * 데이터 필드: 교통 문제, 경제효과, 숙박·물가, 관광객 쏠림 등
+                </div>
+            </div>
+
+            <!-- CARD 6: 정책 기획서 메인 (초대형) -->
+            <div class="md:col-span-3 lg:col-span-4 bento-card p-6 rounded-2xl section-policy">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-200 dark:border-gray-800 pb-4 mb-6">
+                    <div>
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-600 dark:text-emerald-400 font-medium">개선 기획서</span>
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mt-2">상생 관광을 위한 부산광역시 정책 건의서</h2>
+                    </div>
+                    <div class="flex space-x-2 mt-4 md:mt-0">
+                        <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-900/40">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5 mr-1"></i> 주민 정주권 보호
+                        </span>
+                        <span class="text-xs text-blue-600 dark:text-blue-400 font-semibold flex items-center bg-blue-50 dark:bg-blue-950/40 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-900/40">
+                            <i data-lucide="shuffle" class="w-3.5 h-3.5 mr-1"></i> 공간 분산 전략
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 기획서 세부 항목 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- 정책 기획 리스트 -->
+                    <div class="md:col-span-1 space-y-2">
+                        <button onclick="selectPolicy(0)" id="policy-btn-0" class="w-full text-left p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 transition text-sm font-semibold flex items-center justify-between">
+                            <span>1. 교통 인프라 혁신</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="selectPolicy(1)" id="policy-btn-1" class="w-full text-left p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/40 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent transition text-sm font-medium flex items-center justify-between">
+                            <span>2. 로컬 상권 경제 분산</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="selectPolicy(2)" id="policy-btn-2" class="w-full text-left p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/40 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent transition text-sm font-medium flex items-center justify-between">
+                            <span>3. 산악/원도심 분산</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="selectPolicy(3)" id="policy-btn-3" class="w-full text-left p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/40 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent transition text-sm font-medium flex items-center justify-between">
+                            <span>4. 가격 안심 보장제</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="selectPolicy(4)" id="policy-btn-4" class="w-full text-left p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/40 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent transition text-sm font-medium flex items-center justify-between">
+                            <span>5. 주민 정주 환경 보호</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <!-- NEW 6번째 시민 소통 소외해소 정책 추가 -->
+                        <button onclick="selectPolicy(5)" id="policy-btn-5" class="w-full text-left p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/40 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent transition text-sm font-medium flex items-center justify-between">
+                            <span>6. 대시민 설문 및 실태조사</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- 정책 기획 상세 뷰어 -->
+                    <div class="md:col-span-3 bg-white dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800 p-5 sm:p-6 rounded-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-8 opacity-5 text-gray-400 dark:text-gray-500 select-none">
+                            <i id="policy-bg-icon" data-lucide="plane" class="w-48 h-48"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 id="policy-title" class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">교통 문제: 관문 인프라 확충 및 스마트 대중교통 연계</h3>
+                            <p id="policy-tagline" class="text-xs text-emerald-600 dark:text-emerald-400 mb-4 font-semibold uppercase tracking-wider">공항 여객 한계 극복 및 도심 스마트 이동망 구축</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">핵심 제안 사항</h4>
+                                    <p id="policy-content-1" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        김해공항 및 크루즈항 입국 통행과 도심 주요 거점(부산역, 남포동, 해운대) 간 환승 편의성 증대를 위해 수하물 위탁 연계 서비스(Lugg-Up)의 운영을 전면 확대 지원하고, 다국어 셔틀 노선을 스마트 배차합니다.
+                                    </p>
+                                </div>
+                                <div class="pt-3 border-t border-gray-200 dark:border-gray-800/60">
+                                    <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">기대 성과</h4>
+                                    <p id="policy-content-2" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        중요 관광 요지의 불법 주정차 해소 및 입국 게이트웨이 정체 시간을 약 20% 단축하며 거점 연결 인프라 가용 비율을 대폭 개선합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 7: 주민 고통 피드백 -->
+            <div class="md:col-span-2 bento-card p-6 rounded-2xl flex flex-col justify-between section-comments">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">시민들의 솔직한 피드백</span>
+                        <i data-lucide="quote" class="w-4 h-4 text-rose-500 dark:text-rose-400"></i>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="border-l-2 border-red-500 pl-3">
+                            <p class="text-xs text-gray-700 dark:text-gray-300 italic">"부산사람인데 관광은 좋지, 근데 여유 부리며 살기는 이제 너무 힘든 도시가 되었음."</p>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 mt-1 block">부산시민 댓글 중</span>
+                        </div>
+                        <div class="border-l-2 border-blue-500 pl-3">
+                            <p class="text-xs text-gray-700 dark:text-gray-300 italic">"고환율에 의한 반사이익이지 부산 관광 인프라의 직접 경쟁력이 비약적으로 늘어난 것은 아님을 알아야 한다."</p>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 mt-1 block">환율 및 경제 분석 댓글 중</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                    * 뉴스 지표와 시민 피로도 간극을 메우는 '상생 거버넌스' 구축이 지자체의 시급한 과제입니다.
+                </div>
+            </div>
+
+            <!-- CARD 8: 결론 요약 -->
+            <div class="bento-card p-6 rounded-2xl flex flex-col justify-between section-policy">
+                <div>
+                    <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">최종 종합 시사점</span>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white mt-2">도시 체질의 대전환</h3>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 leading-relaxed">
+                        화려한 1조 원 성과 이면의 피로도에 주목할 필요가 있습니다. 적극적인 대시민 실태조사와 참여 모델을 가동하여 양적 팽창 위주 정책의 괴리를 완화하고 동참을 유도해야 합니다.
+                    </p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800 flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 dark:text-emerald-400"></i>
+                    <span>시민조사 기반 실태 대응체계 확립</span>
+                </div>
+            </div>
+
+            <!-- CARD 9: 바로가기 다운로드 -->
+            <div class="bento-card p-6 rounded-2xl flex flex-col justify-between section-policy">
+                <div>
+                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">공유 및 자료</span>
+                    <div class="mt-4 space-y-2">
+                        <a href="javascript:void(0)" onclick="copyText('report')" class="w-full flex items-center justify-between text-xs bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700/80 p-2.5 rounded-lg text-gray-800 dark:text-gray-200 transition border border-gray-200 dark:border-transparent">
+                            <span>분석 보고서 텍스트 복사</span>
+                            <i data-lucide="copy" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="copyText('proposal')" class="w-full flex items-center justify-between text-xs bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700/80 p-2.5 rounded-lg text-gray-800 dark:text-gray-200 transition border border-gray-200 dark:border-transparent">
+                            <span>정책 제안서 텍스트 복사</span>
+                            <i data-lucide="copy" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-[10px] text-emerald-600 dark:text-emerald-400 text-center" id="copy-status">클릭 시 클립보드에 바로 복사됩니다.</div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JS 스크립트 -->
+    <script>
+        // 초기 로드 시 기존 로컬 스토리지 테마 여부 확인
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon('light');
+        } else {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon('dark');
+        }
+
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+
+        // 테마 토글 함수
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeIcon('light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeIcon('dark');
+            }
+        }
+
+        // 테마 아이콘 변경 함수
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('theme-icon');
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        // 정책 세부 텍스트 데이터 맵 (6개 항목으로 연장)
+        const policyData = [
+            {
+                title: "교통 문제: 관문 인프라 확충 및 스마트 대중교통 연계",
+                tagline: "공항 여객 한계 극복 및 도심 스마트 이동망 구축",
+                content1: "김해공항 및 크루즈항 입국 동선과 연계하여 도심 핵심 거점(부산역, 남포동, 해운대) 간 연결 스마트 버스 및 셔틀 노선을 신속 배정합니다. 동시에 시내 주요 철도역에 스마트 위탁 보관 인프라 및 전담 택배 연계망(Lugg-Up)을 적극 확장 조치합니다.",
+                content2: "주요 관광 요지의 차량 혼잡 현상을 약 20% 해소하고 체류 교통 인프라의 시간적 가용성을 극대화합니다.",
+                icon: "plane"
+            },
+            {
+                title: "경제효과: 로컬 비즈니스 체질 개선 및 골목상권 체감도 제고",
+                tagline: "해외 간편 결제 확대 및 골목 체류형 관광 인센티브 도입",
+                content1: "대형 대기업 면세점 중심의 외국인 소비 쏠림을 완화하고자 원도심 골목 상권 및 전통시장의 간편 해외 모바일 간편결제(위챗, 알리, 애플페이 등) 가맹을 대대적으로 전방위 보조합니다. 일시적 바우처 카드를 발행하여 골목 결제를 자극합니다.",
+                content2: "부산 원도심 및 소상공인의 실질 매출 증대 체감을 지원하며 진정한 소상공인 밀착형 낙수 효과가 기대됩니다.",
+                icon: "coins"
+            },
+            {
+                title: "관광객 쏠림: '해안 편중' 극복을 위한 공간 다변화",
+                tagline: "원도심 역사 자원 브랜딩 및 친환경 트램 기반 내륙 연결",
+                content1: "해운대·광안리 등 해안선 밀집 현상을 해결하기 위해 고유의 산복도로 정취를 즐길 수 있는 원도심 테마(친환경 모노레일, 트램 연계 등) 관광 노선을 연계하고 산악 등반 자원을 정비합니다.",
+                content2: "동-서부산 및 원도심 권역의 문화 공간 균형 성장을 자극하고 교통 및 체류 점유율 분배를 극대화합니다.",
+                icon: "mountain"
+            },
+            {
+                title: "숙박·물가: 공정 가격 정착을 위한 안심 관광 환경 조성",
+                tagline: "메가 축제 요금 안심제 및 부산 품질 인증제(Busan Quality)",
+                content1: "지속적인 대형 행사 기간의 바가지 숙박, 유흥 요금의 원스톱 시정 처리를 추진하기 위해 구군 합동 '숙박 가격 불만 신고 전담 대책반'을 운영합니다. 양심 가게에 대한 글로벌 매체 및 앱 우선 노출 혜택을 부여합니다.",
+                content2: "장기적으로 국제 수준의 신뢰받는 안전한 숙박·요금 문화 브랜드를 안착시킵니다.",
+                icon: "badge-check"
+            },
+            {
+                title: "외국인 인식 & 지역 자부심: 주민 주거환경권 보장 조례 마련",
+                tagline: "Silent Hour 가이드라인 시행 및 수익 환원제 추진",
+                content1: "밀집형 개방 관광지(감천문화마을, 영도 흰여울마을 등) 정주지 내 외국인 대상 안심 에티켓 소음 가이드를 규정하고 야간 제한 구역 시간(Silent Hour)을 지정 집행합니다. 관광 세수의 일부는 주민 공공 도로 보수에 자동 재환원합니다.",
+                content2: "오버투어리즘에 의한 소중한 원주민 이탈 현상을 방지하고, 관광 개발에 대한 지역 수용도를 극적으로 복원합니다.",
+                icon: "shield"
+            },
+            {
+                title: "대시민 설문 및 실태조사: 민관 괴리 완화 및 주민 적극적 참여 유도",
+                tagline: "정기 체감 지표 모니터링 및 리빙랩(Living Lab)을 통한 문제 해결 동참",
+                content1: "정량적 보도와 실제 주민 여론 간의 괴리율을 축소하기 위해 반기별 시민 설문조사 및 심층 표적 집단 면접(FGI)을 제도화합니다. 또한, 주민들이 직접 정주 환경 제어(관광 시간 계도 및 현장 단속반 편성 등)에 참여하는 실질적 고용 연계형 해결 거버넌스를 구축합니다.",
+                content2: "시민들의 소외감을 극복하고 자발적인 정책 동참 기반의 건강한 거버넌스 생태계를 구현합니다.",
+                icon: "users"
+            }
+        ];
+
+        // 정책 상세 카드 선택 핸들러 (6개 탭 대응)
+        function selectPolicy(index) {
+            const current = policyData[index];
+            
+            // 데이터 변경
+            document.getElementById('policy-title').innerText = current.title;
+            document.getElementById('policy-tagline').innerText = current.tagline;
+            document.getElementById('policy-content-1').innerText = current.content1;
+            document.getElementById('policy-content-2').innerText = current.content2;
+            
+            // 아이콘 교체
+            const bgIcon = document.getElementById('policy-bg-icon');
+            bgIcon.setAttribute('data-lucide', current.icon);
+            lucide.createIcons();
+
+            // 액티브 클래스 상태 교체 (6개 루프)
+            for (let i = 0; i < 6; i++) {
+                const btn = document.getElementById(`policy-btn-${i}`);
+                if (i === index) {
+                    btn.className = "w-full text-left p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 transition text-sm font-semibold flex items-center justify-between";
+                } else {
+                    btn.className = "w-full text-left p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/40 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent transition text-sm font-medium flex items-center justify-between";
+                }
+            }
+        }
+
+        // 특정 영역 탭 필터링
+        function switchTab(type) {
+            const cards = document.querySelectorAll('.bento-card');
+            
+            // 헤더 버튼 상태 클래스 정비
+            const buttons = ['all', 'news', 'comments', 'policy'];
+            buttons.forEach(btn => {
+                const btnEl = document.getElementById(`tab-btn-${btn}`);
+                if (btn === type) {
+                    btnEl.className = "px-3 py-1.5 text-xs font-semibold rounded-md transition bg-blue-600 text-white";
+                } else {
+                    btnEl.className = "px-3 py-1.5 text-xs font-semibold rounded-md transition text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white";
+                }
+            });
+
+            // 각 카드별 필터링 애니메이션 처리
+            cards.forEach(card => {
+                if (type === 'all') {
+                    card.style.display = 'flex';
+                    setTimeout(() => card.style.opacity = '1', 50);
+                } else if (type === 'news') {
+                    if (card.classList.contains('section-news')) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                } else if (type === 'comments') {
+                    if (card.classList.contains('section-comments')) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                } else if (type === 'policy') {
+                    if (card.classList.contains('section-policy')) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // 클립보드 복사 전담 핸들러 (iframe 제한 대비 execCommand 조치)
+        function copyText(type) {
+            const statusText = document.getElementById('copy-status');
+            let content = "";
+            
+            if (type === 'report') {
+                content = `[부산 외국인 관광 뉴스 댓글 분석 보고서]
+1. 경제효과 괴리: 대중은 성장이 고환율 효과에 불과하다고 보며, 실제 부산 경제 체감 효과는 크지 않다고 응답.
+2. 교통 인프라 마비 우려: 김해공항 수용 한계 및 주요 크루즈 터미널 배후 교통 부족 지적.
+3. 정주여건 훼손: "관광하긴 좋으나 살기 힘든 도시" 피로감 토로.
+4. 인식 괴리율 해결 방안: 대시민 실태조사(정기 설문 및 FGI)를 통해 데이터 신뢰성을 회복하고 민관 소통창구를 개설할 것을 제안.`;
+            } else {
+                content = `[부산 상생 관광 정책 제안서 세부 요약]
+- 교통: 김해공항 수하물 도심 연계 배송 서비스(Lugg-Up) 및 크루즈 연계 버스 증편.
+- 상권: 해외 간편결제 연계 인프라 지원 및 모바일 온누리 바우처 지급.
+- 쏠림: 원도심 산복도로 친환경 산악 교통 설치 및 도심 역사 자원 브랜딩.
+- 조사 및 시민 동참: '부산 시민 관광 수용도 정기 설문조사' 시행 및 시민 밀착형 해결 리빙랩 가동.`;
+            }
+
+            // 임시 엘리먼트 생성 및 복사 처리
+            const textarea = document.createElement('textarea');
+            textarea.value = content;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                statusText.innerText = "✓ 성공적으로 복사되었습니다!";
+                statusText.className = "text-[10px] text-green-600 dark:text-green-400 text-center font-bold";
+            } catch (err) {
+                statusText.innerText = "복사 실패. 브라우저 보안 설정을 확인해 주세요.";
+                statusText.className = "text-[10px] text-red-500 dark:text-red-400 text-center";
+            }
+            
+            document.body.removeChild(textarea);
+
+            setTimeout(() => {
+                statusText.innerText = "클릭 시 클립보드에 바로 복사됩니다.";
+                statusText.className = "text-[10px] text-emerald-600 dark:text-emerald-400 text-center";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
