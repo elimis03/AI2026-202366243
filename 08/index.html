@@ -5,41 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Busan Local-Global Bridge</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --color-canvas: #0a0d3a;
+            --color-primary: #5865f2;
+            --color-green: #35ed7e;
+            --color-magenta: #ec48bd;
+            --color-surface-indigo: #1e2353;
+            --color-surface-onyx: #23272a;
+            --color-surface-black: #000000;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-canvas);
+            color: #ffffff;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 디스코드 그라디언트 및 벤토 카드 디자인 */
+        .bento-card {
+            background-color: var(--color-surface-indigo);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discordCanvas: '#0a0d3a',
+                        discordPrimary: '#5865f2',
+                        discordGreen: '#35ed7e',
+                        discordMagenta: '#ec48bd',
+                        discordSurface: '#1e2353',
+                        discordOnyx: '#23272a',
+                    },
+                    borderRadius: {
+                        'xs': '6px',
+                        'sm': '12px',
+                        'md': '14px',
+                        'lg': '16px',
+                        'xl': '24px',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="antialiased pb-20">
+
+    <!-- 백그라운드 그라디언트 메시 -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none opacity-40 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-discordPrimary blur-[130px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-discordMagenta blur-[130px]"></div>
+    </div>
 
     <!-- 내비게이션 -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="fixed w-full z-50 bg-[#0a0d3aff]/80 backdrop-blur-md border-b border-discordOnyx">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center space-x-4">
                     <!-- 외부 홈 이동 버튼 -->
-                    <a href="https://elimis03.github.io/AI2026-202366243/" class="p-2 hover:bg-gray-100 rounded-full transition" title="홈으로 이동">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    <a href="https://elimis03.github.io/AI2026-202366243/" class="w-10 h-10 rounded-sm bg-discordSurface hover:bg-discordPrimary text-white transition-all flex items-center justify-center border border-white/5" title="홈으로 이동">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discordPrimary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
                     </a>
-                    <div class="font-bold text-xl text-blue-700 tracking-tight">
+                    <div class="font-extrabold text-xl tracking-tight uppercase font-display text-white">
                         BUSAN BRIDGE
                     </div>
                 </div>
                 
                 <div class="flex items-center space-x-6">
-                    <div class="hidden md:flex items-baseline space-x-8">
-                        <a href="#hero" class="hover:text-blue-600 px-3 py-2 font-medium">홈</a>
-                        <a href="#programs" class="hover:text-blue-600 px-3 py-2 font-medium">프로그램</a>
-                        <a href="#insights" class="hover:text-blue-600 px-3 py-2 font-medium">데이터 인사이트</a>
+                    <div class="hidden md:flex items-baseline space-x-6">
+                        <a href="#hero" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-semibold uppercase tracking-wider transition-colors">홈</a>
+                        <a href="#programs" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-semibold uppercase tracking-wider transition-colors">프로그램</a>
+                        <a href="#insights" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-semibold uppercase tracking-wider transition-colors">데이터 인사이트</a>
                     </div>
-                    <!-- 콘텐츠 기획서 다운로드 버튼 -->
-                    <a href="../08/부산 관광 콘텐츠 기획서.pdf" download class="bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-800 transition">
+                    <!-- 콘텐츠 기획서 다운로드 버튼 (button-green) -->
+                    <a href="../08/부산 관광 콘텐츠 기획서.pdf" download class="bg-discordGreen hover:bg-discordGreen/90 text-discordOnyx px-5 py-2.5 rounded-sm text-xs font-extrabold uppercase tracking-wider border border-discordGreen/20 transition-all shadow-lg">
                         기획서 다운로드
                     </a>
                 </div>
@@ -48,34 +119,41 @@
     </nav>
 
     <!-- 히어로 섹션 -->
-    <section id="hero" class="pt-32 pb-20 gradient-bg text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                도시와 해변, <br>로컬과 글로벌을 잇다
-            </h1>
-            <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
-                해운대를 넘어 서면의 활력까지, <br>데이터가 증명하는 부산의 진짜 매력을 경험하십시오.
-            </p>
-            <div class="flex justify-center space-x-4">
-                <a href="#programs" class="bg-white text-blue-700 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">프로그램 보기</a>
-                <a href="../08/부산 관광 콘텐츠 기획서.pdf" download class="border border-white/50 px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition">PDF 다운로드</a>
-            </div>
+    <section id="hero" class="pt-32 pb-24 text-center max-w-5xl mx-auto flex flex-col items-center px-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-discordPrimary/10 border border-discordPrimary/20 mb-6">
+            <span class="text-xs font-bold uppercase tracking-widest text-discordPrimary">Busan Tourism Innovation</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-[1.05] tracking-tight uppercase font-display text-white">
+            도시와 해변, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-discordPrimary via-purple-400 to-discordMagenta">로컬과 글로벌을 잇다</span>
+        </h1>
+        <p class="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+            해운대를 넘어 서면의 활력까지, <br>데이터가 증명하는 부산의 진짜 매력을 경험하십시오.
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="#programs" class="bg-discordPrimary hover:bg-discordPrimary/90 text-white px-8 py-3.5 rounded-sm font-extrabold uppercase tracking-wider text-xs border border-white/5 transition-all shadow-xl">프로그램 보기</a>
+            <a href="../08/부산 관광 콘텐츠 기획서.pdf" download class="bg-discordSurface hover:bg-discordSurface/80 text-white px-8 py-3.5 rounded-sm font-extrabold uppercase tracking-wider text-xs border border-white/5 transition-all shadow-xl">PDF 다운로드</a>
         </div>
     </section>
 
-    <!-- 핵심 타겟 섹션 -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-12">
-                <div class="p-8 rounded-2xl bg-blue-50 border border-blue-100">
-                    <h3 class="text-2xl font-bold text-blue-800 mb-4">Global Explorer</h3>
-                    <p class="text-gray-700 leading-relaxed">
+    <!-- 핵심 타겟 섹션 (Bento Row 1) -->
+    <section class="py-12 max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Global Explorer -->
+            <div class="bento-card p-8 flex flex-col justify-between border-t-4 border-t-discordPrimary">
+                <div>
+                    <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2 font-display">Target Audience 01</span>
+                    <h3 class="text-2xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">Global Explorer</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed font-medium">
                         초고층 스카이라인과 자연 해변이 어우러진 시각적 압도감을 선호하는 서양권 관광객을 위한 큐레이션.
                     </p>
                 </div>
-                <div class="p-8 rounded-2xl bg-indigo-50 border border-indigo-100">
-                    <h3 class="text-2xl font-bold text-indigo-800 mb-4">Local Seeker</h3>
-                    <p class="text-gray-700 leading-relaxed">
+            </div>
+            <!-- Local Seeker -->
+            <div class="bento-card p-8 flex flex-col justify-between border-t-4 border-t-discordMagenta">
+                <div>
+                    <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2 font-display">Target Audience 02</span>
+                    <h3 class="text-2xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">Local Seeker</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed font-medium">
                         트렌디한 상권과 한국인의 실제 일상을 체험하고자 하는 아시아권 관광객 및 MZ세대를 위한 로컬 루트.
                     </p>
                 </div>
@@ -83,102 +161,131 @@
         </div>
     </section>
 
-    <!-- 프로그램 탭 섹션 -->
-    <section id="programs" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">관광 콘텐츠 프로그램</h2>
+    <!-- 프로그램 탭 섹션 (Bento Row 2) -->
+    <section id="programs" class="py-12 max-w-7xl mx-auto px-6">
+        <div class="bento-card p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-discordPrimary/5 rounded-full blur-[80px] pointer-events-none"></div>
             
-            <div class="flex justify-center mb-8 space-x-2 bg-gray-200 p-1 rounded-xl max-w-md mx-auto">
-                <button onclick="showTab('tab-a')" id="btn-tab-a" class="tab-btn flex-1 py-2 px-4 rounded-lg font-medium transition bg-white shadow-sm text-blue-700">로컬 커넥트</button>
-                <button onclick="showTab('tab-b')" id="btn-tab-b" class="tab-btn flex-1 py-2 px-4 rounded-lg font-medium transition text-gray-600">미식 로드</button>
-                <button onclick="showTab('tab-c')" id="btn-tab-c" class="tab-btn flex-1 py-2 px-4 rounded-lg font-medium transition text-gray-600">듀얼 뷰</button>
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest font-display">Curation Portfolios</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1 mb-8 font-display uppercase tracking-tight">관광 콘텐츠 프로그램</h2>
+            </div>
+            
+            <!-- 탭 전환 컨트롤 바 (디스코드 서버 선택 구조) -->
+            <div class="flex justify-center mb-10 space-x-1.5 bg-discordBlack/40 p-1.5 rounded-lg max-w-md mx-auto border border-white/5">
+                <button onclick="showTab('tab-a')" id="btn-tab-a" class="tab-btn flex-1 py-2 px-4 rounded-md font-bold text-xs uppercase tracking-wider transition-all bg-discordPrimary text-white shadow-md">로컬 커넥트</button>
+                <button onclick="showTab('tab-b')" id="btn-tab-b" class="tab-btn flex-1 py-2 px-4 rounded-md font-bold text-xs uppercase tracking-wider transition-all text-slate-400">미식 로드</button>
+                <button onclick="showTab('tab-c')" id="btn-tab-c" class="tab-btn flex-1 py-2 px-4 rounded-md font-bold text-xs uppercase tracking-wider transition-all text-slate-400">듀얼 뷰</button>
             </div>
 
             <!-- Tab A -->
-            <div id="tab-a" class="tab-content active bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <div class="grid md:grid-cols-2 gap-10 items-center">
-                    <div>
-                        <span class="text-blue-600 font-bold tracking-widest text-sm uppercase">Program A</span>
-                        <h3 class="text-3xl font-bold mt-2 mb-4">'진짜 부산' 로컬 커넥트 투어</h3>
-                        <p class="text-gray-600 mb-6">서면·전포 지역의 로컬 에너지를 직접 체험하는 워킹 투어입니다. 관광객 밀집 지역이 아닌, 현지인이 가장 많이 모이는 시간대의 활력을 느껴보십시오.</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 서면 젊음의 거리 야간 투어</li>
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 전포 카페거리 로컬 미식 체험</li>
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 부전시장 전통 활력 조망</li>
+            <div id="tab-a" class="tab-content active">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 flex flex-col justify-between h-full">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2 font-display">Program Option A</span>
+                            <h3 class="text-3xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">'진짜 부산' 로컬 커넥트 투어</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed font-medium mb-6">서면·전포 지역의 로컬 에너지를 직접 체험하는 워킹 투어입니다. 관광객 밀집 지역이 아닌, 현지인이 가장 많이 모이는 시간대의 활력을 느껴보십시오.</p>
+                        </div>
+                        <ul class="space-y-3 mb-8 font-semibold text-xs text-slate-300">
+                            <li class="flex items-center"><span class="text-discordPrimary mr-2.5 text-sm">✔</span> 서면 젊음의 거리 야간 투어</li>
+                            <li class="flex items-center"><span class="text-discordPrimary mr-2.5 text-sm">✔</span> 전포 카페거리 로컬 미식 체험</li>
+                            <li class="flex items-center"><span class="text-discordPrimary mr-2.5 text-sm">✔</span> 부전시장 전통 활력 조망</li>
                         </ul>
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-lg h-64 bg-gray-300 flex items-center justify-center">
-                        <span class="text-gray-500 text-center px-4">서면·전포 야경 이미지<br>(데이터 기반 중심지)</span>
+                    <div class="lg:col-span-5 rounded-xl border border-white/5 h-64 bg-discordBlack/50 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-discordPrimary mb-2">📸</span>
+                        <span class="text-xs font-bold text-white uppercase tracking-wider font-display mb-1">서면·전포 야경 이미지</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">(데이터 기반 중심지)</span>
                     </div>
                 </div>
             </div>
 
             <!-- Tab B -->
-            <div id="tab-b" class="tab-content bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <div class="grid md:grid-cols-2 gap-10 items-center">
-                    <div>
-                        <span class="text-blue-600 font-bold tracking-widest text-sm uppercase">Program B</span>
-                        <h3 class="text-3xl font-bold mt-2 mb-4">부산 뉴-미식 로드</h3>
-                        <p class="text-gray-600 mb-6">전통적인 메뉴를 넘어 현재 부산에서 가장 고평가받는 다이닝을 선별했습니다. 로컬 푸드와 현대적 감각의 페어링을 즐겨보십시오.</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 진화된 돼지국밥 & 밀면 큐레이션</li>
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 전통주 및 수제맥주 페어링 서비스</li>
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 다국어 대기 예약 시스템 지원</li>
+            <div id="tab-b" class="tab-content">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 flex flex-col justify-between h-full">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2 font-display">Program Option B</span>
+                            <h3 class="text-3xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">부산 뉴-미식 로드</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed font-medium mb-6">전통적인 메뉴를 넘어 현재 부산에서 가장 고평가받는 다이닝을 선별했습니다. 로컬 푸드와 현대적 감각의 페어링을 즐겨보십시오.</p>
+                        </div>
+                        <ul class="space-y-3 mb-8 font-semibold text-xs text-slate-300">
+                            <li class="flex items-center"><span class="text-discordMagenta mr-2.5 text-sm">✔</span> 진화된 돼지국밥 & 밀면 큐레이션</li>
+                            <li class="flex items-center"><span class="text-discordMagenta mr-2.5 text-sm">✔</span> 전통주 및 수제맥주 페어링 서비스</li>
+                            <li class="flex items-center"><span class="text-discordMagenta mr-2.5 text-sm">✔</span> 다국어 대기 예약 시스템 지원</li>
                         </ul>
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-lg h-64 bg-gray-300 flex items-center justify-center">
-                        <span class="text-gray-500">미식 투어 이미지</span>
+                    <div class="lg:col-span-5 rounded-xl border border-white/5 h-64 bg-discordBlack/50 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-discordMagenta mb-2">🍽️</span>
+                        <span class="text-xs font-bold text-white uppercase tracking-wider font-display mb-1">미식 투어 이미지</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">(로컬 미식 페어링 공간)</span>
                     </div>
                 </div>
             </div>
 
             <!-- Tab C -->
-            <div id="tab-c" class="tab-content bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <div class="grid md:grid-cols-2 gap-10 items-center">
-                    <div>
-                        <span class="text-blue-600 font-bold tracking-widest text-sm uppercase">Program C</span>
-                        <h3 class="text-3xl font-bold mt-2 mb-4">시티-오션 듀얼 뷰 포인트</h3>
-                        <p class="text-gray-600 mb-6">마천루의 도시미와 광활한 해안의 자연미를 동시에 담는 사진 특화 투어입니다. 시각적 가치를 극대화한 동선을 제안합니다.</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 마린시티 마천루 포토 스팟</li>
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 광안대교 야경 드라이브 코스</li>
-                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 황령산 봉수대 파노라마 조망</li>
+            <div id="tab-c" class="tab-content">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 flex flex-col justify-between h-full">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-[#35ed7e] uppercase tracking-widest block mb-2 font-display">Program Option C</span>
+                            <h3 class="text-3xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">시티-오션 듀얼 뷰 포인트</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed font-medium mb-6">마천루의 도시미와 광활한 해안의 자연미를 동시에 담는 사진 특화 투어입니다. 시각적 가치를 극대화한 동선을 제안합니다.</p>
+                        </div>
+                        <ul class="space-y-3 mb-8 font-semibold text-xs text-slate-300">
+                            <li class="flex items-center"><span class="text-discordGreen mr-2.5 text-sm">✔</span> 마린시티 마천루 포토 스팟</li>
+                            <li class="flex items-center"><span class="text-discordGreen mr-2.5 text-sm">✔</span> 광안대교 야경 드라이브 코스</li>
+                            <li class="flex items-center"><span class="text-discordGreen mr-2.5 text-sm">✔</span> 황령산 봉수대 파노라마 조망</li>
                         </ul>
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-lg h-64 bg-gray-300 flex items-center justify-center">
-                        <span class="text-gray-500">해운대 스카이라인 이미지</span>
+                    <div class="lg:col-span-5 rounded-xl border border-white/5 h-64 bg-discordBlack/50 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-discordGreen mb-2">🌉</span>
+                        <span class="text-xs font-bold text-white uppercase tracking-wider font-display mb-1">해운대 스카이라인 이미지</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">(마린시티 마천루 뷰 포인트)</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 인사이트 섹션 -->
-    <section id="insights" class="py-20 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-16">데이터가 증명하는 관광 지형</h2>
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">127,065명</div>
-                    <p class="text-gray-600 text-sm font-medium">서면역 저녁 시간 평균 유동인구</p>
+    <!-- 인사이트 섹션 (Bento Row 3) -->
+    <section id="insights" class="py-12 max-w-7xl mx-auto px-6">
+        <div class="space-y-8">
+            <div class="text-center">
+                <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest font-display">Demographic Data</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1 mb-3 font-display uppercase tracking-tight">데이터가 증명하는 관광 지형</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 지표 1 -->
+                <div class="bento-card p-8 flex flex-col items-center justify-center text-center">
+                    <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2 font-display">Dynamic Flow</span>
+                    <div class="text-4xl font-extrabold text-white mb-2 font-display">127,065명</div>
+                    <p class="text-xs text-slate-400 font-medium">서면역 저녁 시간 평균 유동인구</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border-t-4 border-blue-500">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">50 : 50</div>
-                    <p class="text-gray-600 text-sm font-medium">광안리 로컬 vs 관광객 비중</p>
+                <!-- 지표 2 (Vibrant Highlight 카드) -->
+                <div class="bento-card p-8 flex flex-col items-center justify-center text-center border-t-4 border-t-discordMagenta">
+                    <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2 font-display">Demographic Balance</span>
+                    <div class="text-4xl font-extrabold text-discordMagenta mb-2 font-display">50 : 50</div>
+                    <p class="text-xs text-slate-400 font-medium">광안리 로컬 vs 관광객 비중</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">1위</div>
-                    <p class="text-gray-600 text-sm font-medium">서양권 선호 도시형 해변 인프라</p>
+                <!-- 지표 3 -->
+                <div class="bento-card p-8 flex flex-col items-center justify-center text-center">
+                    <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-2 font-display">Infrastructure Rank</span>
+                    <div class="text-4xl font-extrabold text-white mb-2 font-display">1위</div>
+                    <p class="text-xs text-slate-400 font-medium">서양권 선호 도시형 해변 인프라</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 푸터 -->
-    <footer class="bg-gray-900 text-gray-400 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="mb-4 font-bold text-white uppercase tracking-widest text-sm">Busan Tourism Innovation</p>
-            <p class="text-xs">&copy; 2026 부산 관광 콘텐츠 기획팀. 모든 권리 보유.</p>
+    <footer class="mt-16 pt-12 border-t border-discordOnyx text-center text-xs opacity-75">
+        <div class="max-w-7xl mx-auto px-6 space-y-2">
+            <p class="mb-2 font-bold text-white uppercase tracking-widest text-sm font-display">Busan Tourism Innovation</p>
+            <p class="text-slate-400 font-medium">&copy; 2026 부산 관광 콘텐츠 기획팀. 모든 권리 보유.</p>
+            <p class="text-discordPrimary font-bold uppercase tracking-widest text-[9px] font-display">Engineered with Discord Design Language Standards</p>
         </div>
     </footer>
 
@@ -189,13 +296,14 @@
             });
             document.getElementById(tabId).classList.add('active');
 
+            // 탭 버튼의 디스코드 스타일 제어 (Active: discordPrimary, Inactive: transparent)
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-white', 'shadow-sm', 'text-blue-700');
-                btn.classList.add('text-gray-600');
+                btn.classList.remove('bg-discordPrimary', 'text-white', 'shadow-md');
+                btn.classList.add('text-slate-400');
             });
             const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.classList.add('bg-white', 'shadow-sm', 'text-blue-700');
-            activeBtn.classList.remove('text-gray-600');
+            activeBtn.classList.add('bg-discordPrimary', 'text-white', 'shadow-md');
+            activeBtn.classList.remove('text-slate-400');
         }
     </script>
 </body>
