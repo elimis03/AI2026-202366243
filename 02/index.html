@@ -7,25 +7,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         
+        :root {
+            --color-canvas: #0a0d3a;
+            --color-primary: #5865f2;
+            --color-green: #35ed7e;
+            --color-magenta: #ec48bd;
+            --color-surface-indigo: #1e2353;
+            --color-surface-onyx: #23272a;
+            --color-surface-black: #000000;
+        }
+
         body {
-            font-family: 'Pretendard', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             transition: background-color 0.3s, color 0.3s;
+            background-color: var(--color-canvas);
+            color: #ffffff;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* 디스코드 그라디언트 애니메이션 효과 */
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #311b92 50%, var(--color-magenta) 100%);
         }
 
         .tab-active {
-            color: #2563eb;
-            border-bottom: 2px solid #2563eb;
-        }
-
-        .dark .tab-active {
-            color: #60a5fa;
-            border-bottom: 2px solid #60a5fa;
+            background-color: var(--color-primary);
+            color: #ffffff !important;
         }
 
         .matryoshka-container div {
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .matryoshka-container div:hover {
@@ -37,20 +54,26 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Dark mode custom background */
-        .dark body {
-            background-color: #020617;
-            color: #f8fafc;
+        /* 라이트 모드 컬러셋 재정의 */
+        .light {
+            --color-canvas: #f4f5f9;
+            --color-surface-indigo: #ffffff;
+            --color-surface-onyx: #e3e5e8;
+            --color-surface-black: #f2f3f5;
+        }
+        .light body {
+            background-color: var(--color-canvas);
+            color: #23272a;
         }
 
-        /* Modal specific styles */
+        /* 모달 스타일 */
         .modal-overlay {
             display: none;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
         }
         .modal-overlay.active {
             display: flex;
@@ -62,321 +85,465 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#020617',
+                        discordCanvas: '#0a0d3a',
+                        discordPrimary: '#5865f2',
+                        discordGreen: '#35ed7e',
+                        discordMagenta: '#ec48bd',
+                        discordSurface: '#1e2353',
+                        discordOnyx: '#23272a',
+                        discordBlack: '#000000',
+                    },
+                    borderRadius: {
+                        'xs': '6px',
+                        'sm': '12px',
+                        'md': '14px',
+                        'lg': '16px',
+                        'xl': '40px',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="dark overflow-x-hidden min-h-screen pb-12">
 
-    <!-- 네비게이션 -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <!-- 홈 버튼 추가 -->
-            <a href="../index.html" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400" title="홈으로 이동">
-                <i data-lucide="home" size="20"></i>
-            </a>
-            <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
-                <i data-lucide="brain" class="text-blue-600 dark:text-blue-400"></i>
-                <span>AI 이해하기</span>
+    <!-- 백그라운드 그라디언트 메시 (디스코드 감성 연출) -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none opacity-40 dark:opacity-60 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-discordPrimary blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-discordMagenta blur-[120px]"></div>
+    </div>
+
+    <!-- 네비게이션 (nav-bar) -->
+    <nav class="sticky top-0 z-50 bg-[#0a0d3aff]/80 dark:bg-[#0a0d3aff]/80 light:bg-white/80 backdrop-blur-md border-b border-discordOnyx/30 dark:border-discordOnyx/30 light:border-slate-200 px-6 py-4 transition-all">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <!-- 홈 버튼 -->
+                <a href="../index.html" class="p-3 rounded-lg bg-discordSurface hover:bg-discordPrimary text-white transition-colors flex items-center justify-center border border-white/5" title="홈으로 이동">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                </a>
+                <div class="flex items-center gap-2 font-extrabold text-xl tracking-tight uppercase text-white light:text-slate-900">
+                    <i data-lucide="brain" class="text-discordPrimary"></i>
+                    <span class="font-display">AI 이해하기</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="hidden md:flex items-center gap-6">
-            <button onclick="switchTab('hierarchy')" id="btn-hierarchy" class="tab-btn text-sm font-medium tab-active pb-1 transition-all">AI 계층 구조</button>
-            <button onclick="switchTab('history')" id="btn-history" class="tab-btn text-sm font-medium pb-1 transition-all hover:text-blue-500">진화의 역사</button>
-            <button onclick="switchTab('generative')" id="btn-generative" class="tab-btn text-sm font-medium pb-1 transition-all hover:text-blue-500">생성형 패러다임</button>
-            <button onclick="switchTab('future')" id="btn-future" class="tab-btn text-sm font-medium pb-1 transition-all hover:text-blue-500">미래와 과제</button>
-        </div>
+            
+            <div class="hidden md:flex items-center bg-discordBlack/40 dark:bg-discordBlack/40 light:bg-slate-200/50 p-1.5 rounded-lg border border-white/5">
+                <button onclick="switchTab('hierarchy')" id="btn-hierarchy" class="tab-btn text-sm font-bold tab-active px-4 py-2 rounded-md text-white/80 hover:text-white transition-all">AI 계층 구조</button>
+                <button onclick="switchTab('history')" id="btn-history" class="tab-btn text-sm font-bold px-4 py-2 rounded-md text-slate-400 hover:text-white transition-all">진화의 역사</button>
+                <button onclick="switchTab('generative')" id="btn-generative" class="tab-btn text-sm font-bold px-4 py-2 rounded-md text-slate-400 hover:text-white transition-all">생성형 패러다임</button>
+                <button onclick="switchTab('future')" id="btn-future" class="tab-btn text-sm font-bold px-4 py-2 rounded-md text-slate-400 hover:text-white transition-all">미래와 과제</button>
+            </div>
 
-        <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-            <i data-lucide="sun" id="sun-icon" class="hidden"></i>
-            <i data-lucide="moon" id="moon-icon"></i>
-        </button>
+            <button onclick="toggleDarkMode()" class="p-3 rounded-full bg-discordSurface hover:bg-discordPrimary text-white transition-all border border-white/5">
+                <i data-lucide="sun" id="sun-icon" class="hidden w-5 h-5"></i>
+                <i data-lucide="moon" id="moon-icon" class="w-5 h-5"></i>
+            </button>
+        </div>
     </nav>
 
-    <!-- 히어로 섹션 -->
-    <header class="px-6 py-16 md:py-24 text-center max-w-4xl mx-auto">
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+    <!-- 히어로 섹션 (hero) -->
+    <header class="px-6 py-16 md:py-28 text-center max-w-5xl mx-auto flex flex-col items-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-discordMagenta/10 border border-discordMagenta/20 mb-6">
+            <span class="w-2.5 h-2.5 rounded-full bg-discordMagenta animate-pulse"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-discordMagenta">Interactive Deep Dive</span>
+        </div>
+        <h1 class="text-4xl md:text-7xl font-extrabold mb-6 leading-[1.05] uppercase tracking-tight text-white light:text-slate-900 font-display">
             튜링의 꿈에서<br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">생성형 패러다임</span>까지
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-discordPrimary via-purple-400 to-discordMagenta">생성형 패러다임</span>까지
         </h1>
-        <p class="text-lg text-slate-600 dark:text-slate-400">
+        <p class="text-lg md:text-xl text-slate-300 light:text-slate-600 max-w-2xl leading-relaxed">
             인공지능의 역사적 진화와 기술적 메커니즘을 누구나 이해하기 쉽게 풀어낸 인터랙티브 가이드입니다.
         </p>
     </header>
 
     <!-- 메인 콘텐츠 -->
-    <main class="max-w-6xl mx-auto px-6 pb-24">
+    <main class="max-w-7xl mx-auto px-6 pb-24">
         
         <!-- 1. 계층 구조 섹션 -->
-        <section id="section-hierarchy" class="tab-content fade-in space-y-12">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="matryoshka-container relative aspect-square flex items-center justify-center">
-                    <!-- 마트료시카 시각화 -->
-                    <div class="w-full h-full border-2 border-dashed border-blue-400/30 rounded-full flex items-center justify-center p-8">
-                        <div class="w-full h-full bg-blue-100 dark:bg-blue-900/20 rounded-full border-2 border-blue-500 flex items-center justify-center p-8 relative">
-                            <span class="absolute top-1 md:top-3 font-bold text-blue-600 dark:text-blue-400">인공지능 (AI)</span>
-                            <div class="w-full h-full bg-indigo-200 dark:bg-indigo-900/30 rounded-full border-2 border-indigo-500 flex items-center justify-center p-8 relative">
-                                <span class="absolute top-1 md:top-3 font-bold text-indigo-600 dark:text-indigo-400 text-sm md:text-base">머신러닝 (ML)</span>
-                                <div class="w-full h-full bg-purple-200 dark:bg-purple-900/40 rounded-full border-2 border-purple-500 flex items-center justify-center flex-col text-center">
-                                    <span class="font-bold text-purple-600 dark:text-purple-400 text-sm md:text-base">딥러닝 (DL)</span>
-                                    <span class="text-[10px] md:text-xs opacity-70">인공신경망 기반</span>
+        <section id="section-hierarchy" class="tab-content fade-in space-y-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- 벤토 카드 1 (마트료시카 시각화) -->
+                <div class="lg:col-span-7 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl p-8 border border-white/5 dark:border-white/5 light:border-slate-200 flex flex-col justify-between shadow-2xl relative overflow-hidden group min-h-[450px]">
+                    <div class="absolute inset-0 bg-gradient-to-br from-discordPrimary/10 to-transparent pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <span class="text-xs font-bold text-discordPrimary uppercase tracking-wider mb-2 block">Interactive Model</span>
+                        <h3 class="text-2xl font-bold mb-6 font-display text-white light:text-slate-950">VISUALIZATION</h3>
+                    </div>
+                    
+                    <div class="matryoshka-container relative w-full max-w-[340px] aspect-square mx-auto flex items-center justify-center">
+                        <!-- 마트료시카 시각화 -->
+                        <div class="w-full h-full border-2 border-dashed border-discordPrimary/40 rounded-full flex items-center justify-center p-6 bg-discordBlack/20">
+                            <div class="w-full h-full bg-discordPrimary/10 rounded-full border-2 border-discordPrimary flex items-center justify-center p-6 relative">
+                                <span class="absolute top-2 font-bold text-discordPrimary text-xs md:text-sm uppercase tracking-wider">인공지능 (AI)</span>
+                                <div class="w-full h-full bg-discordMagenta/10 rounded-full border-2 border-discordMagenta flex items-center justify-center p-6 relative">
+                                    <span class="absolute top-2 font-bold text-discordMagenta text-[10px] md:text-xs uppercase tracking-wider">머신러닝 (ML)</span>
+                                    <div class="w-full h-full bg-discordGreen/10 rounded-full border-2 border-discordGreen flex items-center justify-center flex-col text-center">
+                                        <span class="font-bold text-discordGreen text-[10px] md:text-xs uppercase tracking-wider">딥러닝 (DL)</span>
+                                        <span class="text-[8px] md:text-[10px] text-discordGreen/80 font-semibold mt-0.5">인공신경망 기반</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold flex items-center gap-2">
-                        <i data-lucide="layers" class="text-blue-500"></i> AI 지도의 계층적 이해
-                    </h2>
-                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                        인공지능은 단순히 하나의 기술이 아닙니다. 마치 러시아 인형인 <strong>'마트료시카'</strong>처럼 계층적인 포함 관계를 가지고 있습니다.
-                    </p>
-                    <ul class="space-y-4">
-                        <li class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                            <strong class="text-blue-600 dark:text-blue-400">인공지능 (AI):</strong> 인간의 지능적 행동을 시뮬레이션하는 모든 시스템
+
+                <!-- 벤토 카드 2 (설명 리스트) -->
+                <div class="lg:col-span-5 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl p-8 border border-white/5 dark:border-white/5 light:border-slate-200 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div class="space-y-6">
+                        <h2 class="text-3xl font-extrabold flex items-center gap-3 font-display uppercase tracking-tight text-white light:text-slate-950">
+                            <i data-lucide="layers" class="text-discordPrimary"></i> AI MAP ARCHITECTURE
+                        </h2>
+                        <p class="text-slate-300 light:text-slate-600 leading-relaxed">
+                            인공지능은 단순히 하나의 기술이 아닙니다. 마치 러시아 인형인 <strong>'마트료시카'</strong>처럼 계층적인 포함 관계를 가지고 있습니다.
+                        </p>
+                    </div>
+
+                    <ul class="space-y-4 mt-8">
+                        <li class="p-4 bg-discordBlack/40 dark:bg-discordBlack/40 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:border-discordPrimary/30 transition-all">
+                            <strong class="text-discordPrimary block text-sm font-bold uppercase tracking-wider mb-1">인공지능 (AI)</strong>
+                            <span class="text-sm text-slate-300 light:text-slate-700">인간의 지능적 행동을 시뮬레이션하는 모든 시스템</span>
                         </li>
-                        <li class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                            <strong class="text-indigo-600 dark:text-indigo-400">머신러닝 (ML):</strong> 명시적 프로그래밍 없이 데이터에서 패턴을 학습
+                        <li class="p-4 bg-discordBlack/40 dark:bg-discordBlack/40 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:border-discordMagenta/30 transition-all">
+                            <strong class="text-discordMagenta block text-sm font-bold uppercase tracking-wider mb-1">머신러닝 (ML)</strong>
+                            <span class="text-sm text-slate-300 light:text-slate-700">명시적 프로그래밍 없이 데이터에서 패턴을 학습</span>
                         </li>
-                        <li class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                            <strong class="text-purple-600 dark:text-purple-400">딥러닝 (DL):</strong> 뇌 신경망을 모방하여 비정형 데이터를 처리 (자동 특징 추출)
+                        <li class="p-4 bg-discordBlack/40 dark:bg-discordBlack/40 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:border-discordGreen/30 transition-all">
+                            <strong class="text-discordGreen block text-sm font-bold uppercase tracking-wider mb-1">딥러닝 (DL)</strong>
+                            <span class="text-sm text-slate-300 light:text-slate-700">뇌 신경망을 모방하여 비정형 데이터를 처리 (자동 특징 추출)</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- 학습 패러다임 -->
-            <div class="grid md:grid-cols-3 gap-6 pt-10">
-                <div class="p-6 bg-blue-50 dark:bg-slate-900 rounded-2xl border-t-4 border-blue-500">
-                    <h3 class="font-bold text-xl mb-3">지도 학습</h3>
-                    <p class="text-sm opacity-80 mb-4">"교사가 있는 교실"<br/>정답(Label)이 있는 데이터를 통해 입력과 출력의 관계를 학습합니다.</p>
-                    <div class="text-xs bg-blue-100 dark:bg-blue-900/40 p-2 rounded">예: 스팸 메일 분류, 숫자 인식</div>
+            <!-- 학습 패러다임 (3단 그리드 카드) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                <!-- 패러다임 카드 1 -->
+                <div class="p-6 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl border border-white/5 dark:border-white/5 light:border-slate-200 border-t-4 dark:border-t-4 light:border-t-4 border-t-discordPrimary dark:border-t-discordPrimary light:border-t-discordPrimary flex flex-col justify-between hover:scale-[1.02] transition-all">
+                    <div>
+                        <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-1">Paradigm 01</span>
+                        <h3 class="font-extrabold text-xl mb-3 font-display uppercase tracking-wider text-white light:text-slate-950">지도 학습</h3>
+                        <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed mb-6">"교사가 있는 교실"<br/>정답(Label)이 있는 데이터를 통해 입력과 출력의 관계를 학습합니다.</p>
+                    </div>
+                    <div class="text-xs bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 p-3 rounded-md text-discordPrimary font-semibold border border-discordPrimary/10">
+                        예: 스팸 메일 분류, 숫자 인식
+                    </div>
                 </div>
-                <div class="p-6 bg-indigo-50 dark:bg-slate-900 rounded-2xl border-t-4 border-indigo-500">
-                    <h3 class="font-bold text-xl mb-3">비지도 학습</h3>
-                    <p class="text-sm opacity-80 mb-4">"스스로 분류하는 탐험가"<br/>정답 없이 데이터 자체의 유사성을 찾아 군집화하거나 차원을 축소합니다.</p>
-                    <div class="text-xs bg-indigo-100 dark:bg-indigo-900/40 p-2 rounded">예: 고객 세분화, 이상 탐지</div>
+                <!-- 패러다임 카드 2 -->
+                <div class="p-6 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl border border-white/5 dark:border-white/5 light:border-slate-200 border-t-4 dark:border-t-4 light:border-t-4 border-t-discordMagenta dark:border-t-discordMagenta light:border-t-discordMagenta flex flex-col justify-between hover:scale-[1.02] transition-all">
+                    <div>
+                        <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-1">Paradigm 02</span>
+                        <h3 class="font-extrabold text-xl mb-3 font-display uppercase tracking-wider text-white light:text-slate-950">비지도 학습</h3>
+                        <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed mb-6">"스스로 분류하는 탐험가"<br/>정답 없이 데이터 자체의 유사성을 찾아 군집화하거나 차원을 축소합니다.</p>
+                    </div>
+                    <div class="text-xs bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 p-3 rounded-md text-discordMagenta font-semibold border border-discordMagenta/10">
+                        예: 고객 세분화, 이상 탐지
+                    </div>
                 </div>
-                <div class="p-6 bg-purple-50 dark:bg-slate-900 rounded-2xl border-t-4 border-purple-500">
-                    <h3 class="font-bold text-xl mb-3">강화 학습</h3>
-                    <p class="text-sm opacity-80 mb-4">"보상을 찾는 플레이어"<br/>환경과 상호작용하며 보상을 최대화하는 최적의 전략을 찾아갑니다.</p>
-                    <div class="text-xs bg-purple-100 dark:bg-purple-900/40 p-2 rounded">예: 알파고, 자율주행 전략</div>
+                <!-- 패러다임 카드 3 -->
+                <div class="p-6 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl border border-white/5 dark:border-white/5 light:border-slate-200 border-t-4 dark:border-t-4 light:border-t-4 border-t-discordGreen dark:border-t-discordGreen light:border-t-discordGreen flex flex-col justify-between hover:scale-[1.02] transition-all">
+                    <div>
+                        <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-1">Paradigm 03</span>
+                        <h3 class="font-extrabold text-xl mb-3 font-display uppercase tracking-wider text-white light:text-slate-950">강화 학습</h3>
+                        <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed mb-6">"보상을 찾는 플레이어"<br/>환경과 상호작용하며 보상을 최대화하는 최적의 전략을 찾아갑니다.</p>
+                    </div>
+                    <div class="text-xs bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 p-3 rounded-md text-discordGreen font-semibold border border-discordGreen/10">
+                        예: 알파고, 자율주행 전략
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 2. 역사 섹션 -->
         <section id="section-history" class="tab-content hidden fade-in space-y-12">
-            <div class="text-center mb-10 space-y-4">
-                <h2 class="text-3xl font-bold">AI 진화 연대기</h2>
-                <p class="opacity-70">시련과 반등을 반복해온 70년의 여정</p>
+            <div class="bg-discordSurface/40 dark:bg-discordSurface/40 light:bg-white p-8 md:p-12 rounded-xl border border-white/5 dark:border-white/5 light:border-slate-200 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-discordPrimary/10 rounded-full blur-[60px] pointer-events-none"></div>
                 
-                <!-- 인포그래픽 버튼 -->
-                <div class="flex justify-center pt-2">
-                    <button onclick="openInfographic()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-blue-500/20 active:scale-95">
-                        <i data-lucide="image" size="18"></i>
-                        인포그래픽으로 보기
-                    </button>
-                </div>
-            </div>
-
-            <div class="relative border-l-2 border-slate-200 dark:border-slate-800 ml-4 md:ml-10 pl-8 space-y-12 max-w-3xl mx-auto">
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-5 h-5 bg-blue-500 rounded-full border-4 border-white dark:border-slate-950"></div>
-                    <h3 class="text-xl font-bold">1940s-1960s: 태동기와 황금기</h3>
-                    <p class="mt-2 text-slate-600 dark:text-slate-400">
-                        <strong>1950년 튜링 테스트</strong> 제안, 1956년 다트머스 회의. 초기 챗봇 <strong>ELIZA(1961)</strong>와 최초의 자율 로봇 <strong>Shakey(1966)</strong>가 탄생하며 낙관주의가 지배했습니다.
-                    </p>
-                </div>
-
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-5 h-5 bg-slate-400 rounded-full border-4 border-white dark:border-slate-950"></div>
-                    <h3 class="text-xl font-bold">1970s-1980s: 시련과 암흑기</h3>
-                    <p class="mt-2 text-slate-600 dark:text-slate-400">
-                        연산 능력 부족으로 인한 <strong>제1차 겨울</strong>. 이후 80년대 <strong>전문가 시스템</strong>이 등장했으나 지식 습득의 병목 현상으로 다시 침체기에 진입했습니다.
-                    </p>
-                    <div class="mt-3 p-3 bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-500 text-sm">
-                        <strong>잠복기 혁신:</strong> 80년대 정립된 '오류 역전파' 이론은 훗날 딥러닝 혁명의 핵심이 됩니다.
+                <div class="text-center mb-12 space-y-4 relative z-10">
+                    <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest">Evolution Timeline</span>
+                    <h2 class="text-4xl font-extrabold font-display uppercase tracking-tight text-white light:text-slate-950">AI 진화 연대기</h2>
+                    <p class="text-slate-300 light:text-slate-600 text-sm md:text-base max-w-lg mx-auto">시련과 반등을 반복해온 70년의 여정</p>
+                    
+                    <!-- 인포그래픽 버튼 (button-primary) -->
+                    <div class="flex justify-center pt-4">
+                        <button onclick="openInfographic()" class="flex items-center gap-2.5 bg-discordPrimary hover:bg-discordPrimary/90 text-white px-6 py-3 rounded-sm font-bold transition-all shadow-lg active:scale-95 text-sm uppercase tracking-wider">
+                            <i data-lucide="image" class="w-4 h-4"></i>
+                            인포그래픽으로 보기
+                        </button>
                     </div>
                 </div>
 
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-5 h-5 bg-indigo-500 rounded-full border-4 border-white dark:border-slate-950"></div>
-                    <h3 class="text-xl font-bold">1990s-2010s: 딥러닝 혁명</h3>
-                    <p class="mt-2 text-slate-600 dark:text-slate-400">
-                        빅데이터와 GPU의 결합. <strong>1997년 딥 블루</strong>의 체스 승리, <strong>2012년 ImageNet</strong> 대회의 우승, <strong>2016년 알파고 쇼크</strong>가 대중화의 시작을 알렸습니다.
-                    </p>
-                </div>
+                <!-- 타임라인 컨테이너 -->
+                <div class="relative border-l-2 border-discordOnyx dark:border-discordOnyx light:border-slate-200 ml-4 md:ml-12 pl-8 space-y-12 max-w-4xl mx-auto">
+                    <!-- 타임라인 항목 1 -->
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-1 w-5 h-5 bg-discordPrimary rounded-full border-4 border-discordCanvas dark:border-discordCanvas light:border-white"></div>
+                        <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-1">1940s-1960s</span>
+                        <h3 class="text-xl font-extrabold font-display text-white light:text-slate-950">태동기와 황금기</h3>
+                        <p class="mt-2 text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                            <strong>1950년 튜링 테스트</strong> 제안, 1956년 다트머스 회의. 초기 챗봇 <strong>ELIZA(1961)</strong>와 최초의 자율 로봇 <strong>Shakey(1966)</strong>가 탄생하며 낙관주의가 지배했습니다.
+                        </p>
+                    </div>
 
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-5 h-5 bg-purple-600 rounded-full border-4 border-white dark:border-slate-950 shadow-[0_0_15px_rgba(147,51,234,0.5)]"></div>
-                    <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400">2020s-현재: 생성형 AI 시대</h3>
-                    <p class="mt-2 text-slate-600 dark:text-slate-400">
-                        <strong>Transformer(2017)</strong> 아키텍처의 등장. 정보를 단순히 분류하는 수준을 넘어 스스로 콘텐츠를 창작하는 파트너십의 시대로 진입했습니다.
-                    </p>
+                    <!-- 타임라인 항목 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-1 w-5 h-5 bg-slate-400 rounded-full border-4 border-discordCanvas dark:border-discordCanvas light:border-white"></div>
+                        <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block mb-1">1970s-1980s</span>
+                        <h3 class="text-xl font-extrabold font-display text-white light:text-slate-950">시련과 암흑기</h3>
+                        <p class="mt-2 text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                            연산 능력 부족으로 인한 <strong>제1차 겨울</strong>. 이후 80년대 <strong>전문가 시스템</strong>이 등장했으나 지식 습득의 병목 현상으로 다시 침체기에 진입했습니다.
+                        </p>
+                        <div class="mt-4 p-4 bg-discordMagenta/10 border-l-4 border-discordMagenta rounded-r-md text-xs leading-relaxed text-slate-200 light:text-slate-700">
+                            <strong class="text-discordMagenta block mb-1 uppercase tracking-wider text-[10px] font-extrabold">잠복기 혁신</strong>
+                            80년대 정립된 '오류 역전파' 이론은 훗날 딥러닝 혁명의 핵심이 됩니다.
+                        </div>
+                    </div>
+
+                    <!-- 타임라인 항목 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-1 w-5 h-5 bg-discordGreen rounded-full border-4 border-discordCanvas dark:border-discordCanvas light:border-white"></div>
+                        <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-1">1990s-2010s</span>
+                        <h3 class="text-xl font-extrabold font-display text-white light:text-slate-950">딥러닝 혁명</h3>
+                        <p class="mt-2 text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                            빅데이터와 GPU의 결합. <strong>1997년 딥 블루</strong>의 체스 승리, <strong>2012년 ImageNet</strong> 대회의 우승, <strong>2016년 알파고 쇼크</strong>가 대중화의 시작을 알렸습니다.
+                        </p>
+                    </div>
+
+                    <!-- 타임라인 항목 4 -->
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-1 w-5 h-5 bg-discordMagenta rounded-full border-4 border-discordCanvas dark:border-discordCanvas light:border-white animate-pulse"></div>
+                        <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-1">2020s-현재</span>
+                        <h3 class="text-xl font-extrabold font-display text-discordMagenta">생성형 AI 시대</h3>
+                        <p class="mt-2 text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                            <strong>Transformer(2017)</strong> 아키텍처의 등장. 정보를 단순히 분류하는 수준을 넘어 스스로 콘텐츠를 창작하는 파트너십의 시대로 진입했습니다.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 3. 생성형 AI 섹션 -->
-        <section id="section-generative" class="tab-content hidden fade-in space-y-12">
-            <div class="grid md:grid-cols-2 gap-10 items-center">
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold">현대 AI의 중추: Transformer</h2>
-                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                        구글이 2017년 발표한 '트랜스포머'는 모든 단어를 병렬로 처리하며 문맥을 파악합니다. 핵심 기제는 <strong>셀프 어텐션(Self-Attention)</strong>입니다.
-                    </p>
+        <section id="section-generative" class="tab-content hidden fade-in space-y-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- 벤토 카드 1 (Transformer) -->
+                <div class="lg:col-span-7 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl p-8 border border-white/5 dark:border-white/5 light:border-slate-200 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div class="space-y-6">
+                        <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest">Core Architecture</span>
+                        <h2 class="text-3xl font-extrabold font-display uppercase tracking-tight text-white light:text-slate-950">현대 AI의 중추: Transformer</h2>
+                        <p class="text-slate-300 light:text-slate-600 leading-relaxed">
+                            구글이 2017년 발표한 '트랜스포머'는 모든 단어를 병렬로 처리하며 문맥을 파악합니다. 핵심 기제는 <strong>셀프 어텐션(Self-Attention)</strong>입니다.
+                        </p>
+                    </div>
                     
-                    <div class="p-6 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                        <h4 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="lightbulb" class="text-yellow-500"></i> 어텐션(Attention)이란?</h4>
-                        <p class="text-sm leading-relaxed italic opacity-80">
+                    <div class="mt-8 p-5 bg-discordBlack/50 dark:bg-discordBlack/50 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <h4 class="font-extrabold text-sm mb-2.5 flex items-center gap-2 text-white light:text-slate-950">
+                            <i data-lucide="lightbulb" class="text-yellow-400 w-4 h-4 animate-bounce"></i> 
+                            어텐션(Attention)이란?
+                        </h4>
+                        <p class="text-xs leading-relaxed text-slate-300 light:text-slate-600 italic">
                             "문장에서 중요한 단어들에 형광펜으로 하이라이트를 치는 것과 같습니다. 주변 단어들과의 관계를 분석하여 'bank'가 금융기관인지 강둑인지 구분합니다."
                         </p>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800">
-                    <h3 class="font-bold mb-6 flex items-center gap-2"><i data-lucide="sparkles" class="text-blue-500"></i> 주요 프런티어 모델 (2025)</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-800">
-                            <div><span class="font-bold">GPT-4o</span><p class="text-[10px] opacity-60">OpenAI</p></div>
-                            <span class="text-[10px] bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">실시간 멀티모달</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-800">
-                            <div><span class="font-bold">Claude 3.5</span><p class="text-[10px] opacity-60">Anthropic</p></div>
-                            <span class="text-[10px] bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 px-2 py-1 rounded">논리/윤리 특화</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-800">
-                            <div><span class="font-bold">Gemini 1.5 Pro</span><p class="text-[10px] opacity-60">Google</p></div>
-                            <span class="text-[10px] bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded">대규모 문서 분석</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3">
-                            <div><span class="font-bold">Llama 3</span><p class="text-[10px] opacity-60">Meta</p></div>
-                            <span class="text-[10px] bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 px-2 py-1 rounded">오픈 소스 협업</span>
+                <!-- 벤토 카드 2 (프런티어 모델 목록) -->
+                <div class="lg:col-span-5 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl p-8 border border-white/5 dark:border-white/5 light:border-slate-200 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div>
+                        <h3 class="font-extrabold text-xl mb-6 flex items-center gap-2.5 font-display uppercase tracking-wider text-white light:text-slate-950">
+                            <i data-lucide="sparkles" class="text-discordPrimary"></i> 주요 프런티어 모델 (2025)
+                        </h3>
+                        <div class="space-y-3">
+                            <!-- 모델 1 -->
+                            <div class="flex justify-between items-center p-3.5 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:scale-[1.01] transition-transform">
+                                <div>
+                                    <span class="font-extrabold text-white light:text-slate-950 text-sm">GPT-4o</span>
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">OpenAI</p>
+                                </div>
+                                <span class="text-[10px] font-bold bg-discordPrimary/10 border border-discordPrimary/20 text-discordPrimary px-2.5 py-1 rounded-sm uppercase tracking-wider">실시간 멀티모달</span>
+                            </div>
+                            <!-- 모델 2 -->
+                            <div class="flex justify-between items-center p-3.5 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:scale-[1.01] transition-transform">
+                                <div>
+                                    <span class="font-extrabold text-white light:text-slate-950 text-sm">Claude 3.5</span>
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Anthropic</p>
+                                </div>
+                                <span class="text-[10px] font-bold bg-discordMagenta/10 border border-discordMagenta/20 text-discordMagenta px-2.5 py-1 rounded-sm uppercase tracking-wider">논리/윤리 특화</span>
+                            </div>
+                            <!-- 모델 3 -->
+                            <div class="flex justify-between items-center p-3.5 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:scale-[1.01] transition-transform">
+                                <div>
+                                    <span class="font-extrabold text-white light:text-slate-950 text-sm">Gemini 1.5 Pro</span>
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Google</p>
+                                </div>
+                                <span class="text-[10px] font-bold bg-discordGreen/10 border border-discordGreen/20 text-discordGreen px-2.5 py-1 rounded-sm uppercase tracking-wider">대규모 문서 분석</span>
+                            </div>
+                            <!-- 모델 4 -->
+                            <div class="flex justify-between items-center p-3.5 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 hover:scale-[1.01] transition-transform">
+                                <div>
+                                    <span class="font-extrabold text-white light:text-slate-950 text-sm">Llama 3</span>
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Meta</p>
+                                </div>
+                                <span class="text-[10px] font-bold bg-purple-500/10 border border-purple-500/20 text-purple-400 px-2.5 py-1 rounded-sm uppercase tracking-wider">오픈 소스 협업</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="p-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl text-white shadow-lg">
-                <h3 class="text-2xl font-bold mb-4">시각 콘텐츠의 혁신: Diffusion (확산 모델)</h3>
-                <p class="opacity-90 mb-6">
-                    무작위 노이즈를 단계적으로 제거하며 이미지를 복원 및 생성합니다. Sora와 같은 비디오 모델은 이 기법을 시간 축으로 확장하여 물리적으로 일관된 영상을 만들어냅니다.
-                </p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="aspect-square bg-white/20 rounded-xl flex items-center justify-center text-[10px] text-center p-2">Step 1:<br/>완전한 노이즈</div>
-                    <div class="aspect-square bg-white/30 rounded-xl flex items-center justify-center text-[10px] text-center p-2">Step 2:<br/>기초 형태 포착</div>
-                    <div class="aspect-square bg-white/40 rounded-xl flex items-center justify-center text-[10px] text-center p-2">Step 3:<br/>디테일 복구</div>
-                    <div class="aspect-square bg-white/70 rounded-xl flex items-center justify-center font-bold text-indigo-900 text-xs text-center p-2">Final:<br/>정교한 이미지</div>
+            <!-- 시각 콘텐츠 혁신 (feature-card-gradient) -->
+            <div class="bg-gradient-to-r from-discordPrimary via-[#825df0] to-discordMagenta rounded-xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden group">
+                <div class="absolute inset-0 bg-discordBlack opacity-0 group-hover:opacity-5 transition-opacity pointer-events-none"></div>
+                <div class="relative z-10 max-w-3xl">
+                    <span class="text-xs font-bold uppercase tracking-widest block mb-1.5 text-white/80">Generative Media Paradigm</span>
+                    <h3 class="text-3xl md:text-4xl font-extrabold font-display uppercase tracking-tight mb-4">시각 콘텐츠의 혁신: Diffusion (확산 모델)</h3>
+                    <p class="text-sm md:text-base opacity-90 leading-relaxed mb-8">
+                        무작위 노이즈를 단계적으로 제거하며 이미지를 복원 및 생성합니다. Sora와 같은 비디오 모델은 이 기법을 시간 축으로 확장하여 물리적으로 일관된 영상을 만들어냅니다.
+                    </p>
+                </div>
+                
+                <!-- 단계 구조 가로 그리드 -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
+                    <div class="aspect-square bg-white/10 rounded-lg border border-white/10 flex flex-col justify-between p-4 backdrop-blur-sm">
+                        <span class="text-xs font-bold opacity-60">Step 1</span>
+                        <span class="text-sm font-bold leading-snug">완전한 노이즈</span>
+                    </div>
+                    <div class="aspect-square bg-white/15 rounded-lg border border-white/10 flex flex-col justify-between p-4 backdrop-blur-sm">
+                        <span class="text-xs font-bold opacity-70">Step 2</span>
+                        <span class="text-sm font-bold leading-snug">기초 형태 포착</span>
+                    </div>
+                    <div class="aspect-square bg-white/20 rounded-lg border border-white/10 flex flex-col justify-between p-4 backdrop-blur-sm">
+                        <span class="text-xs font-bold opacity-80">Step 3</span>
+                        <span class="text-sm font-bold leading-snug">디테일 복구</span>
+                    </div>
+                    <div class="aspect-square bg-discordGreen text-discordBlack rounded-lg flex flex-col justify-between p-4 shadow-lg border border-discordGreen/20">
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-discordBlack/60">Final</span>
+                        <span class="text-sm font-extrabold leading-snug">정교한 이미지</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 4. 미래 섹션 -->
-        <section id="section-future" class="tab-content hidden fade-in space-y-12">
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold">기술적 과제와 해결책</h2>
-                    <div class="space-y-4">
-                        <div class="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-red-100 dark:border-red-900/30">
-                            <h4 class="text-red-600 dark:text-red-400 font-bold flex items-center gap-2 mb-2">
-                                <i data-lucide="alert-circle" size="18"></i> 할루시네이션 (환각)
+        <section id="section-future" class="tab-content hidden fade-in space-y-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- 벤토 카드 1 (기술적 과제 및 해결책) -->
+                <div class="lg:col-span-7 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl p-8 border border-white/5 dark:border-white/5 light:border-slate-200 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div class="space-y-6">
+                        <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest">Challenges & Guardrails</span>
+                        <h2 class="text-3xl font-extrabold font-display uppercase tracking-tight text-white light:text-slate-950">기술적 과제와 해결책</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                        <div class="p-5 bg-discordBlack/40 dark:bg-discordBlack/40 light:bg-slate-100 rounded-lg border border-red-500/10 hover:border-red-500/20 transition-all">
+                            <h4 class="text-red-400 font-extrabold flex items-center gap-2 mb-2 text-sm uppercase tracking-wider">
+                                <i data-lucide="alert-circle" class="w-4.5 h-4.5"></i> 할루시네이션 (환각)
                             </h4>
-                            <p class="text-sm opacity-80 leading-relaxed">AI가 확률적으로 그럴듯한 거짓 답변을 생성하는 문제. 해결을 위해 <strong>RAG(검색 증강 생성)</strong>와 <strong>RLHF(인간 피드백 강화 학습)</strong>를 활용합니다.</p>
+                            <p class="text-xs text-slate-300 light:text-slate-600 leading-relaxed">AI가 확률적으로 그럴듯한 거짓 답변을 생성하는 문제. 해결을 위해 <strong>RAG(검색 증강 생성)</strong>와 <strong>RLHF(인간 피드백 강화 학습)</strong>를 활용합니다.</p>
                         </div>
-                        <div class="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                            <h4 class="font-bold flex items-center gap-2 mb-2 text-blue-600">
-                                <i data-lucide="check-circle" size="18"></i> 제도적 안전망 (EU AI Act)
+                        <div class="p-5 bg-discordBlack/40 dark:bg-discordBlack/40 light:bg-slate-100 rounded-lg border border-discordPrimary/10 hover:border-discordPrimary/20 transition-all">
+                            <h4 class="text-discordPrimary font-extrabold flex items-center gap-2 mb-2 text-sm uppercase tracking-wider">
+                                <i data-lucide="check-circle" class="w-4.5 h-4.5"></i> 제도적 안전망 (EU AI Act)
                             </h4>
-                            <p class="text-sm opacity-80">위험 수준에 따라 등급화하여 관리하며, 투명성과 저작권 준수를 법제화하는 세계 최초의 AI 규제 체계입니다.</p>
+                            <p class="text-xs text-slate-300 light:text-slate-600 leading-relaxed">위험 수준에 따라 등급화하여 관리하며, 투명성과 저작권 준수를 법제화하는 세계 최초의 AI 규제 체계입니다.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold italic text-blue-600">Toward AGI</h2>
-                    <p class="text-slate-600 dark:text-slate-400">
-                        미래의 AI는 자율적으로 계획하고 실행하는 <strong>에이전틱 AI</strong>를 거쳐, 모든 지적 영역에서 인간과 대등한 <strong>인공 일반 지능(AGI)</strong>을 향해 나아가고 있습니다.
-                    </p>
+                <!-- 벤토 카드 2 (AGI 도래 예상) -->
+                <div class="lg:col-span-5 bg-discordSurface/50 dark:bg-discordSurface/50 light:bg-white rounded-xl p-8 border border-white/5 dark:border-white/5 light:border-slate-200 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-discordMagenta uppercase tracking-widest">Next Horizon</span>
+                        <h2 class="text-3xl font-extrabold italic text-discordPrimary font-display">TOWARD AGI</h2>
+                        <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                            미래의 AI는 자율적으로 계획하고 실행하는 <strong>에이전틱 AI</strong>를 거쳐, 모든 지적 영역에서 인간과 대등한 <strong>인공 일반 지능(AGI)</strong>을 향해 나아가고 있습니다.
+                        </p>
+                    </div>
                     
-                    <div class="bg-slate-100 dark:bg-slate-900 p-6 rounded-2xl">
-                        <h4 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="rocket" size="18"></i> AGI 도래 예상 시점</h4>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                                <span>Anthropic (Dario Amodei)</span>
-                                <span class="font-bold">2027년 전후</span>
+                    <div class="bg-discordBlack/50 dark:bg-discordBlack/50 light:bg-slate-100 p-5 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200 mt-6">
+                        <h4 class="font-extrabold text-xs text-white light:text-slate-950 mb-3.5 flex items-center gap-2 uppercase tracking-wider">
+                            <i data-lucide="rocket" class="text-discordMagenta w-4.5 h-4.5"></i> AGI 도래 예상 시점
+                        </h4>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between border-b border-white/5 dark:border-white/5 light:border-slate-200 pb-2">
+                                <span class="text-slate-400">Anthropic (Dario Amodei)</span>
+                                <span class="font-extrabold text-white light:text-slate-950">2027년 전후</span>
                             </div>
-                            <div class="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                                <span>DeepMind (Demis Hassabis)</span>
-                                <span class="font-bold">2030년대 중반</span>
+                            <div class="flex justify-between border-b border-white/5 dark:border-white/5 light:border-slate-200 pb-2">
+                                <span class="text-slate-400">DeepMind (Demis Hassabis)</span>
+                                <span class="font-extrabold text-white light:text-slate-950">2030년대 중반</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>AI 전문가 그룹 (평균)</span>
-                                <span class="font-bold">2040년대</span>
+                                <span class="text-slate-400">AI 전문가 그룹 (평균)</span>
+                                <span class="font-extrabold text-white light:text-slate-950">2040년대</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-20 text-center p-12 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-[3rem]">
-                <h3 class="text-2xl font-bold mb-4">"인간의 새로운 역할: 오케스트레이터"</h3>
-                <p class="max-w-2xl mx-auto opacity-70 leading-relaxed mb-8">
-                    인공지능이 인간을 대체할 것이라는 공포를 넘어, 이제는 AI라는 강력한 도구를 목적에 맞게 지휘하는 <strong>오케스트레이션(Orchestration)</strong> 능력이 곧 미래의 생존 전략이자 핵심 경쟁력이 될 것입니다.
-                </p>
+            <!-- 하단 빅 카드 (cta-band) -->
+            <div class="mt-12 text-center p-8 md:p-16 bg-discordSurface/30 dark:bg-discordSurface/30 light:bg-white rounded-xl border-2 border-dashed border-discordOnyx dark:border-discordOnyx light:border-slate-200 relative overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-tr from-discordPrimary/5 to-discordMagenta/5 pointer-events-none"></div>
+                <div class="relative z-10 max-w-3xl mx-auto">
+                    <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2">Orchestration Perspective</span>
+                    <h3 class="text-2xl md:text-4xl font-extrabold mb-4 font-display uppercase tracking-tight text-white light:text-slate-950">"인간의 새로운 역할: 오케스트레이터"</h3>
+                    <p class="max-w-2xl mx-auto text-sm md:text-base text-slate-300 light:text-slate-600 leading-relaxed mb-8">
+                        인공지능이 인간을 대체할 것이라는 공포를 넘어, 이제는 AI라는 강력한 도구를 목적에 맞게 지휘하는 <strong>오케스트레이션(Orchestration)</strong> 능력이 곧 미래의 생존 전략이자 핵심 경쟁력이 될 것입니다.
+                    </p>
 
-                <!-- 버튼 그룹 (지금 시작하기, 다운로드, 동영상) -->
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button class="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-xl hover:shadow-blue-500/20 active:scale-95 group">
-                        지금 시작하기
-                        <i data-lucide="arrow-right" size="20" class="group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                    <a href="AI_03.pdf" download="AI_03.pdf" class="flex items-center gap-2 bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 dark:hover:bg-slate-600 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-xl hover:shadow-slate-500/20 active:scale-95">
-                        <i data-lucide="download" size="20"></i>
-                        학습 슬라이드 다운로드
-                    </a>
-                    <button onclick="openVideo()" class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-95">
-                        <i data-lucide="play-circle" size="20" class="text-blue-600"></i>
-                        동영상 보기
-                    </button>
+                    <!-- 버튼 그룹 -->
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <!-- 그린 버튼 (고가치 액션 / button-green) -->
+                        <button class="flex items-center gap-2 bg-discordGreen hover:bg-discordGreen/90 text-discordBlack px-8 py-3.5 rounded-sm font-extrabold transition-all shadow-xl active:scale-95 group text-sm uppercase tracking-wider border border-discordGreen/20">
+                            지금 시작하기
+                            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                        <!-- 블러플 버튼 (메인 액션 / button-primary) -->
+                        <a href="AI_03.pdf" download="AI_03.pdf" class="flex items-center gap-2 bg-discordPrimary hover:bg-discordPrimary/90 text-white px-8 py-3.5 rounded-sm font-extrabold transition-all shadow-xl active:scale-95 text-sm uppercase tracking-wider border border-white/5">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                            학습 슬라이드 다운로드
+                        </a>
+                        <!-- 고스트 형태의 다크 버튼 (부차 액션 / button-ghost) -->
+                        <button onclick="openVideo()" class="flex items-center gap-2 bg-discordBlack/50 hover:bg-discordBlack text-white border border-white/10 px-8 py-3.5 rounded-sm font-extrabold transition-all shadow-sm active:scale-95 text-sm uppercase tracking-wider">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-discordPrimary"></i>
+                            동영상 보기
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- 인포그래픽 모달 -->
-    <div id="infographic-modal" class="modal-overlay fixed inset-0 z-[100] bg-slate-950/90 hidden flex-col items-center justify-center p-4 md:p-10" onclick="closeInfographic()">
-        <button class="absolute top-6 right-6 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
-            <i data-lucide="x" size="24"></i>
+    <!-- 인포그래픽 모달 (ex-modal-card) -->
+    <div id="infographic-modal" class="modal-overlay fixed inset-0 z-[100] bg-discordBlack/95 hidden flex-col items-center justify-center p-4 md:p-10" onclick="closeInfographic()">
+        <button class="absolute top-6 right-6 text-white bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors border border-white/5">
+            <i data-lucide="x" class="w-6 h-6"></i>
         </button>
-        <div class="relative w-full max-w-5xl max-h-[90vh] overflow-auto rounded-xl shadow-2xl" onclick="event.stopPropagation()">
+        <div class="relative w-full max-w-5xl max-h-[85vh] overflow-auto rounded-xl shadow-2xl border border-white/5 bg-discordCanvas" onclick="event.stopPropagation()">
             <img src="ai_history.png" alt="AI History Infographic" class="w-full h-auto block" onerror="this.src='https://via.placeholder.com/1200x800?text=AI+History+Infographic+Not+Found'">
         </div>
-        <p class="mt-4 text-white/60 text-sm">배경을 클릭하면 닫힙니다</p>
+        <p class="mt-4 text-white/50 text-xs uppercase tracking-widest font-bold">배경을 클릭하면 닫힙니다</p>
     </div>
 
-    <!-- 동영상 모달 -->
-    <div id="video-modal" class="modal-overlay fixed inset-0 z-[100] bg-slate-950/95 hidden flex-col items-center justify-center p-4 md:p-10" onclick="closeVideo()">
-        <button class="absolute top-6 right-6 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
-            <i data-lucide="x" size="24"></i>
+    <!-- 동영상 모달 (ex-modal-card) -->
+    <div id="video-modal" class="modal-overlay fixed inset-0 z-[100] bg-discordBlack/95 hidden flex-col items-center justify-center p-4 md:p-10" onclick="closeVideo()">
+        <button class="absolute top-6 right-6 text-white bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors border border-white/5">
+            <i data-lucide="x" class="w-6 h-6"></i>
         </button>
-        <div class="relative w-full max-w-4xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+        <div class="relative w-full max-w-4xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-white/5" onclick="event.stopPropagation()">
             <video id="ai-video" controls class="w-full h-full">
                 <source src="AI_01.mp4" type="video/mp4">
                 브라우저가 동영상 재생을 지원하지 않습니다.
             </video>
         </div>
-        <p class="mt-4 text-white/60 text-sm">배경을 클릭하면 닫힙니다</p>
+        <p class="mt-4 text-white/50 text-xs uppercase tracking-widest font-bold">배경을 클릭하면 닫힙니다</p>
     </div>
 
-    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-10 text-center text-sm opacity-60">
-        <p>© 2025 AI Evolution Chronicle. All rights reserved.</p>
-        <p class="mt-2">Inspired by Alan Turing's Dream to Generative Paradigm.</p>
+    <!-- 푸터 (footer) -->
+    <footer class="bg-discordCanvas dark:bg-discordCanvas light:bg-slate-200 border-t border-discordOnyx/30 py-12 text-center text-xs opacity-80 mt-12">
+        <div class="max-w-7xl mx-auto px-6 space-y-3">
+            <p class="text-white/60 light:text-slate-600 font-medium">© 2025 AI Evolution Chronicle. All rights reserved.</p>
+            <p class="text-discordPrimary uppercase tracking-widest font-bold text-[10px]">Inspired by Alan Turing's Dream to Generative Paradigm.</p>
+        </div>
     </footer>
 
     <script>
@@ -385,16 +552,22 @@
 
         // 다크 모드 토글
         function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('dark');
+            const isDark = document.body.classList.toggle('dark');
+            document.body.classList.toggle('light', !isDark);
             document.getElementById('sun-icon').classList.toggle('hidden', !isDark);
             document.getElementById('moon-icon').classList.toggle('hidden', isDark);
             localStorage.setItem('darkMode', isDark);
         }
 
         // 초기 다크 모드 설정 확인
-        if (localStorage.getItem('darkMode') === 'true' || 
-            (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('darkMode'))) {
-            document.documentElement.classList.add('dark');
+        if (localStorage.getItem('darkMode') === 'false') {
+            document.body.classList.remove('dark');
+            document.body.classList.add('light');
+            document.getElementById('sun-icon').classList.add('hidden');
+            document.getElementById('moon-icon').classList.remove('hidden');
+        } else {
+            document.body.classList.add('dark');
+            document.body.classList.remove('light');
             document.getElementById('sun-icon').classList.remove('hidden');
             document.getElementById('moon-icon').classList.add('hidden');
         }
@@ -406,12 +579,12 @@
             });
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('tab-active', 'text-blue-600', 'dark:text-blue-400');
-                btn.classList.add('hover:text-blue-500');
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-slate-400');
             });
             const activeBtn = document.getElementById(`btn-${tabId}`);
             activeBtn.classList.add('tab-active');
-            activeBtn.classList.remove('hover:text-blue-500');
+            activeBtn.classList.remove('text-slate-400');
             window.scrollTo({ top: 350, behavior: 'smooth' });
         }
 
