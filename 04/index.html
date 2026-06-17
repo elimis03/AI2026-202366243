@@ -7,51 +7,76 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
         :root {
-            --bg-primary: #ffffff;
-            --text-primary: #1a202c;
-            --card-bg: #f7fafc;
-            --accent: #3182ce;
-        }
-
-        .dark {
-            --bg-primary: #1a202c;
-            --text-primary: #f7fafc;
-            --card-bg: #2d3748;
-            --accent: #63b3ed;
+            --color-canvas: #0a0d3a;
+            --color-primary: #5865f2;
+            --color-green: #35ed7e;
+            --color-magenta: #ec48bd;
+            --color-surface-indigo: #1e2353;
+            --color-surface-onyx: #23272a;
+            --color-surface-black: #000000;
         }
 
         body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-canvas);
+            color: #ffffff;
             transition: background-color 0.3s, color 0.3s;
             scroll-behavior: smooth;
         }
 
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
         .glass-header {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 13, 58, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .dark .glass-header {
-            background: rgba(26, 32, 44, 0.8);
+        /* 라이트 모드 전환 시 스타일 정의 */
+        .light {
+            --color-canvas: #f4f5f9;
+            --color-surface-indigo: #ffffff;
+            --color-surface-onyx: #e3e5e8;
+            --color-surface-black: #f2f3f5;
         }
 
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            transition: transform 0.2s;
+        .light body {
+            background-color: var(--color-canvas);
+            color: #23272a;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .light .glass-header {
+            background: rgba(244, 245, 249, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
         }
 
+        /* 공통 벤토 카드 디자인 */
+        .bento-card {
+            background-color: var(--color-surface-indigo);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s;
+        }
+
+        .light .bento-card {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* 테이블 스크롤 컨테이너 */
         .table-container {
             overflow-x: auto;
+            border-radius: 12px;
         }
 
         table {
@@ -60,52 +85,100 @@
             font-size: 0.875rem;
         }
 
+        th {
+            background-color: rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         th, td {
-            padding: 0.75rem;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .dark th, .dark td {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        .light th, .light td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
+        .light th {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* 버튼 스타일 지정 */
         .action-btn {
             display: inline-flex;
             align-items: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
+            justify-content: center;
+            padding: 0.85rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 700;
             transition: all 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
         }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discordCanvas: '#0a0d3a',
+                        discordPrimary: '#5865f2',
+                        discordGreen: '#35ed7e',
+                        discordMagenta: '#ec48bd',
+                        discordSurface: '#1e2353',
+                        discordOnyx: '#23272a',
+                    },
+                    borderRadius: {
+                        'xs': '6px',
+                        'sm': '12px',
+                        'md': '14px',
+                        'lg': '16px',
+                        'xl': '24px',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="transition-colors duration-300">
+<body class="dark overflow-x-hidden min-h-screen">
+
+    <!-- 백그라운드 그라디언트 요소 -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none opacity-40 dark:opacity-50 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-discordPrimary blur-[130px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-discordMagenta blur-[130px]"></div>
+    </div>
 
     <!-- Header & Navigation -->
-    <header class="fixed top-0 w-full z-50 glass-header border-b border-gray-200 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header class="fixed top-0 w-full z-50 glass-header">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-4">
                 <a href="https://elimis03.github.io/AI2026-202366243/" 
-                   class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                   class="w-10 h-10 rounded-sm bg-discordSurface dark:bg-discordSurface light:bg-white border border-white/5 dark:border-white/5 light:border-slate-200 flex items-center justify-center text-discordPrimary hover:bg-discordPrimary hover:text-white transition-all duration-300"
                    title="홈으로 이동">
-                    <i class="fas fa-home text-xl text-blue-500"></i>
+                    <i class="fas fa-home text-lg"></i>
                 </a>
-                <h1 class="text-xl font-bold tracking-tight">웹 기술의 이해</h1>
+                <h1 class="text-lg font-extrabold tracking-tight uppercase font-display text-white light:text-slate-900">웹 기술의 이해</h1>
             </div>
             
-            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <button id="theme-toggle" class="w-10 h-10 rounded-full bg-discordSurface dark:bg-discordSurface light:bg-white border border-white/5 dark:border-white/5 light:border-slate-200 flex items-center justify-center text-white light:text-slate-900 hover:bg-discordPrimary hover:text-white transition-all duration-300">
                 <i id="theme-icon" class="fas fa-moon"></i>
             </button>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 pt-24 pb-12">
+    <main class="max-w-6xl mx-auto px-6 pt-28 pb-12">
         
-        <!-- Hero Section -->
-        <section class="text-center mb-12 py-12">
-            <h2 class="text-4xl font-bold mb-4">디지털 생명체의 삼위일체</h2>
-            <p class="text-lg opacity-80 max-w-2xl mx-auto mb-10">
+        <!-- Hero Section (Bento Layout Block 1) -->
+        <section class="text-center mb-8 py-16 px-6 bg-discordSurface/30 border border-white/5 rounded-xl relative overflow-hidden flex flex-col items-center justify-center shadow-2xl">
+            <div class="absolute inset-0 bg-gradient-to-br from-discordPrimary/5 to-transparent pointer-events-none"></div>
+            <span class="inline-block py-1 px-3.5 rounded-full bg-discordPrimary/10 border border-discordPrimary/20 text-discordPrimary text-xs font-bold tracking-widest uppercase mb-4">Core Framework Map</span>
+            <h2 class="text-3xl md:text-6xl font-extrabold mb-4 font-display uppercase tracking-tight text-white light:text-slate-900">
+                디지털 생명체의 삼위일체
+            </h2>
+            <p class="text-sm md:text-base text-slate-300 light:text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
                 웹 페이지는 브라우저라는 환경 속에서 살아 숨 쉬는 '디지털 생명체'와 같습니다.
                 이 생명체를 구성하는 세 가지 핵심 요소를 인체 구조에 비유하여 그 본질을 꿰뚫어 봅시다.
             </p>
@@ -114,50 +187,53 @@
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="https://notebooklm.google.com/notebook/def5a4b5-60c5-4901-b029-4af69093bded/artifact/7125fd53-527f-4cf6-bde3-5915b42a7a72" 
                    target="_blank" 
-                   class="action-btn bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/30">
-                    <i class="fas fa-play-circle mr-2"></i>동영상보기
+                   class="action-btn bg-discordMagenta hover:bg-discordMagenta/90 text-white shadow-lg border border-discordMagenta/20">
+                    <i class="fas fa-play-circle mr-2 text-base"></i>동영상보기
                 </a>
                 <a href="web tech.png" 
                    target="_blank" 
-                   class="action-btn bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/30">
-                    <i class="fas fa-image mr-2"></i>인포그래픽으로 보기
+                   class="action-btn bg-[#ffffff] hover:bg-slate-100 text-discordOnyx shadow-lg">
+                    <i class="fas fa-image mr-2 text-base"></i>인포그래픽으로 보기
                 </a>
                 <a href="Modern_Web_Architecture.pdf" 
                    target="_blank" 
-                   class="action-btn bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/30">
-                    <i class="fas fa-file-pdf mr-2"></i>슬라이드 자료보기
+                   class="action-btn bg-discordGreen hover:bg-discordGreen/90 text-discordOnyx shadow-lg">
+                    <i class="fas fa-file-pdf mr-2 text-base"></i>슬라이드 자료보기
                 </a>
             </div>
         </section>
 
-        <!-- The Trinity Map Table -->
-        <section class="mb-16 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
+        <!-- The Trinity Map Table (Bento Layout Block 2) -->
+        <section class="mb-12 bento-card overflow-hidden">
+            <div class="p-6 border-b border-white/5">
+                <h4 class="font-extrabold uppercase tracking-wider text-xs text-discordPrimary">Technology Specification</h4>
+            </div>
             <div class="table-container">
                 <table>
-                    <thead class="bg-gray-50 dark:bg-gray-800">
-                        <tr>
+                    <thead>
+                        <tr class="text-white light:text-slate-950">
                             <th class="text-left">기술 이름</th>
                             <th class="text-left">신체 비유</th>
                             <th class="text-left">핵심 기능</th>
                             <th class="text-left">학습자 이점</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="font-bold text-red-500">HTML</td>
-                            <td>뼈대와 근육</td>
+                    <tbody class="text-slate-300 light:text-slate-700">
+                        <tr class="hover:bg-white/[0.02]">
+                            <td class="font-bold text-discordMagenta font-display">HTML</td>
+                            <td class="font-semibold">뼈대와 근육</td>
                             <td>구조 정의 및 정보 위계 설정</td>
                             <td>데이터 의미와 설계 파악</td>
                         </tr>
-                        <tr>
-                            <td class="font-bold text-blue-500">CSS</td>
-                            <td>피부와 의상</td>
+                        <tr class="hover:bg-white/[0.02]">
+                            <td class="font-bold text-discordPrimary font-display">CSS</td>
+                            <td class="font-semibold">피부와 의상</td>
                             <td>시각적 스타일링 및 레이아웃</td>
                             <td>사용자 경험(UX) 향상</td>
                         </tr>
-                        <tr>
-                            <td class="font-bold text-yellow-500">JavaScript</td>
-                            <td>신경계와 뇌</td>
+                        <tr class="hover:bg-white/[0.02]">
+                            <td class="font-bold text-discordGreen font-display">JavaScript</td>
+                            <td class="font-semibold">신경계와 뇌</td>
                             <td>동적 반응 및 데이터 로직 처리</td>
                             <td>인터랙티브 앱 구현</td>
                         </tr>
@@ -167,80 +243,95 @@
         </section>
 
         <!-- Detailed Content Sections -->
-        <div class="space-y-24">
+        <div class="space-y-12">
             
             <!-- 1. HTML Section -->
-            <section id="html" class="scroll-mt-24">
-                <div class="flex items-center space-x-3 mb-8 border-b pb-4 border-red-500/20">
-                    <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">1</span>
-                    <h3 class="text-2xl font-bold text-red-500">HTML: 웹의 뼈대와 내장 기관</h3>
+            <section id="html" class="scroll-mt-24 space-y-6">
+                <div class="flex items-center space-x-3 border-b pb-4 border-discordMagenta/20">
+                    <span class="bg-discordMagenta text-white px-3.5 py-1 rounded-sm text-xs font-bold font-display">01</span>
+                    <h3 class="text-2xl font-extrabold text-discordMagenta font-display uppercase">HTML: 웹의 뼈대와 내장 기관</h3>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div class="space-y-6">
-                        <h4 class="text-xl font-bold">문서의 계층 구조</h4>
-                        <div class="p-5 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                            <h5 class="font-bold mb-2">&lt;head&gt; (보이지 않는 사고 영역)</h5>
-                            <p class="text-sm opacity-80">브라우저가 페이지를 렌더링하기 전 처리해야 할 사전 정보(메타데이터, 스타일 링크, 스크립트 등)를 담는 영역입니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <div class="md:col-span-7 space-y-6">
+                        <div class="bento-card p-6">
+                            <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2">Structure Scope</span>
+                            <h5 class="font-extrabold text-lg mb-2 text-white light:text-slate-950 font-display uppercase">&lt;head&gt; (보이지 않는 사고 영역)</h5>
+                            <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed">브라우저가 페이지를 렌더링하기 전 처리해야 할 사전 정보(메타데이터, 스타일 링크, 스크립트 등)를 담는 영역입니다.</p>
                         </div>
-                        <div class="p-5 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                            <h5 class="font-bold mb-2">&lt;body&gt; (보이는 외형 영역)</h5>
-                            <p class="text-sm opacity-80">사용자가 직접 보고 상호작용하는 모든 시각적 콘텐츠(텍스트, 이미지, 영상)가 배치되는 핵심 영역입니다.</p>
+                        <div class="bento-card p-6">
+                            <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2">Viewport Scope</span>
+                            <h5 class="font-extrabold text-lg mb-2 text-white light:text-slate-950 font-display uppercase">&lt;body&gt; (보이는 외형 영역)</h5>
+                            <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed">사용자가 직접 보고 상호작용하는 모든 시각적 콘텐츠(텍스트, 이미지, 영상)가 배치되는 핵심 영역입니다.</p>
                         </div>
                     </div>
                     
-                    <div class="card p-8">
-                        <h4 class="text-xl font-bold mb-4">시맨틱 마크업의 가치</h4>
-                        <p class="text-sm mb-6 opacity-80">의미 있는 태그를 사용하면 검색 엔진 최적화(SEO)에서 유리하며, 장애를 가진 사용자를 위한 웹 접근성을 보장합니다.</p>
-                        <div class="grid grid-cols-2 gap-4 text-xs">
-                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;header&gt;</strong> 얼굴과 머리말</div>
-                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;nav&gt;</strong> 신경망 경로</div>
-                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;main&gt;</strong> 핵심 장기</div>
-                            <div class="p-3 border rounded border-red-200 dark:border-red-900"><strong>&lt;article&gt;</strong> 독립 신체 기관</div>
+                    <div class="md:col-span-5 bento-card p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2">Semantic Logic</span>
+                            <h4 class="text-xl font-extrabold mb-3 text-white light:text-slate-950 font-display uppercase">시맨틱 마크업의 가치</h4>
+                            <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed mb-6">의미 있는 태그를 사용하면 검색 엔진 최적화(SEO)에서 유리하며, 장애를 가진 사용자를 위한 웹 접근성을 보장합니다.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div class="p-3 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordMagenta/10">
+                                <strong class="text-discordMagenta block mb-0.5">&lt;header&gt;</strong> 얼굴과 머리말
+                            </div>
+                            <div class="p-3 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordMagenta/10">
+                                <strong class="text-discordMagenta block mb-0.5">&lt;nav&gt;</strong> 신경망 경로
+                            </div>
+                            <div class="p-3 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordMagenta/10">
+                                <strong class="text-discordMagenta block mb-0.5">&lt;main&gt;</strong> 핵심 장기
+                            </div>
+                            <div class="p-3 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordMagenta/10">
+                                <strong class="text-discordMagenta block mb-0.5">&lt;article&gt;</strong> 독립 신체 기관
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- 2. CSS Section -->
-            <section id="css" class="scroll-mt-24">
-                <div class="flex items-center space-x-3 mb-8 border-b pb-4 border-blue-500/20">
-                    <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">2</span>
-                    <h3 class="text-2xl font-bold text-blue-500">CSS: 웹의 피부와 의상</h3>
+            <section id="css" class="scroll-mt-24 space-y-6">
+                <div class="flex items-center space-x-3 border-b pb-4 border-discordPrimary/20">
+                    <span class="bg-discordPrimary text-white px-3.5 py-1 rounded-sm text-xs font-bold font-display">02</span>
+                    <h3 class="text-2xl font-extrabold text-discordPrimary font-display uppercase">CSS: 웹의 피부와 의상</h3>
                 </div>
 
-                <div class="grid lg:grid-cols-3 gap-8 mb-12">
-                    <div class="lg:col-span-2 card p-8">
-                        <h4 class="text-xl font-bold mb-4">명시도 점수 (Specificity)</h4>
-                        <p class="text-sm mb-6 opacity-80">여러 스타일이 충돌할 때, 브라우저는 수학적 점수 체계에 따라 우선순위를 결정합니다.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-8 bento-card p-6">
+                        <div class="mb-4">
+                            <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2">Priority Calculation</span>
+                            <h4 class="text-xl font-extrabold text-white light:text-slate-950 font-display uppercase">명시도 점수 (Specificity)</h4>
+                            <p class="text-sm text-slate-300 light:text-slate-600 mt-1">여러 스타일이 충돌할 때, 브라우저는 수학적 점수 체계에 따라 우선순위를 결정합니다.</p>
+                        </div>
                         <div class="table-container">
                             <table class="text-xs">
-                                <thead class="text-left">
-                                    <tr>
-                                        <th>선택자 유형</th>
-                                        <th>점수(ID-Class-Type)</th>
-                                        <th>비유</th>
+                                <thead>
+                                    <tr class="text-white light:text-slate-950">
+                                        <th class="text-left">선택자 유형</th>
+                                        <th class="text-left">점수(ID-Class-Type)</th>
+                                        <th class="text-left">비유</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Inline Style</td>
-                                        <td>(1, 0, 0, 0)</td>
+                                <tbody class="text-slate-300 light:text-slate-700">
+                                    <tr class="hover:bg-white/[0.02]">
+                                        <td class="font-bold text-discordMagenta">Inline Style</td>
+                                        <td class="font-semibold">(1, 0, 0, 0)</td>
                                         <td>태그에 새긴 지울 수 없는 문신</td>
                                     </tr>
-                                    <tr>
-                                        <td>ID Selector</td>
-                                        <td>(0, 1, 0, 0)</td>
+                                    <tr class="hover:bg-white/[0.02]">
+                                        <td class="font-bold text-discordPrimary">ID Selector</td>
+                                        <td class="font-semibold">(0, 1, 0, 0)</td>
                                         <td>오직 한 사람만을 지칭하는 이름표</td>
                                     </tr>
-                                    <tr>
-                                        <td>Class Selector</td>
-                                        <td>(0, 0, 1, 0)</td>
+                                    <tr class="hover:bg-white/[0.02]">
+                                        <td class="font-bold text-discordGreen">Class Selector</td>
+                                        <td class="font-semibold">(0, 0, 1, 0)</td>
                                         <td>특정 그룹이 입는 유니폼</td>
                                     </tr>
-                                    <tr>
-                                        <td>Element Selector</td>
-                                        <td>(0, 0, 0, 1)</td>
+                                    <tr class="hover:bg-white/[0.02]">
+                                        <td class="font-bold text-slate-400">Element Selector</td>
+                                        <td class="font-semibold">(0, 0, 0, 1)</td>
                                         <td>'사람' 종족 전체의 특징</td>
                                     </tr>
                                 </tbody>
@@ -248,120 +339,136 @@
                         </div>
                     </div>
                     
-                    <div class="card p-8 flex flex-col justify-center">
-                        <h4 class="text-xl font-bold mb-4">현대적 레이아웃</h4>
-                        <div class="space-y-4 text-sm">
-                            <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
-                                <strong>Flexbox (1차원)</strong>
-                                <p class="text-xs mt-1">직선(행/열) 중심 정렬 (메뉴 바 등)</p>
+                    <div class="lg:col-span-4 bento-card p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2">Modern Flow</span>
+                            <h4 class="text-xl font-extrabold mb-4 text-white light:text-slate-950 font-display uppercase">현대적 레이아웃</h4>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-4 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordPrimary/10">
+                                <strong class="text-discordPrimary block font-display text-sm">Flexbox (1차원)</strong>
+                                <p class="text-xs text-slate-300 light:text-slate-600 mt-1">직선(행/열) 중심 정렬 (메뉴 바 등)</p>
                             </div>
-                            <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
-                                <strong>Grid (2차원)</strong>
-                                <p class="text-xs mt-1">가로와 세로 동시 제어 (대시보드 등)</p>
+                            <div class="p-4 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordPrimary/10">
+                                <strong class="text-discordPrimary block font-display text-sm">Grid (2차원)</strong>
+                                <p class="text-xs text-slate-300 light:text-slate-600 mt-1">가로와 세로 동시 제어 (대시보드 등)</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card p-8">
-                    <h4 class="text-xl font-bold mb-6">박스 모델 (Box Model)</h4>
-                    <div class="relative w-full h-64 border-2 border-dashed border-gray-400 flex items-center justify-center rounded-lg mb-6">
-                        <div class="bg-blue-200 dark:bg-blue-900 w-4/5 h-4/5 flex items-center justify-center rounded border-4 border-blue-500 p-6 relative">
-                            <div class="bg-blue-400 dark:bg-blue-700 w-full h-full flex items-center justify-center text-xs text-center font-bold">
+                <div class="bento-card p-6">
+                    <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2">Box Sizing Engine</span>
+                    <h4 class="text-xl font-extrabold mb-4 text-white light:text-slate-950 font-display uppercase">박스 모델 (Box Model)</h4>
+                    
+                    <div class="relative w-full h-64 border-2 border-dashed border-discordOnyx dark:border-discordOnyx light:border-slate-300 flex items-center justify-center rounded-lg mb-6 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100">
+                        <div class="bg-discordPrimary/20 w-4/5 h-4/5 flex items-center justify-center rounded border-4 border-discordPrimary p-6 relative">
+                            <div class="bg-discordPrimary w-full h-full flex items-center justify-center text-xs text-center font-extrabold text-white rounded">
                                 CONTENT (본체)
                             </div>
-                            <div class="absolute top-1 left-2 text-[10px] uppercase font-bold text-blue-600 dark:text-blue-300">Border / Padding</div>
+                            <div class="absolute top-1 left-3 text-[10px] uppercase font-bold text-discordPrimary tracking-wider font-display">Border / Padding</div>
                         </div>
-                        <div class="absolute top-2 left-4 text-[10px] uppercase font-bold text-gray-400">Margin (사회적 거리)</div>
+                        <div class="absolute top-2 left-4 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Margin (사회적 거리)</div>
                     </div>
-                    <p class="text-sm opacity-80 text-center">현대 개발자들은 레이아웃 계산의 편의를 위해 <code>box-sizing: border-box;</code>를 기본으로 사용합니다.</p>
+                    <p class="text-xs text-slate-300 light:text-slate-600 text-center font-medium">현대 개발자들은 레이아웃 계산의 편의를 위해 <code>box-sizing: border-box;</code>를 기본으로 사용합니다.</p>
                 </div>
             </section>
 
             <!-- 3. JS Section -->
-            <section id="js" class="scroll-mt-24">
-                <div class="flex items-center space-x-3 mb-8 border-b pb-4 border-yellow-500/20">
-                    <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold">3</span>
-                    <h3 class="text-2xl font-bold text-yellow-500">JavaScript: 신경계와 뇌</h3>
+            <section id="js" class="scroll-mt-24 space-y-6">
+                <div class="flex items-center space-x-3 border-b pb-4 border-discordGreen/20">
+                    <span class="bg-discordGreen text-discordOnyx px-3.5 py-1 rounded-sm text-xs font-bold font-display">03</span>
+                    <h3 class="text-2xl font-extrabold text-discordGreen font-display uppercase">JavaScript: 신경계와 뇌</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div class="card p-8">
-                        <h4 class="text-xl font-bold mb-4">DOM (문서 객체 모델)</h4>
-                        <p class="text-sm opacity-80 leading-relaxed">
-                            JavaScript는 브라우저가 생성한 DOM이라는 '신체 지도'를 통해 요소를 탐색합니다.
-                            클릭이나 스크롤 같은 자극(이벤트)이 감지되면, 이 지도를 참고하여 특정 UI의 근육을 움직이는 명령을 내립니다.
-                        </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bento-card p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-2">Document Interface</span>
+                            <h4 class="text-xl font-extrabold mb-4 text-white light:text-slate-950 font-display uppercase">DOM (문서 객체 모델)</h4>
+                            <p class="text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                                JavaScript는 브라우저가 생성한 DOM이라는 '신체 지도'를 통해 요소를 탐색합니다.
+                                클릭이나 스크롤 같은 자극(이벤트)이 감지되면, 이 지도를 참고하여 특정 UI의 근육을 움직이는 명령을 내립니다.
+                            </p>
+                        </div>
                     </div>
-                    <div class="card p-8">
-                        <h4 class="text-xl font-bold mb-4">메모리 저장 메커니즘</h4>
-                        <ul class="space-y-4 text-sm">
-                            <li class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded">
-                                <strong>기본 자료형 (Primitive):</strong> Stack 메모리에 실제 값을 직접 저장합니다. 작고 명확한 데이터(숫자, 문자 등)에 적합합니다.
-                            </li>
-                            <li class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded">
-                                <strong>참조 자료형 (Reference):</strong> 본체는 Heap에 저장하고 Stack에는 그 <strong>'주소(Pointer)'</strong>만 저장합니다. 복사 시 주소가 전달되므로 부수 효과를 주의해야 합니다.
-                            </li>
-                        </ul>
+                    
+                    <div class="bento-card p-6">
+                        <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-2">Memory Scope</span>
+                        <h4 class="text-xl font-extrabold mb-4 text-white light:text-slate-950 font-display uppercase">메모리 저장 메커니즘</h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordGreen/10">
+                                <strong class="text-discordGreen block text-xs uppercase tracking-wider font-display mb-1">기본 자료형 (Primitive)</strong>
+                                <p class="text-xs text-slate-300 light:text-slate-600 leading-relaxed">Stack 메모리에 실제 값을 직접 저장합니다. 작고 명확한 데이터(숫자, 문자 등)에 적합합니다.</p>
+                            </div>
+                            <div class="p-3 bg-discordBlack/30 dark:bg-discordBlack/30 light:bg-slate-100 rounded border border-discordGreen/10">
+                                <strong class="text-discordGreen block text-xs uppercase tracking-wider font-display mb-1">참조 자료형 (Reference)</strong>
+                                <p class="text-xs text-slate-300 light:text-slate-600 leading-relaxed">본체는 Heap에 저장하고 Stack에는 그 <strong>'주소(Pointer)'</strong>만 저장합니다. 복사 시 주소가 전달되므로 부수 효과를 주의해야 합니다.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- Rendering Pipeline -->
-            <section class="py-12 px-8 bg-gray-50 dark:bg-gray-800 rounded-3xl">
-                <h3 class="text-2xl font-bold mb-10 text-center">브라우저 렌더링 파이프라인 (6단계)</h3>
+            <section class="py-10 px-6 bg-discordSurface/20 dark:bg-discordSurface/20 light:bg-white rounded-xl border border-white/5 dark:border-white/5 light:border-slate-200">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest">Web Engine Workflow</span>
+                    <h3 class="text-2xl font-extrabold mt-1 font-display uppercase">브라우저 렌더링 파이프라인 (6단계)</h3>
+                </div>
                 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-                        <div class="text-lg font-bold text-blue-500 mb-1">01</div>
-                        <div class="text-xs font-bold">DOM 트리 구축</div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+                    <div class="text-center p-4 bg-discordSurface dark:bg-discordSurface light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <div class="text-lg font-extrabold text-discordPrimary mb-1 font-display">01</div>
+                        <div class="text-xs font-bold uppercase tracking-tight text-white light:text-slate-900">DOM 트리 구축</div>
                     </div>
-                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-                        <div class="text-lg font-bold text-blue-500 mb-1">02</div>
-                        <div class="text-xs font-bold">CSSOM 트리 구축</div>
+                    <div class="text-center p-4 bg-discordSurface dark:bg-discordSurface light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <div class="text-lg font-extrabold text-discordPrimary mb-1 font-display">02</div>
+                        <div class="text-xs font-bold uppercase tracking-tight text-white light:text-slate-900">CSSOM 트리 구축</div>
                     </div>
-                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-                        <div class="text-lg font-bold text-blue-500 mb-1">03</div>
-                        <div class="text-xs font-bold">렌더 트리 형성</div>
+                    <div class="text-center p-4 bg-discordSurface dark:bg-discordSurface light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <div class="text-lg font-extrabold text-discordPrimary mb-1 font-display">03</div>
+                        <div class="text-xs font-bold uppercase tracking-tight text-white light:text-slate-900">렌더 트리 형성</div>
                     </div>
-                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-                        <div class="text-lg font-bold text-blue-500 mb-1">04</div>
-                        <div class="text-xs font-bold">레이아웃 계산</div>
+                    <div class="text-center p-4 bg-discordSurface dark:bg-discordSurface light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <div class="text-lg font-extrabold text-discordPrimary mb-1 font-display">04</div>
+                        <div class="text-xs font-bold uppercase tracking-tight text-white light:text-slate-900">레이아웃 계산</div>
                     </div>
-                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-                        <div class="text-lg font-bold text-blue-500 mb-1">05</div>
-                        <div class="text-xs font-bold">페인팅</div>
+                    <div class="text-center p-4 bg-discordSurface dark:bg-discordSurface light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <div class="text-lg font-extrabold text-discordPrimary mb-1 font-display">05</div>
+                        <div class="text-xs font-bold uppercase tracking-tight text-white light:text-slate-900">페인팅</div>
                     </div>
-                    <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-                        <div class="text-lg font-bold text-blue-500 mb-1">06</div>
-                        <div class="text-xs font-bold">합성 (Comp.)</div>
+                    <div class="text-center p-4 bg-discordSurface dark:bg-discordSurface light:bg-slate-100 rounded-lg border border-white/5 dark:border-white/5 light:border-slate-200">
+                        <div class="text-lg font-extrabold text-discordPrimary mb-1 font-display">06</div>
+                        <div class="text-xs font-bold uppercase tracking-tight text-white light:text-slate-900">합성 (Comp.)</div>
                     </div>
                 </div>
 
-                <div class="card p-8">
-                    <h4 class="text-lg font-bold mb-4 text-center">JavaScript 로드 최적화</h4>
+                <div class="bento-card p-6">
+                    <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-2">Performance Optimization</span>
+                    <h4 class="text-lg font-extrabold mb-4 text-center font-display uppercase text-white light:text-slate-950">JavaScript 로드 최적화</h4>
                     <div class="table-container">
                         <table class="text-xs">
-                            <thead class="text-left">
-                                <tr>
-                                    <th>속성</th>
-                                    <th>동작 방식</th>
-                                    <th>권장 용도</th>
+                            <thead>
+                                <tr class="text-white light:text-slate-950">
+                                    <th class="text-left">속성</th>
+                                    <th class="text-left">동작 방식</th>
+                                    <th class="text-left">권장 용도</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Default</td>
+                            <tbody class="text-slate-300 light:text-slate-700">
+                                <tr class="hover:bg-white/[0.02]">
+                                    <td class="font-bold text-discordPrimary">Default</td>
                                     <td>파싱 즉시 중단 및 실행</td>
                                     <td>필수적인 초기화 로직</td>
                                 </tr>
-                                <tr>
-                                    <td>Async</td>
+                                <tr class="hover:bg-white/[0.02]">
+                                    <td class="font-bold text-discordMagenta">Async</td>
                                     <td>병렬 다운로드 후 즉시 실행</td>
                                     <td>독립적인 외부 도구 (광고 등)</td>
                                 </tr>
-                                <tr>
-                                    <td>Defer</td>
+                                <tr class="hover:bg-white/[0.02]">
+                                    <td class="font-bold text-discordGreen">Defer</td>
                                     <td>병렬 다운로드 후 파싱 완료 시 실행</td>
                                     <td>일반적인 애플리케이션 로직</td>
                                 </tr>
@@ -372,23 +479,27 @@
             </section>
 
             <!-- Frameworks & Future -->
-            <section class="py-12 text-center max-w-3xl mx-auto">
-                <h3 class="text-2xl font-bold mb-6">더 넓은 세상으로: 프레임워크와 미래</h3>
-                <p class="text-sm opacity-80 mb-8 leading-relaxed">
+            <section class="py-12 text-center max-w-3xl mx-auto flex flex-col items-center">
+                <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest">Next Generation Web</span>
+                <h3 class="text-3xl font-extrabold mt-1 mb-6 font-display uppercase">더 넓은 세상으로: 프레임워크와 미래</h3>
+                <p class="text-sm text-slate-300 light:text-slate-600 mb-8 leading-relaxed">
                     현대 웹 개발은 React, Vue, Angular와 같은 '강화 슈트'를 활용합니다.
                     AI가 코드를 생성하는 시대에는 단순 타이핑 능력을 넘어, 생성된 코드를 검증하고 최적의 시스템 아키텍처를 설계하는 능력이 핵심이 될 것입니다.
                 </p>
-                <div class="flex justify-center space-x-6">
-                    <div class="opacity-50 hover:opacity-100 transition-opacity">React</div>
-                    <div class="opacity-50 hover:opacity-100 transition-opacity">Vue</div>
-                    <div class="opacity-50 hover:opacity-100 transition-opacity">TypeScript</div>
+                <div class="flex justify-center space-x-8 font-display text-sm font-bold uppercase tracking-wider">
+                    <div class="text-discordPrimary border border-discordPrimary/10 bg-discordPrimary/5 px-4 py-2 rounded-md hover:scale-[1.05] transition-transform">React</div>
+                    <div class="text-discordMagenta border border-discordMagenta/10 bg-discordMagenta/5 px-4 py-2 rounded-md hover:scale-[1.05] transition-transform">Vue</div>
+                    <div class="text-discordGreen border border-discordGreen/10 bg-discordGreen/5 px-4 py-2 rounded-md hover:scale-[1.05] transition-transform">TypeScript</div>
                 </div>
             </section>
         </div>
 
         <!-- Footer -->
-        <footer class="mt-24 pt-8 border-t border-gray-200 dark:border-gray-700 text-center opacity-60 text-sm">
-            <p>© 2026 웹 기술의 이해 가이드. IT 교육 커리큘럼 아키텍트.</p>
+        <footer class="mt-20 pt-8 border-t border-discordOnyx py-8 text-center text-xs opacity-60">
+            <div class="max-w-6xl mx-auto space-y-1">
+                <p class="text-slate-300 light:text-slate-600">© 2026 웹 기술의 이해 가이드. IT 교육 커리큘럼 아키텍트.</p>
+                <p class="text-discordPrimary font-bold uppercase tracking-widest text-[9px] font-display">Engineered with Discord Design Language Standards</p>
+            </div>
         </footer>
     </main>
 
@@ -399,16 +510,23 @@
 
         if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.add('dark');
+            html.classList.remove('light');
             themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            html.classList.remove('dark');
+            html.classList.add('light');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
         }
 
         themeToggle.addEventListener('click', () => {
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
+                html.classList.add('light');
                 localStorage.setItem('theme', 'light');
                 themeIcon.classList.replace('fa-sun', 'fa-moon');
             } else {
                 html.classList.add('dark');
+                html.classList.remove('light');
                 localStorage.setItem('theme', 'dark');
                 themeIcon.classList.replace('fa-moon', 'fa-sun');
             }
