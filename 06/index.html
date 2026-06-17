@@ -6,33 +6,35 @@
     <title>고령운전자 교통사고 현황 분석</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!--
-    Palette: Vibrant Alert (Deep Slate background, Neon Blue, Hot Red, Amber accents)
-    Narrative Plan:
-    1. Hero Section: Display the most alarming statistics (21.6% ratio, 36.4% growth) as single big numbers to establish urgency.
-    2. Trend Analysis: Contrast the overall decreasing trend of total accidents with the sharply increasing trend of elderly driver accidents using a mixed dual-axis chart.
-    3. Proportion Analysis: Show the steady climb of the elderly accident ratio over the 5 years using a line chart emphasizing the break past the 20% mark.
-    4. Actionable Solutions: Present expert-recommended solutions in a structured layout using cards.
-    Chart Choices:
-    - Big Numbers -> Goal: Inform -> Chosen: Typography/Cards -> Justification: Immediate visual impact. NO SVG.
-    - Total vs Elderly Trends -> Goal: Change/Compare -> Chosen: Mixed Chart (Bar/Line) with Chart.js -> Justification: Clearly contrasts two different scales and opposing trends over time. NO SVG.
-    - Elderly Accident Ratio -> Goal: Change/Composition -> Chosen: Line Chart with Chart.js -> Justification: Highlights the steady upward trajectory of the proportion. NO SVG.
-    - Solutions -> Goal: Organize -> Chosen: HTML/CSS Grid with Unicode Icons -> Justification: Clean, readable layout for text information. NO SVG.
-    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output.
-    -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+        :root {
+            --color-canvas: #0a0d3a;
+            --color-primary: #5865f2;
+            --color-green: #35ed7e;
+            --color-magenta: #ec48bd;
+            --color-surface-indigo: #1e2353;
+            --color-surface-onyx: #23272a;
+            --color-surface-black: #000000;
         }
-        
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-canvas);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
+            max-width: 100%;
             margin-left: auto;
             margin-right: auto;
             height: 350px;
@@ -44,52 +46,102 @@
                 height: 400px;
             }
         }
-    </style>
-</head>
-<body class="antialiased">
 
-    <div class="max-w-6xl mx-auto px-4 py-6 md:py-12 space-y-12">
+        /* 벤토 카드 공통 스타일 */
+        .bento-card {
+            background-color: var(--color-surface-indigo);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discordCanvas: '#0a0d3a',
+                        discordPrimary: '#5865f2',
+                        discordGreen: '#35ed7e',
+                        discordMagenta: '#ec48bd',
+                        discordSurface: '#1e2353',
+                        discordOnyx: '#23272a',
+                    },
+                    borderRadius: {
+                        'xs': '6px',
+                        'sm': '12px',
+                        'md': '14px',
+                        'lg': '16px',
+                        'xl': '24px',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased pb-20">
+
+    <!-- 백그라운드 그라디언트 메시 -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none opacity-40 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-discordPrimary blur-[130px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#ec48bd] blur-[130px]"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 py-6 md:py-12 space-y-10">
         
         <!-- Navigation / Buttons -->
-        <nav class="flex flex-wrap gap-3 justify-start">
-            <a href="https://elimis03.github.io/AI2026-202366243/" class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all shadow-lg group">
-                <span class="text-xl leading-none group-hover:scale-110 transition-transform">&#8962;</span>
-                <span class="font-medium text-sm">홈으로 돌아가기</span>
+        <nav class="flex flex-wrap gap-4 justify-start">
+            <a href="https://elimis03.github.io/AI2026-202366243/" class="inline-flex items-center space-x-2 px-5 py-3 bg-discordSurface hover:bg-discordPrimary text-white rounded-sm font-bold text-xs uppercase tracking-wider border border-white/5 transition-all shadow-lg group">
+                <span class="text-base leading-none group-hover:scale-110 transition-transform">&#8962;</span>
+                <span>홈으로 돌아가기</span>
             </a>
-            <!-- Download Button for Article PDF -->
-            <a href="../06/고령운전자 교통사고 분석 기사.pdf" download class="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 border border-blue-500 rounded-xl text-white hover:bg-blue-500 transition-all shadow-lg group">
-                <span class="text-xl leading-none group-hover:translate-y-1 transition-transform">&#128196;</span>
-                <span class="font-medium text-sm">기사 다운로드 (PDF)</span>
+            <a href="../06/고령운전자 교통사고 분석 기사.pdf" download class="inline-flex items-center space-x-2 px-5 py-3 bg-discordGreen hover:bg-discordGreen/90 text-discordOnyx rounded-sm font-extrabold text-xs uppercase tracking-wider border border-discordGreen/20 transition-all shadow-lg group">
+                <span class="text-base leading-none group-hover:translate-y-0.5 transition-transform">&#128196;</span>
+                <span>기사 다운로드 (PDF)</span>
             </a>
         </nav>
 
-        <header class="text-center space-y-4">
-            <div class="inline-block px-4 py-1 bg-red-500/20 text-red-400 font-bold rounded-full mb-2 border border-red-500/30">
+        <!-- 히어로 헤더 -->
+        <header class="text-center space-y-4 max-w-4xl mx-auto flex flex-col items-center pt-8">
+            <div class="inline-block px-4 py-1.5 bg-discordPrimary/10 text-discordPrimary font-bold text-xs rounded-full border border-discordPrimary/20 uppercase tracking-widest mb-2 font-display">
                 Data Insight Report 2020-2024
             </div>
-            <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight">전체 사고는 줄어드는데<br><span class="text-red-500">고령운전자 사고</span>는 급증</h1>
-            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">전체 교통사고 건수의 감소세 속에서도 65세 이상 고령운전자가 유발하는 교통사고는 매년 가파르게 증가하며 교통 안전의 새로운 위협으로 떠오르고 있습니다.</p>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.05] font-display uppercase">
+                전체 사고는 줄어드는데<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-discordPrimary via-purple-400 to-discordMagenta">고령운전자 사고</span>는 급증
+            </h1>
+            <p class="text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed">
+                전체 교통사고 건수의 감소세 속에서도 65세 이상 고령운전자가 유발하는 교통사고는 매년 가파르게 증가하며 교통 안전의 새로운 위협으로 떠오르고 있습니다.
+            </p>
         </header>
 
+        <!-- 핵심 요약 지표 (Bento 2 Column) -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 shadow-xl flex flex-col items-center justify-center text-center transform transition duration-300 hover:scale-[1.02]">
-                <h2 class="text-slate-300 font-medium mb-2 text-lg">2024년 고령운전자 사고 비중</h2>
-                <div class="text-6xl md:text-7xl font-black text-amber-400 mb-2">21.6<span class="text-4xl">%</span></div>
-                <p class="text-slate-400">교통사고 5건 중 1건 이상 차지</p>
+            <div class="bento-card p-8 flex flex-col items-center justify-center text-center">
+                <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-2 font-display">Traffic Accident Ratio</span>
+                <h2 class="text-slate-300 font-bold mb-2 text-base">2024년 고령운전자 사고 비중</h2>
+                <div class="text-6xl md:text-7xl font-black text-discordMagenta mb-2 font-display">21.6<span class="text-3xl font-bold ml-1">%</span></div>
+                <p class="text-xs text-slate-400 font-medium">교통사고 5건 중 1건 이상 차지</p>
             </div>
-            <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 shadow-xl flex flex-col items-center justify-center text-center transform transition duration-300 hover:scale-[1.02]">
-                <h2 class="text-slate-300 font-medium mb-2 text-lg">최근 5년간 사고 증가율</h2>
-                <div class="text-6xl md:text-7xl font-black text-red-500 mb-2">+36.4<span class="text-4xl">%</span></div>
-                <p class="text-slate-400">2020년 대비 폭발적 증가 수치</p>
+            <div class="bento-card p-8 flex flex-col items-center justify-center text-center">
+                <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-2 font-display">5-Year Growth Rate</span>
+                <h2 class="text-slate-300 font-bold mb-2 text-base">최근 5년간 사고 증가율</h2>
+                <div class="text-6xl md:text-7xl font-black text-[#ff5a5a] mb-2 font-display">+36.4<span class="text-3xl font-bold ml-1">%</span></div>
+                <p class="text-xs text-slate-400 font-medium">2020년 대비 폭발적 증가 수치</p>
             </div>
         </section>
 
-        <section class="bg-slate-800 rounded-2xl p-6 md:p-10 border border-slate-700 shadow-xl">
+        <!-- 엇갈림 트렌드 리포트 (Bento Block 1) -->
+        <section class="bento-card p-6 md:p-10">
             <div class="mb-8 max-w-3xl">
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">전체 사고와 고령 사고의 '역주행' 트렌드</h2>
-                <p class="text-slate-300 leading-relaxed">
-                    최근 5년간 전체 교통사고 발생 건수는 2020년 209,654건에서 2024년 196,349건으로 <strong>약 6.3% 감소</strong>했습니다. 
-                    반면, 동일 기간 고령운전자 교통사고는 31,072건에서 42,369건으로 지속 상승하며 두 지표가 완벽히 엇갈리는 현상을 보여줍니다.
+                <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-1 font-display">Statistical Analysis 01</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">전체 사고와 고령 사고의 '역주행' 트렌드</h2>
+                <p class="text-sm text-slate-300 leading-relaxed font-medium">
+                    최근 5년간 전체 교통사고 발생 건수는 2020년 209,654건에서 2024년 196,349건으로 <strong>약 6.3% 감소</strong>했습니다. 반면, 동일 기간 고령운전자 교통사고는 31,072건에서 42,369건으로 지속 상승하며 두 지표가 완벽히 엇갈리는 현상을 보여줍니다.
                 </p>
             </div>
             <div class="chart-container">
@@ -97,10 +149,12 @@
             </div>
         </section>
 
-        <section class="bg-slate-800 rounded-2xl p-6 md:p-10 border border-slate-700 shadow-xl">
+        <!-- 비중 심각성 리포트 (Bento Block 2) -->
+        <section class="bento-card p-6 md:p-10">
             <div class="mb-8 max-w-3xl">
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">위험 수위를 넘은 고령운전자 사고 비중</h2>
-                <p class="text-slate-300 leading-relaxed">
+                <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block mb-1 font-display">Statistical Analysis 02</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4 font-display uppercase tracking-tight">위험 수위를 넘은 고령운전자 사고 비중</h2>
+                <p class="text-sm text-slate-300 leading-relaxed font-medium">
                     단순 발생 건수를 넘어 전체 사고에서 차지하는 비중의 확대는 더욱 심각합니다. 2020년 14.8% 수준이었던 비중은 2023년 처음으로 20%대에 진입했으며, 2024년에는 21.6%까지 치솟아 도로 위 새로운 안전 대책이 시급함을 시사합니다.
                 </p>
             </div>
@@ -109,31 +163,50 @@
             </div>
         </section>
 
-        <section class="mb-12">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">실효성 있는 대책 마련 시급</h2>
-                <p class="text-slate-400">전문가들이 제안하는 다각적인 교통 안전 정책 및 제도 개선 방안</p>
+        <!-- 전문가 솔루션 영역 (Bento 3 Grid) -->
+        <section class="space-y-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-xs font-bold text-discordPrimary uppercase tracking-widest font-display">Strategic Recommendations</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1 mb-3 font-display uppercase tracking-tight">실효성 있는 대책 마련 시급</h2>
+                <p class="text-xs md:text-sm text-slate-400 font-medium">전문가들이 제안하는 다각적인 교통 안전 정책 및 제도 개선 방안</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-blue-500 transition-colors">
-                    <div class="text-4xl mb-4">&#128663;</div>
-                    <h3 class="text-xl font-bold text-white mb-2">면허 반납 혜택 확대</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">현재 시행 중인 고령자 운전면허 자진 반납 제도의 실효성을 높이기 위해 교통비 지원 등 경제적, 제도적 인센티브를 대폭 확대해야 합니다.</p>
+                <!-- 솔루션 카드 1 -->
+                <div class="bento-card p-6 border-t-4 border-t-discordPrimary rounded-t-lg hover:scale-[1.02] transition-transform flex flex-col justify-between">
+                    <div>
+                        <div class="text-4xl mb-4">&#128663;</div>
+                        <h3 class="text-lg font-bold text-white mb-2 font-display uppercase">면허 반납 혜택 확대</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed font-medium">현재 시행 중인 고령자 운전면허 자진 반납 제도의 실효성을 높이기 위해 교통비 지원 등 경제적, 제도적 인센티브를 대폭 확대해야 합니다.</p>
+                    </div>
                 </div>
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-amber-500 transition-colors">
-                    <div class="text-4xl mb-4">&#9888;&#65039;</div>
-                    <h3 class="text-xl font-bold text-white mb-2">안전 보조 장치 지원</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">신체적 반응 속도 저하를 보완할 수 있는 첨단 운전자 보조 시스템(ADAS) 및 페달 오조작 방지 장치의 장착 의무화 및 보조금 지원이 필요합니다.</p>
+                <!-- 솔루션 카드 2 -->
+                <div class="bento-card p-6 border-t-4 border-t-discordGreen rounded-t-lg hover:scale-[1.02] transition-transform flex flex-col justify-between">
+                    <div>
+                        <div class="text-4xl mb-4">&#9888;&#65039;</div>
+                        <h3 class="text-lg font-bold text-white mb-2 font-display uppercase">안전 보조 장치 지원</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed font-medium">신체적 반응 속도 저하를 보완할 수 있는 첨단 운전자 보조 시스템(ADAS) 및 페달 오조작 방지 장치의 장착 의무화 및 보조금 지원이 필요합니다.</p>
+                    </div>
                 </div>
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-red-500 transition-colors">
-                    <div class="text-4xl mb-4">&#128179;</div>
-                    <h3 class="text-xl font-bold text-white mb-2">조건부 면허 도입</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">인지 능력 평가를 세분화하여, 야간 주행 금지, 고속도로 진입 제한, 속도 제한 등 개인별 주행 능력을 고려한 조건부 면허 제도를 도입해야 합니다.</p>
+                <!-- 솔루션 카드 3 -->
+                <div class="bento-card p-6 border-t-4 border-t-discordMagenta rounded-t-lg hover:scale-[1.02] transition-transform flex flex-col justify-between">
+                    <div>
+                        <div class="text-4xl mb-4">&#128179;</div>
+                        <h3 class="text-lg font-bold text-white mb-2 font-display uppercase">조건부 면허 도입</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed font-medium">인지 능력 평가를 세분화하여, 야간 주행 금지, 고속도로 진입 제한, 속도 제한 등 개인별 주행 능력을 고려한 조건부 면허 제도를 도입해야 합니다.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
     </div>
+
+    <!-- 푸터 -->
+    <footer class="mt-16 pt-8 border-t border-discordOnyx text-center text-xs opacity-70">
+        <div class="max-w-6xl mx-auto px-6 space-y-1">
+            <p class="text-slate-400 font-medium">본 통계 분석 리포트는 도로교통공단 공식 데이터를 기반으로 설계되었습니다.</p>
+            <p class="text-discordPrimary font-bold uppercase tracking-widest text-[9px] font-display">Traffic Safety Analysis Hub @ 2026</p>
+        </div>
+    </footer>
 
     <script>
         const rawLabels = ["2020년 전체 교통사고 통계 지표", "2021년 전체 교통사고 통계 지표", "2022년 전체 교통사고 통계 지표", "2023년 전체 교통사고 통계 지표", "2024년 전체 교통사고 통계 지표"];
@@ -161,9 +234,46 @@
         const elderlyAccidents = [31072, 31841, 34652, 39614, 42369];
         const ratioData = [14.8, 15.7, 17.6, 20.0, 21.6];
 
-        Chart.defaults.color = '#cbd5e1';
-        Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+        // 디바이스 해상도 대응을 위한 디스코드 스타일 테마 리셋
+        Chart.defaults.color = '#b9bbbe';
+        Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
 
+        const commonScaleConfig = {
+            grid: {
+                color: 'rgba(255, 255, 255, 0.05)',
+                drawBorder: false
+            },
+            ticks: {
+                color: '#b9bbbe',
+                font: {
+                    family: 'Plus Jakarta Sans',
+                    size: 11
+                }
+            }
+        };
+
+        const commonTooltipConfig = {
+            backgroundColor: '#1e2353',
+            titleFont: { family: 'Plus Jakarta Sans', weight: 'bold' },
+            bodyFont: { family: 'Plus Jakarta Sans' },
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1,
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // Trend Chart Init
         const trendCtx = document.getElementById('trendChart').getContext('2d');
         new Chart(trendCtx, {
             type: 'bar',
@@ -174,21 +284,21 @@
                         type: 'bar',
                         label: '고령운전자 사고 (건)',
                         data: elderlyAccidents,
-                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
-                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: '#ec48bd',
+                        borderColor: '#ec48bd',
                         borderWidth: 1,
                         yAxisID: 'y1',
-                        borderRadius: 4
+                        borderRadius: 6
                     },
                     {
                         type: 'line',
                         label: '전체 교통사고 (건)',
                         data: totalAccidents,
-                        borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 3,
-                        pointBackgroundColor: 'rgb(59, 130, 246)',
-                        pointRadius: 5,
+                        borderColor: '#5865f2',
+                        backgroundColor: 'rgba(88, 101, 242, 0.1)',
+                        borderWidth: 4,
+                        pointBackgroundColor: '#5865f2',
+                        pointRadius: 6,
                         yAxisID: 'y',
                         fill: true,
                         tension: 0.3
@@ -204,19 +314,19 @@
                 },
                 scales: {
                     y: {
+                        ...commonScaleConfig,
                         type: 'linear',
                         display: true,
                         position: 'left',
-                        grid: {
-                            color: 'rgba(148, 163, 184, 0.1)'
-                        },
                         title: {
                             display: true,
                             text: '전체 사고 (건)',
-                            color: '#94a3b8'
+                            color: '#b9bbbe',
+                            font: { weight: 'bold' }
                         }
                     },
                     y1: {
+                        ...commonScaleConfig,
                         type: 'linear',
                         display: true,
                         position: 'right',
@@ -226,36 +336,26 @@
                         title: {
                             display: true,
                             text: '고령운전자 사고 (건)',
-                            color: '#94a3b8'
+                            color: '#b9bbbe',
+                            font: { weight: 'bold' }
                         }
                     },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
+                    x: commonScaleConfig
                 },
                 plugins: {
-                    tooltip: {
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                    return label.join(' ');
-                                } else {
-                                    return label;
-                                }
-                            }
-                        }
-                    },
+                    tooltip: commonTooltipConfig,
                     legend: {
                         position: 'top',
+                        labels: {
+                            color: '#ffffff',
+                            font: { weight: 'bold' }
+                        }
                     }
                 }
             }
         });
 
+        // Ratio Chart Init
         const ratioCtx = document.getElementById('ratioChart').getContext('2d');
         new Chart(ratioCtx, {
             type: 'line',
@@ -264,12 +364,12 @@
                 datasets: [{
                     label: '고령운전자 사고 비중 (%)',
                     data: ratioData,
-                    borderColor: 'rgb(245, 158, 11)',
-                    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                    borderColor: '#35ed7e',
+                    backgroundColor: 'rgba(53, 237, 126, 0.1)',
                     borderWidth: 4,
-                    pointBackgroundColor: 'rgb(245, 158, 11)',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
+                    pointBackgroundColor: '#35ed7e',
+                    pointBorderColor: '#0a0d3a',
+                    pointBorderWidth: 3,
                     pointRadius: 6,
                     pointHoverRadius: 8,
                     fill: true,
@@ -281,42 +381,24 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: {
+                        ...commonScaleConfig,
                         beginAtZero: false,
                         min: 10,
                         max: 25,
-                        grid: {
-                            color: 'rgba(148, 163, 184, 0.1)',
-                            borderDash: [5, 5]
-                        },
                         ticks: {
+                            ...commonScaleConfig.ticks,
                             callback: function(value) {
                                 return value + '%';
                             }
                         }
                     },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 11
-                            }
-                        }
-                    }
+                    x: commonScaleConfig
                 },
                 plugins: {
                     tooltip: {
+                        ...commonTooltipConfig,
                         callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                    return label.join(' ');
-                                } else {
-                                    return label;
-                                }
-                            },
+                            ...commonTooltipConfig.callbacks,
                             label: function(context) {
                                 return context.dataset.label + ': ' + context.parsed.y + '%';
                             }
