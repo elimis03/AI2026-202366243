@@ -1,44 +1,62 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>대한민국 삶의 만족도와 자살률 상관관계 분석 보고서</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        discordCanvas: '#0a0d3a',
+                        discordPrimary: '#5865f2',
+                        discordGreen: '#35ed7e',
+                        discordMagenta: '#ec48bd',
+                        discordSurface: '#1e2353',
+                        discordOnyx: '#23272a',
+                    },
+                    borderRadius: {
+                        'xs': '6px',
+                        'sm': '12px',
+                        'md': '14px',
+                        'lg': '16px',
+                        'xl': '24px',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         :root {
-            --primary: #1e3d59;
-            --primary-light: #17b978;
-            --secondary: #ff6f61;
-            --accent: #ffbc00;
-            --bg-dark: #0f172a;
-            --bg-light: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --indigo: #4f46e5;
-            --emerald: #10b981;
-            --rose: #f43f5e;
+            --color-canvas: #0a0d3a;
+            --color-primary: #5865f2;
+            --color-green: #35ed7e;
+            --color-magenta: #ec48bd;
+            --color-surface-indigo: #1e2353;
+            --color-surface-onyx: #23272a;
+            --color-border: rgba(255, 255, 255, 0.05);
             --sidebar-width: 280px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-canvas);
+            color: #ffffff;
             line-height: 1.6;
             scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
         }
 
         /* App Layout */
@@ -50,7 +68,7 @@
         /* Sidebar Navigation */
         .sidebar {
             width: var(--sidebar-width);
-            background-color: var(--bg-dark);
+            background-color: var(--color-surface-black);
             color: #ffffff;
             position: fixed;
             top: 0;
@@ -59,7 +77,7 @@
             z-index: 100;
             display: flex;
             flex-direction: column;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid var(--color-border);
         }
 
         .sidebar-header {
@@ -67,17 +85,17 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .sidebar-header i {
-            font-size: 1.5rem;
-            color: var(--rose);
+            font-size: 1.35rem;
+            color: var(--color-magenta);
         }
 
         .sidebar-title {
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.5px;
             background: linear-gradient(to right, #ffffff, #94a3b8);
             -webkit-background-clip: text;
@@ -102,8 +120,8 @@
             color: #94a3b8;
             text-decoration: none;
             border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: all 0.2s ease;
         }
 
@@ -113,7 +131,7 @@
         }
 
         .nav-link.active {
-            border-left: 4px solid var(--rose);
+            border-left: 4px solid var(--color-magenta);
             background-color: rgba(255, 255, 255, 0.1);
         }
 
@@ -129,122 +147,29 @@
             gap: 8px;
             width: 100%;
             padding: 0.75rem;
-            background-color: var(--rose);
+            background-color: var(--color-magenta);
             color: #ffffff;
             border: none;
             border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
+            text-transform: uppercase;
         }
 
         .btn-download-sidebar:hover {
-            background-color: #e11d48;
+            background-color: #d83eb3;
+            transform: scale(1.02);
         }
 
         /* Main Content */
         .main-content {
             margin-left: var(--sidebar-width);
             flex-grow: 1;
-            padding: 2rem;
+            padding: 2.5rem;
             max-width: 1200px;
-        }
-
-        /* Hero Banner */
-        .hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border-radius: 16px;
-            padding: 3.5rem 3rem;
-            color: #ffffff;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(244, 63, 94, 0.15) 0%, transparent 60%);
-            border-radius: 50%;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: rgba(244, 63, 94, 0.2);
-            color: #fda4af;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(244, 63, 94, 0.3);
-        }
-
-        .hero-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            line-height: 1.3;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            max-width: 800px;
-            margin-bottom: 2rem;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--rose);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
-        }
-
-        .btn-primary:hover {
-            background-color: #e11d48;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.75rem 1.5rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
         }
 
         /* Section Styling */
@@ -257,139 +182,65 @@
             margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .section-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
-            background-color: rgba(79, 70, 229, 0.1);
-            color: var(--indigo);
+            width: 44px;
+            height: 44px;
+            background-color: rgba(88, 101, 242, 0.1);
+            color: var(--color-primary);
             border-radius: 12px;
-            font-size: 1.25rem;
-        }
-
-        section:nth-of-type(even) .section-icon {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--emerald);
+            font-size: 1.15rem;
+            border: 1px solid rgba(88, 101, 242, 0.2);
         }
 
         .section-title {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
+            font-weight: 800;
+            color: #ffffff;
             letter-spacing: -0.5px;
         }
 
-        /* Grid Cards - Summary */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .summary-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
+        /* Bento Cards */
+        .bento-card {
+            background-color: var(--color-surface-indigo);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s;
             position: relative;
             overflow: hidden;
         }
 
-        .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            border-color: #cbd5e1;
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-primary);
         }
 
-        .summary-card::before {
+        .bento-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 4px;
             height: 100%;
-            background-color: var(--indigo);
+            background-color: var(--color-primary);
         }
 
-        .summary-card.red::before { background-color: var(--rose); }
-        .summary-card.green::before { background-color: var(--emerald); }
-        .summary-card.orange::before { background-color: var(--accent); }
+        .bento-card.red::before { background-color: var(--color-magenta); }
+        .bento-card.green::before { background-color: var(--color-green); }
+        .bento-card.orange::before { background-color: #f59e0b; }
 
-        .card-icon {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--indigo);
-        }
-
-        .summary-card.red .card-icon { color: var(--rose); }
-        .summary-card.green .card-icon { color: var(--emerald); }
-        .summary-card.orange .card-icon { color: var(--accent); }
-
-        .card-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* Callout Alerts */
-        .callout {
-            background-color: #f1f5f9;
-            border-left: 4px solid var(--indigo);
-            border-radius: 0 12px 12px 0;
-            padding: 1.25rem 1.5rem;
-            margin: 1.5rem 0;
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-        }
-
-        .callout.warning {
-            background-color: #fff1f2;
-            border-left-color: var(--rose);
-        }
-
-        .callout-icon {
-            font-size: 1.2rem;
-            color: var(--indigo);
-            margin-top: 2px;
-        }
-
-        .callout.warning .callout-icon {
-            color: var(--rose);
-        }
-
-        .callout-content {
-            font-size: 0.95rem;
-            color: #334155;
-            line-height: 1.6;
-        }
-
-        .callout-title {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            color: var(--text-main);
-        }
-
-        /* Interactive Tables */
+        /* Tables */
         .table-container {
             overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background-color: #ffffff;
+            border-radius: 14px;
+            border: 1px solid var(--color-border);
+            background-color: rgba(0, 0, 0, 0.2);
             margin: 1.5rem 0;
         }
 
@@ -400,68 +251,75 @@
         }
 
         .data-table th {
-            background-color: #f8fafc;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 1rem;
-            border-bottom: 2px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.02);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 1.1rem;
+            border-bottom: 2px solid var(--color-border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .data-table td {
-            padding: 1rem;
-            font-size: 0.95rem;
-            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--color-border);
             transition: background 0.2s;
+            font-weight: 500;
+            color: #cbd5e1;
         }
 
         .data-table tr:hover td {
-            background-color: #f1f5f9;
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
         }
 
         .data-table td.highlight {
             font-weight: 700;
-            color: var(--rose);
+            color: var(--color-magenta);
         }
 
-        /* Interactive Dashboard Tab Panel */
+        /* Tabs UI */
         .tab-panel {
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            background-color: var(--color-surface-indigo);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
             overflow: hidden;
             margin-bottom: 2rem;
         }
 
         .tab-header {
             display: flex;
-            background-color: #f8fafc;
-            border-bottom: 1px solid var(--border-color);
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--color-border);
             padding: 0.5rem 1rem 0;
-            gap: 10px;
+            gap: 8px;
         }
 
         .tab-btn {
-            padding: 0.75rem 1.25rem;
+            padding: 0.85rem 1.25rem;
             background: none;
             border: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #94a3b8;
             cursor: pointer;
             border-radius: 8px 8px 0 0;
             border-bottom: 3px solid transparent;
             transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
         }
 
         .tab-btn:hover {
-            color: var(--text-main);
+            color: #ffffff;
         }
 
         .tab-btn.active {
-            color: var(--indigo);
-            border-bottom-color: var(--indigo);
-            background-color: #ffffff;
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+            background-color: var(--color-surface-indigo);
         }
 
         .tab-content {
@@ -485,14 +343,15 @@
             max-width: 100%;
             height: auto;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--color-border);
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .image-caption {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            font-size: 0.85rem;
+            color: #94a3b8;
             font-style: italic;
+            text-align: center;
         }
 
         /* Region Inspector Section */
@@ -500,9 +359,9 @@
             display: grid;
             grid-template-columns: 1fr 1.5fr;
             gap: 2rem;
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            background-color: var(--color-surface-indigo);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
         }
@@ -517,77 +376,68 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 1.25rem;
-            background-color: #f8fafc;
-            border: 1px solid var(--border-color);
+            padding: 1.1rem 1.25rem;
+            background-color: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--color-border);
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #94a3b8;
             transition: all 0.2s;
             text-align: left;
         }
 
         .region-btn:hover {
-            background-color: #f1f5f9;
-            border-color: #cbd5e1;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
         }
 
         .region-btn.active {
-            background-color: var(--indigo);
+            background-color: var(--color-primary);
             color: #ffffff;
-            border-color: var(--indigo);
+            border-color: var(--color-primary);
         }
 
         .region-btn .badge {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             padding: 0.2rem 0.6rem;
             border-radius: 50px;
-            background-color: rgba(244, 63, 94, 0.2);
-            color: var(--rose);
+            background-color: rgba(236, 72, 189, 0.15);
+            color: var(--color-magenta);
+            border: 1px solid rgba(236, 72, 189, 0.2);
         }
 
         .region-btn.active .badge {
             background-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
+            border-color: transparent;
         }
 
         .inspector-details {
-            background-color: #f8fafc;
+            background-color: rgba(0, 0, 0, 0.15);
             border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
+            padding: 1.75rem;
+            border: 1px solid var(--color-border);
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-
-        .inspector-placeholder {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 3rem 0;
-        }
-
-        .inspector-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #cbd5e1;
         }
 
         .inspector-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--color-border);
             padding-bottom: 1rem;
             margin-bottom: 1.5rem;
         }
 
         .inspector-region-name {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            color: var(--text-main);
+            color: #ffffff;
         }
 
         .stat-group {
@@ -595,67 +445,68 @@
         }
 
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            color: var(--text-muted);
+            color: #94a3b8;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
             display: flex;
             justify-content: space-between;
+            letter-spacing: 0.02em;
         }
 
         .stat-value {
             font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-main);
+            font-weight: 800;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .stat-diff {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             padding: 0.15rem 0.5rem;
             border-radius: 6px;
         }
 
         .diff-up {
-            background-color: #d1fae5;
-            color: #065f46;
+            background-color: rgba(53, 237, 126, 0.15);
+            color: var(--color-green);
         }
 
         .diff-down {
-            background-color: #fee2e2;
-            color: #991b1b;
+            background-color: rgba(236, 72, 189, 0.15);
+            color: var(--color-magenta);
         }
 
         .progress-bar {
             height: 8px;
-            background-color: #e2e8f0;
-            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 9999px;
             overflow: hidden;
             margin-top: 0.5rem;
         }
 
         .progress-fill {
             height: 100%;
-            background-color: var(--indigo);
-            border-radius: 4px;
+            background-color: var(--color-primary);
+            border-radius: 9999px;
             transition: width 0.8s ease-in-out;
         }
 
-        .progress-fill.red { background-color: var(--rose); }
+        .progress-fill.red { background-color: var(--color-magenta); }
 
         .region-commentary {
-            font-size: 0.95rem;
-            color: #334155;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.65;
             margin-top: 1rem;
-            background: #ffffff;
-            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.15rem;
             border-radius: 8px;
-            border-left: 3px solid var(--indigo);
+            border-left: 3px solid var(--color-primary);
         }
 
         /* Sticky Floating Download Button */
@@ -664,30 +515,29 @@
             bottom: 2rem;
             right: 2rem;
             z-index: 99;
-            background-color: var(--rose);
+            background-color: var(--color-magenta);
             color: #ffffff;
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(244, 63, 94, 0.4);
+            box-shadow: 0 4px 20px rgba(236, 72, 189, 0.4);
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.25s;
         }
 
         .floating-download:hover {
             transform: scale(1.1) rotate(5deg);
-            background-color: #e11d48;
+            background-color: #d83eb3;
         }
 
         .floating-download i {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -702,6 +552,8 @@
                 width: 100%;
                 position: relative;
                 height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--color-border);
             }
             .sidebar-header {
                 padding: 1.5rem;
@@ -710,7 +562,7 @@
                 padding: 0.75rem;
                 display: flex;
                 flex-wrap: wrap;
-                gap: 10px;
+                gap: 8px;
             }
             .nav-item {
                 margin-bottom: 0;
@@ -725,7 +577,7 @@
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
     <div class="app-container">
         <!-- Sidebar Navigation -->
@@ -736,7 +588,7 @@
             </div>
             
             <nav class="nav-list">
-                <li class="nav-item" style="margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 0.75rem;">
+                <li class="nav-item w-full lg:w-auto" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
                     <a href="https://elimis03.github.io/AI2026-202366243/" class="nav-link" style="color: #60a5fa; font-weight: bold;">
                         <i class="fa-solid fa-house" style="color: #60a5fa;"></i> 홈 (Home)
                     </a>
@@ -778,67 +630,74 @@
         <!-- Main Content Area -->
         <main class="main-content">
             <!-- Hero Header -->
-            <header class="hero">
-                <div class="hero-badge">
-                    <i class="fa-solid fa-award"></i> 통계 분석 보고서 (2020~2024)
-                </div>
-                <h1 class="hero-title">대한민국 시도별 삶의 만족도와 자살률 상관관계 분석</h1>
-                <p class="hero-subtitle">주관적 행복 지표인 ‘삶의 만족도’와 극단적 사회적 선택 지표인 ‘자살률’ 데이터 분석을 통해 포스트 코로나 사회의 웰빙 및 사회적 취약성을 진단합니다.</p>
-                <div class="hero-actions">
-                    <a href="https://elimis03.github.io/AI2026-202366243/" class="btn-secondary" style="border-color: #60a5fa; color: #60a5fa; background-color: rgba(96, 165, 250, 0.05);">
-                        <i class="fa-solid fa-house"></i> 홈으로 이동
-                    </a>
-                    <a href="./자살률_삶만족도_상관관계_분석보고서.pdf" class="btn-primary" download>
-                        <i class="fa-solid fa-download"></i> PDF 보고서 다운로드
-                    </a>
-                    <a href="./merged_data.csv" class="btn-secondary" download>
-                        <i class="fa-solid fa-table"></i> 병합 데이터 CSV 다운로드
-                    </a>
+            <header class="bg-gradient-to-br from-discordOnyx to-discordSurface p-8 lg:p-12 rounded-xl mb-10 relative overflow-hidden shadow-2xl border border-white/5">
+                <div class="absolute inset-0 bg-gradient-to-tr from-discordPrimary/5 to-transparent pointer-events-none"></div>
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-discordMagenta/10 border border-discordMagenta/20 text-discordMagenta text-xs font-bold uppercase tracking-wider mb-6 font-display">
+                        <i class="fa-solid fa-award"></i> 통계 분석 보고서 (2020~2024)
+                    </div>
+                    <h1 class="text-3xl lg:text-5xl font-extrabold mb-4 leading-tight tracking-tight text-white font-display uppercase">
+                        대한민국 시도별 삶의 만족도와 자살률 상관관계 분석
+                    </h1>
+                    <p class="text-sm lg:text-base text-slate-300 max-w-3xl mb-8 leading-relaxed font-medium">
+                        주관적 행복 지표인 ‘삶의 만족도’와 극단적 사회적 선택 지표인 ‘자살률’ 데이터 분석을 통해 포스트 코로나 사회의 웰빙 및 사회적 취약성을 진단합니다.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://elimis03.github.io/AI2026-202366243/" class="px-5 py-2.5 bg-discordSurface hover:bg-[#2e3472] border border-white/5 rounded-sm font-bold text-xs uppercase tracking-wider transition-all text-[#60a5fa]">
+                            <i class="fa-solid fa-house mr-1.5"></i> 홈으로 이동
+                        </a>
+                        <a href="./자살률_삶만족도_상관관계_분석보고서.pdf" class="px-5 py-2.5 bg-discordMagenta hover:bg-[#d83eb3] text-white rounded-sm font-extrabold text-xs uppercase tracking-wider border border-discordMagenta/20 transition-all shadow-lg" download>
+                            <i class="fa-solid fa-download mr-1.5"></i> PDF 보고서 다운로드
+                        </a>
+                        <a href="./merged_data.csv" class="px-5 py-2.5 bg-discordSurface hover:bg-[#2e3472] border border-white/5 rounded-sm font-bold text-xs uppercase tracking-wider transition-all text-white" download>
+                            <i class="fa-solid fa-table mr-1.5"></i> 병합 데이터 CSV 다운로드
+                        </a>
+                    </div>
                 </div>
             </header>
 
             <!-- 1. Summary Section -->
-            <section id="summary">
+            <section id="summary" class="space-y-6">
                 <div class="section-header">
                     <div class="section-icon"><i class="fa-solid fa-bullseye"></i></div>
                     <h2 class="section-title">1. 요약 (Executive Summary)</h2>
                 </div>
                 
-                <div class="summary-grid">
-                    <div class="summary-card red">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bento-card red">
                         <div class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                         <h3 class="card-title">자살률의 전국적 상승</h3>
                         <p class="card-desc">2020년 대비 2024년까지 17개 모든 시도에서 예외 없이 자살률이 상승했습니다. 전국 평균 자살률은 25.7명에서 29.1명으로 13.2% 급상승했습니다.</p>
                     </div>
-                    <div class="summary-card orange">
+                    <div class="bento-card orange">
                         <div class="card-icon"><i class="fa-solid fa-heart-broken"></i></div>
                         <h3 class="card-title">삶의 만족도 하락</h3>
                         <p class="card-desc">동일 기간 내 13개 시도에서 주관적 만족도가 일제히 감소했습니다. 특히 2021년 팬데믹 당시에 역대 최대폭으로 만족도가 급감했습니다.</p>
                     </div>
-                    <div class="summary-card green">
+                    <div class="bento-card green">
                         <div class="card-icon"><i class="fa-solid fa-shuffle"></i></div>
                         <h3 class="card-title">변화량 인과성 입증</h3>
                         <p class="card-desc">지역별 '삶의 만족도 변화량'과 '자살률 변화량' 간에 뚜렷한 음의 상관관계(r = -0.43)가 관찰되어, 행복이 더 많이 떨어진 지역일수록 자살률이 더 크게 치솟았음이 입증되었습니다.</p>
                     </div>
                 </div>
 
-                <div class="callout warning">
-                    <div class="callout-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
-                    <div class="callout-content">
-                        <div class="callout-title">탈동조화(Decoupling) 분석 요점</div>
+                <div class="p-6 bg-discordMagenta/10 border-l-4 border-discordMagenta rounded-r-xl flex gap-4 items-start">
+                    <div class="text-discordMagenta text-lg mt-0.5"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                        <div class="font-extrabold text-white mb-1">탈동조화(Decoupling) 분석 요점</div>
                         2024년 말 일반 국민들의 평균적인 만족도는 2020년과 비슷하게 회복되었으나 자살률은 역대로 치솟았습니다. 이는 평균적인 행복 만족 지표가 자살 위험이 있는 취약 계층의 실제 생활 위기를 반영하지 못하고 벌어지고 있음을 의미합니다.
                     </div>
                 </div>
             </section>
 
             <!-- 2. Nationwide Trends Section -->
-            <section id="trends">
+            <section id="trends" class="space-y-6">
                 <div class="section-header">
                     <div class="section-icon"><i class="fa-solid fa-chart-line"></i></div>
                     <h2 class="section-title">2. 전국 단위 추이 및 성별 분석</h2>
                 </div>
 
-                <p style="margin-bottom: 1.5rem;">대한민국 전체(전국 평균)의 5개년 데이터 추이 테이블입니다. 2021년의 급격한 만족도 붕괴와 2023-2024년 만족도-자살률 간의 괴리를 숫자로 명확히 확인할 수 있습니다.</p>
+                <p class="text-sm text-slate-300 font-medium">대한민국 전체(전국 평균)의 5개년 데이터 추이 테이블입니다. 2021년의 급격한 만족도 붕괴와 2023-2024년 만족도-자살률 간의 괴리를 숫자로 명확히 확인할 수 있습니다.</p>
 
                 <div class="table-container">
                     <table class="data-table">
@@ -859,11 +718,11 @@
                                 <td>12.5%</td>
                                 <td>25.7</td>
                             </tr>
-                            <tr style="background-color: #fff1f2;">
+                            <tr class="bg-discordMagenta/5">
                                 <td>2021년 (팬데믹 정점)</td>
-                                <td style="color: var(--rose); font-weight: bold;">3.161 ↓</td>
+                                <td class="text-discordMagenta font-extrabold">3.161 ↓</td>
                                 <td>34.0%</td>
-                                <td style="color: var(--rose); font-weight: bold;">22.9% ↑</td>
+                                <td class="text-discordMagenta font-extrabold">22.9% ↑</td>
                                 <td>26.0</td>
                             </tr>
                             <tr>
@@ -880,12 +739,12 @@
                                 <td>14.5%</td>
                                 <td class="highlight">27.3</td>
                             </tr>
-                            <tr style="background-color: #f8fafc;">
+                            <tr class="bg-white/[0.02]">
                                 <td>2024년 (최근)</td>
                                 <td>3.367</td>
                                 <td>40.1%</td>
                                 <td>12.7%</td>
-                                <td class="highlight" style="font-size: 1.1rem; color: #e11d48;">29.1 ↑</td>
+                                <td class="highlight font-black text-discordMagenta" style="font-size: 1.05rem;">29.1 ↑</td>
                             </tr>
                         </tbody>
                     </table>
@@ -899,13 +758,13 @@
                     </div>
                     <div id="tab-trend" class="tab-content active">
                         <div class="tab-image-container">
-                            <img src="./nationwide_trend.png" alt="전국 추이 차트" class="tab-image">
+                            <img src="./nationwide_trend.png" alt="전국 추이 차트" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Nationwide+Trend+Chart'">
                             <span class="image-caption">전국 평균 삶의 만족도 점수(좌축, 파란색)와 자살률(우축, 빨간색 점선)의 연도별 상반된 추이</span>
                         </div>
                     </div>
                     <div id="tab-gender" class="tab-content">
                         <div class="tab-image-container">
-                            <img src="./gender_comparison_trends.png" alt="성별 비교 차트" class="tab-image">
+                            <img src="./gender_comparison_trends.png" alt="성별 비교 차트" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Gender+Comparison+Chart'">
                             <span class="image-caption">남성 자살률(좌측 파란선)과 여성 자살률(주황선)의 극심한 차이 대비 성별 만족도(우측) 비교</span>
                         </div>
                     </div>
@@ -913,13 +772,13 @@
             </section>
 
             <!-- 3. Correlation Section -->
-            <section id="correlation">
+            <section id="correlation" class="space-y-6">
                 <div class="section-header">
                     <div class="section-icon"><i class="fa-solid fa-calculator"></i></div>
                     <h2 class="section-title">3. 시도별 상관관계 분석</h2>
                 </div>
 
-                <p style="margin-bottom: 1.5rem;">삶의 만족도 설문의 5가지 세부 등급별 비율과 자살률의 관계를 깊이 있게 분석했습니다. 탭을 선택해 다양한 각도의 분석 차트를 인터랙티브하게 전환하며 확인하실 수 있습니다.</p>
+                <p class="text-sm text-slate-300 font-medium">삶의 만족도 설문의 5가지 세부 등급별 비율과 자살률의 관계를 깊이 있게 분석했습니다. 탭을 선택해 다양한 각도의 분석 차트를 인터랙티브하게 전환하며 확인하실 수 있습니다.</p>
 
                 <!-- Tabs for correlation charts -->
                 <div class="tab-panel">
@@ -930,9 +789,9 @@
                     </div>
                     <div id="tab-heatmap" class="tab-content active">
                         <div class="tab-image-container">
-                            <img src="./correlation_heatmap.png" alt="상관관계 히트맵" class="tab-image">
+                            <img src="./correlation_heatmap.png" alt="상관관계 히트맵" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Correlation+Heatmap+Chart'">
                             <p class="image-caption">세부 설문 답변(매우 만족 ~ 매우 불만족)과 자살률 간의 Pearson 상관계수 행렬</p>
-                            <div class="region-commentary" style="width: 100%; border-left-color: var(--indigo);">
+                            <div class="region-commentary border-l-discordPrimary w-full">
                                 <strong>💡 히트맵 핵심 분석 요점:</strong><br>
                                 • 삶을 <strong>'보통'</strong>으로 인식하는 중립 답변층의 비중과 자살률 간에 강한 정적 상관관계(<strong>r = +0.41</strong>)가 성립됩니다. 사회 전체적인 감정 무기력증(Apathy)이 자살률과 깊이 얽혀 있음을 뜻합니다.<br>
                                 • 반면 '매우 만족'(r = -0.22)과 '매우 불만족'(r = -0.23) 비율이 높은 곳은 자살률이 오히려 낮아 감정이 적극적으로 표출되는 곳이 상대적으로 안전함을 시사합니다.
@@ -941,15 +800,15 @@
                     </div>
                     <div id="tab-scatter" class="tab-content">
                         <div class="tab-image-container">
-                            <img src="./satisfaction_suicide_scatter.png" alt="통합 산점도" class="tab-image">
+                            <img src="./satisfaction_suicide_scatter.png" alt="통합 산점도" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Scatter+Plot+Chart'">
                             <span class="image-caption">17개 시도별 5개년 통합 데이터 기반 만족도 점수와 자살률의 횡단면 분포</span>
                         </div>
                     </div>
                     <div id="tab-change" class="tab-content">
                         <div class="tab-image-container">
-                            <img src="./satisfaction_suicide_change_scatter.png" alt="변화량 산점도" class="tab-image">
+                            <img src="./satisfaction_suicide_change_scatter.png" alt="변화량 산점도" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Change+Scatter+Plot+Chart'">
                             <p class="image-caption">2020년 대비 2024년의 삶의 만족도 변화 폭(X)과 자살률 변화 폭(Y)의 상관성</p>
-                            <div class="region-commentary" style="width: 100%; border-left-color: var(--rose);">
+                            <div class="region-commentary border-l-discordMagenta w-full">
                                 <strong>💡 변화량 상관분석 결과 (r = -0.4336):</strong><br>
                                 단년도 조사에서는 나타나지 않았던 실제적 인과관계가 증명되었습니다. 2020년 대비 2024년 삶의 만족도가 더 많이 주저앉은 지역(세종, 인천)일수록 실제 자살률의 증가 속도가 훨씬 빨랐음이 통계적으로 명백하게 입증되었습니다.
                             </div>
@@ -959,13 +818,13 @@
             </section>
 
             <!-- 4. Regions Section -->
-            <section id="regions">
+            <section id="regions" class="space-y-6">
                 <div class="section-header">
                     <div class="section-icon"><i class="fa-solid fa-map-location-dot"></i></div>
                     <h2 class="section-title">4. 지역별 분석 (Regional Case Studies)</h2>
                 </div>
 
-                <p style="margin-bottom: 1.5rem;">아래 인터랙티브 지역 탐색기에서 각 시도를 클릭해 보십시오. 2020년 대비 2024년의 삶의 만족도 및 자살률 지표의 다이내믹한 수치 변동과 상세 사례 분석을 보실 수 있습니다.</p>
+                <p class="text-sm text-slate-300 font-medium">아래 인터랙티브 지역 탐색기에서 각 시도를 클릭해 보십시오. 2020년 대비 2024년의 삶의 만족도 및 자살률 지표의 다이내믹한 수치 변동과 상세 사례 분석을 보실 수 있습니다.</p>
 
                 <!-- Interactive Region Explorer -->
                 <div class="inspector-container">
@@ -999,33 +858,33 @@
                 </div>
 
                 <div class="tab-image-container" style="margin-top: 2rem;">
-                    <img src="./regional_comparison_2024.png" alt="2024 지역별 비교 차트" class="tab-image">
+                    <img src="./regional_comparison_2024.png" alt="2024 지역별 비교 차트" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Regional+Comparison+Chart'">
                     <span class="image-caption">2024년 기준 17개 시도별 자살률(막대, 좌축) 및 삶의 만족도 점수(선, 우축) 비교</span>
                 </div>
             </section>
 
             <!-- 5. Conclusion Section -->
-            <section id="conclusion">
+            <section id="conclusion" class="space-y-6">
                 <div class="section-header">
                     <div class="section-icon"><i class="fa-solid fa-lightbulb"></i></div>
                     <h2 class="section-title">5. 정책 제언 (Conclusion & Policy Implications)</h2>
                 </div>
 
-                <div class="summary-grid" style="grid-template-columns: 1fr;">
-                    <div class="summary-card" style="margin-bottom: 0;">
-                        <div class="card-icon" style="color: var(--indigo);"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3 class="card-title">지표의 탈동조화 경계 및 복합 분석</h3>
-                        <p class="card-desc" style="font-size: 0.95rem; margin-bottom: 1rem;">2022~2024년 전국 삶의 만족도 평균은 회복세를 보였으나 자살률은 급증했습니다. 따라서 일반 만족도 조사 결과에 기초한 안일한 접근을 버리고 경제 지표와 취약 계층 복지 데이터를 포함한 복합적인 입체적 모니터링이 시급합니다.</p>
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="bento-card">
+                        <div class="card-icon" style="color: var(--color-primary);"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 class="card-title text-white">지표의 탈동조화 경계 및 복합 분석</h3>
+                        <p class="card-desc text-sm text-slate-300">2022~2024년 전국 삶의 만족도 평균은 회복세를 보였으나 자살률은 급증했습니다. 따라서 일반 만족도 조사 결과에 기초한 안일한 접근을 버리고 경제 지표와 취약 계층 복지 데이터를 포함한 복합적인 입체적 모니터링이 시급합니다.</p>
                     </div>
-                    <div class="summary-card" style="margin-bottom: 0;">
-                        <div class="card-icon" style="color: var(--rose);"><i class="fa-solid fa-users-viewfinder"></i></div>
-                        <h3 class="card-title">고위험 극단 취약계층의 핀셋 케어</h3>
-                        <p class="card-desc" style="font-size: 0.95rem; margin-bottom: 1rem;">2024년 데이터에서 만족도 평균 점수보다 '삶의 불만족 비율'이 자살률과 유의미한 음의 상관관계(r = -0.487)를 유지했습니다. 이는 불특정 다수의 만족도를 올리기 위한 예산 편중보다 고독사 위기나 경제적 극빈에 몰린 극단 취약계층을 집중 구제하는 표적화 복지망 확충이 정책 효율을 대폭 증진시킴을 말해줍니다.</p>
+                    <div class="bento-card red">
+                        <div class="card-icon" style="color: var(--color-magenta);"><i class="fa-solid fa-users-viewfinder"></i></div>
+                        <h3 class="card-title text-white">고위험 극단 취약계층의 핀셋 케어</h3>
+                        <p class="card-desc text-sm text-slate-300">2024년 데이터에서 만족도 평균 점수보다 '삶의 불만족 비율'이 자살률과 유의미한 음의 상관관계(r = -0.487)를 유지했습니다. 이는 불특정 다수의 만족도를 올리기 위한 예산 편중보다 고독사 위기나 경제적 극빈에 몰린 극단 취약계층을 집중 구제하는 표적화 복지망 확충이 정책 효율을 대폭 증진시킴을 말해줍니다.</p>
                     </div>
-                    <div class="summary-card" style="margin-bottom: 0;">
-                        <div class="card-icon" style="color: var(--emerald);"><i class="fa-solid fa-house-medical"></i></div>
-                        <h3 class="card-title">지역 밀착형 및 성별 위기 상담센터 배치</h3>
-                        <p class="card-desc" style="font-size: 0.95rem;">자살률이 남성이 여성에 비해 2.5배 높은 격차를 보이는 사회 구조적 위기에 직면했습니다. 남성 실직자 지원 프로그램, 사회적 은둔 남성의 조기 발굴 및 맞춤형 정신 보건 복지망을 확충하는 등 성별 및 지역(광주 자살률 급증, 제주 고립 문제 등) 특성을 고려한 전담 위기센터 조성이 강력히 권장됩니다.</p>
+                    <div class="bento-card green">
+                        <div class="card-icon" style="color: var(--color-green);"><i class="fa-solid fa-house-medical"></i></div>
+                        <h3 class="card-title text-white">지역 밀착형 및 성별 위기 상담센터 배치</h3>
+                        <p class="card-desc text-sm text-slate-300">자살률이 남성이 여성에 비해 2.5배 높은 격차를 보이는 사회 구조적 위기에 직면했습니다. 남성 실직자 지원 프로그램, 사회적 은둔 남성의 조기 발굴 및 맞춤형 정신 보건 복지망을 확충하는 등 성별 및 지역(광주 자살률 급증, 제주 고립 문제 등) 특성을 고려한 전담 위기센터 조성이 강력히 권장됩니다.</p>
                     </div>
                 </div>
             </section>
@@ -1107,7 +966,7 @@
             const data = regionData[key];
             const satDiffClass = data.satDiff >= 0 ? "diff-up" : "diff-down";
             const satDiffSign = data.satDiff >= 0 ? "+" : "";
-            const suiDiffClass = data.suiDiff >= 0 ? "diff-down" : "diff-up"; // suicide up is bad (red)
+            const suiDiffClass = data.suiDiff >= 0 ? "diff-down" : "diff-up"; // suicide up is bad (red/magenta)
             const suiDiffSign = data.suiDiff >= 0 ? "+" : "";
 
             // Calculate progress percentages
@@ -1116,16 +975,16 @@
 
             const html = `
                 <div class="inspector-header">
-                    <div class="inspector-region-name">${data.name}</div>
-                    <span class="region-btn active" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; pointer-events: none;">${data.badge}</span>
+                    <div class="inspector-region-name font-display uppercase">${data.name}</div>
+                    <span class="text-xs font-bold px-3 py-1 bg-discordMagenta/10 border border-discordMagenta/20 text-discordMagenta rounded-sm uppercase tracking-wider">${data.badge}</span>
                 </div>
                 
                 <div class="stat-group">
                     <div class="stat-label">
                         <span>삶의 만족도 점수 (5점 만점)</span>
-                        <span>${data.sat2020} &rarr; ${data.sat2024}</span>
+                        <span class="font-bold text-white">${data.sat2020} &rarr; ${data.sat2024}</span>
                     </div>
-                    <div class="stat-value">
+                    <div class="stat-value font-display">
                         <span>${data.sat2024}</span>
                         <span class="stat-diff ${satDiffClass}">${satDiffSign}${data.satDiff}</span>
                     </div>
@@ -1137,9 +996,9 @@
                 <div class="stat-group">
                     <div class="stat-label">
                         <span>자살률 (인구 10만 명당 명)</span>
-                        <span>${data.sui2020}명 &rarr; ${data.sui2024}명</span>
+                        <span class="font-bold text-white">${data.sui2020}명 &rarr; ${data.sui2024}명</span>
                     </div>
-                    <div class="stat-value">
+                    <div class="stat-value font-display">
                         <span>${data.sui2024} 명</span>
                         <span class="stat-diff ${suiDiffClass}">${suiDiffSign}${data.suiDiff}</span>
                     </div>
@@ -1149,7 +1008,7 @@
                 </div>
 
                 <div class="region-commentary">
-                    <strong>📍 심층 리포트 및 지리적 해석:</strong><br>
+                    <strong class="text-discordPrimary block mb-1 uppercase tracking-wider text-xs">📍 심층 리포트 및 지리적 해석</strong>
                     ${data.commentary}
                 </div>
             `;
@@ -1195,7 +1054,6 @@
             let currentSectionId = 'summary';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
                 if (pageYOffset >= (sectionTop - 150)) {
                     currentSectionId = section.getAttribute('id');
                 }
