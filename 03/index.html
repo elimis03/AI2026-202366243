@@ -7,6 +7,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --color-canvas: #0a0d3a;
+            --color-primary: #5865f2;
+            --color-green: #35ed7e;
+            --color-magenta: #ec48bd;
+            --color-surface-indigo: #1e2353;
+            --color-surface-onyx: #23272a;
+            --color-surface-black: #000000;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-canvas);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
@@ -21,11 +45,7 @@
                 height: 380px;
             }
         }
-        .gradient-text {
-            background: linear-gradient(90deg, #1E3A8A, #3B82F6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        
         /* Modal Animation */
         .modal-active {
             display: flex !important;
@@ -36,12 +56,37 @@
             to { opacity: 1; }
         }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discordCanvas: '#0a0d3a',
+                        discordPrimary: '#5865f2',
+                        discordGreen: '#35ed7e',
+                        discordMagenta: '#ec48bd',
+                        discordSurface: '#1e2353',
+                        discordOnyx: '#23272a',
+                        discordBlack: '#000000',
+                    },
+                    borderRadius: {
+                        'xs': '6px',
+                        'sm': '12px',
+                        'md': '14px',
+                        'lg': '16px',
+                        'xl': '40px',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+<body class="min-h-screen pb-20">
 
-    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-        <div class="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl">
-            <button onclick="closeVideo()" class="absolute top-4 right-4 z-[110] w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors">
+    <!-- 비디오 모달 -->
+    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-discordBlack/90 backdrop-blur-md p-4">
+        <div class="relative w-full max-w-4xl bg-discordBlack rounded-xl overflow-hidden shadow-2xl border border-white/10">
+            <button onclick="closeVideo()" class="absolute top-4 right-4 z-[110] w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors border border-white/5">
                 <span class="text-2xl">&times;</span>
             </button>
             <div class="aspect-video w-full">
@@ -54,64 +99,73 @@
         <div class="absolute inset-0 -z-10" onclick="closeVideo()"></div>
     </div>
 
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200">
+    <!-- 네비게이션 -->
+    <nav class="sticky top-0 z-50 bg-[#0a0d3aff]/85 backdrop-blur-md border-b border-discordOnyx">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <a href="https://elimis03.github.io/AI2026-202366243/" class="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-blue-900 hover:text-white transition-all duration-300 shadow-sm group" title="홈으로 이동">
-                    <span class="text-xl group-hover:scale-110 transition-transform">🏠</span>
+                <a href="https://elimis03.github.io/AI2026-202366243/" class="flex items-center justify-center w-10 h-10 rounded-sm bg-discordSurface hover:bg-discordPrimary text-white transition-all duration-300 border border-white/5 group" title="홈으로 이동">
+                    <span class="text-lg group-hover:scale-110 transition-transform">🏠</span>
                 </a>
-                <h1 class="text-xl font-bold text-blue-900 tracking-tight">부산 인구분석센터</h1>
+                <h1 class="text-xl font-extrabold text-white tracking-tight font-display uppercase">부산 인구분석센터</h1>
             </div>
-            <div class="text-sm font-medium text-slate-500 hidden sm:block">2020 - 2024 심층 리포트</div>
+            <div class="text-xs font-bold text-discordPrimary tracking-widest uppercase hidden sm:block">2020 - 2024 심층 리포트</div>
         </div>
     </nav>
 
-    <header class="max-w-6xl mx-auto px-6 pt-16 pb-12 text-center">
-        <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-800 text-sm font-bold tracking-wider mb-4">DATA INSIGHT</span>
-        <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-            붕괴되는 30%의 벽,<br><span class="gradient-text">부산광역시 초고령화 리포트</span>
+    <!-- 히어로 헤더 -->
+    <header class="max-w-4xl mx-auto px-6 pt-16 pb-12 text-center flex flex-col items-center">
+        <span class="inline-block py-1.5 px-4 rounded-xl bg-discordPrimary/10 border border-discordPrimary/20 text-discordPrimary text-xs font-bold tracking-widest uppercase mb-4">DATA INSIGHT</span>
+        <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-[1.05] font-display uppercase">
+            붕괴되는 30%의 벽,<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-discordPrimary via-purple-400 to-discordMagenta">부산광역시 초고령화 리포트</span>
         </h2>
-        <p class="text-lg text-slate-600 max-w-3xl mx-auto mb-8">
+        <p class="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
             지난 5년간 부산의 인구 구조는 급격한 변화를 맞이했습니다. 고령 인구 비중이 폭발적으로 증가하는 가운데, 각 구·군별 데이터 분석을 통해 지역 맞춤형 정책 대응이 필요함을 시사합니다.
         </p>
         
         <div class="flex flex-wrap justify-center gap-4">
             <a href="https://gemini.google.com/share/a08080f4ec15" 
                target="_blank"
-               class="inline-flex items-center gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-2xl shadow-lg hover:bg-orange-600 hover:shadow-orange-200/50 hover:-translate-y-1 transition-all duration-300 group">
-                <span class="text-2xl group-hover:animate-bounce">📖</span>
-                <span class="text-lg">스토리북 보기</span>
+               class="inline-flex items-center gap-3 px-8 py-4 bg-discordGreen text-discordBlack font-extrabold rounded-sm shadow-lg hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 group text-sm uppercase tracking-wider border border-discordGreen/20">
+                <span class="text-xl group-hover:animate-bounce">📖</span>
+                <span>스토리북 보기</span>
             </a>
             <button onclick="openVideo()"
-               class="inline-flex items-center gap-3 px-8 py-4 bg-teal-600 text-white font-bold rounded-2xl shadow-lg hover:bg-teal-700 hover:shadow-teal-200/50 hover:-translate-y-1 transition-all duration-300 group">
-                <span class="text-2xl group-hover:rotate-12 transition-transform">🎬</span>
-                <span class="text-lg">영상보기</span>
+               class="inline-flex items-center gap-3 px-8 py-4 bg-discordPrimary hover:bg-discordPrimary/95 text-white font-extrabold rounded-sm shadow-lg hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 group text-sm uppercase tracking-wider border border-white/5">
+                <span class="text-xl group-hover:rotate-12 transition-transform">🎬</span>
+                <span>영상보기</span>
             </button>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 pb-20 space-y-16">
+    <main class="max-w-6xl mx-auto px-6 space-y-8">
 
+        <!-- 메트릭 카드 영역 (Bento Layout Row 1) -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-blue-900 flex flex-col justify-center items-center text-center transform transition duration-300 hover:-translate-y-1">
-                <div class="text-slate-500 font-semibold mb-2">5년간 총인구 감소</div>
-                <div class="text-5xl font-black text-blue-900 mb-2">- 91,760<span class="text-2xl font-bold"> 명</span></div>
-                <div class="text-sm text-slate-400 bg-slate-100 px-3 py-1 rounded-md">2020년 334.9만 → 2024년 325.7만</div>
+            <div class="bg-discordSurface/50 rounded-xl p-8 border border-white/5 flex flex-col justify-center items-center text-center transform transition duration-300 hover:scale-[1.01]">
+                <div class="text-slate-400 font-bold uppercase tracking-wider text-xs mb-2">5년간 총인구 감소</div>
+                <div class="text-5xl font-black text-discordPrimary mb-2 tracking-tight font-display">- 91,760<span class="text-xl font-bold ml-1"> 명</span></div>
+                <div class="text-[11px] font-semibold text-discordPrimary bg-discordPrimary/10 border border-discordPrimary/20 px-3 py-1 rounded-sm uppercase tracking-wider">2020년 334.9만 → 2024년 325.7만</div>
             </div>
             
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-orange-500 flex flex-col justify-center items-center text-center transform transition duration-300 hover:-translate-y-1">
-                <div class="text-slate-500 font-semibold mb-2">5년간 60세 이상 인구 증가</div>
-                <div class="text-5xl font-black text-orange-500 mb-2">+ 128,277<span class="text-2xl font-bold"> 명</span></div>
-                <div class="text-sm text-slate-400 bg-slate-100 px-3 py-1 rounded-md">14.4% 폭발적 급증 (총 102만 돌파)</div>
+            <div class="bg-gradient-to-br from-discordMagenta to-discordPrimary rounded-xl p-8 flex flex-col justify-center items-center text-center transform transition duration-300 hover:scale-[1.01] relative overflow-hidden group shadow-2xl">
+                <div class="absolute inset-0 bg-discordBlack opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                <div class="relative z-10">
+                    <div class="text-white/80 font-bold uppercase tracking-wider text-xs mb-2">5년간 60세 이상 인구 증가</div>
+                    <div class="text-5xl font-black text-white mb-2 tracking-tight font-display">+ 128,277<span class="text-xl font-bold ml-1"> 명</span></div>
+                    <div class="text-[11px] font-semibold text-white bg-white/20 border border-white/25 px-3 py-1 rounded-sm uppercase tracking-wider">14.4% 폭발적 급증 (총 102만 돌파)</div>
+                </div>
             </div>
         </section>
 
-        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-10">
+        <!-- 차트 영역 1 (Bento Layout Row 2) -->
+        <section class="bg-discordSurface/50 rounded-xl p-6 md:p-10 border border-white/5 shadow-2xl">
             <div class="max-w-3xl mb-8">
-                <h3 class="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span class="text-3xl">📈</span> 부산 전체 인구 구조의 교차점
+                <span class="text-[10px] font-extrabold text-discordPrimary uppercase tracking-widest block mb-1">Analytical Chart 01</span>
+                <h3 class="text-2xl font-extrabold text-white mb-3 flex items-center gap-2.5 font-display uppercase">
+                    <span class="text-2xl">📈</span> 부산 전체 인구 구조의 교차점
                 </h3>
-                <p class="text-slate-600">
+                <p class="text-slate-300 text-sm leading-relaxed">
                     전체 인구는 감소하는 반면 고령 비중은 가파르게 상승하여 2024년 31.3%를 기록했습니다.
                 </p>
             </div>
@@ -120,35 +174,42 @@
             </div>
         </section>
 
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-1 space-y-6">
-                <h3 class="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span class="text-3xl">🏛️</span> 16개 구·군 고령화 지도
-                </h3>
-                <p class="text-slate-600 text-sm">
-                    영도구(41.4%)를 필두로 원도심의 고령화가 매우 심각한 수준입니다. 강서구(21.1%)만이 유일하게 20%대를 유지하고 있습니다.
-                </p>
-                <div class="bg-orange-50 rounded-xl p-5 border border-orange-100">
-                    <h4 class="font-bold text-orange-800 mb-2">핵심 주의 구역</h4>
-                    <ul class="text-sm text-orange-700 space-y-2">
-                        <li>▶ <strong>영도구 (41.4%)</strong>: 전국 최상위권 고령화</li>
-                        <li>▶ <strong>해운대구 (12.1만명)</strong>: 고령자 수 최대 밀집</li>
+        <!-- 지도 및 분할 영역 (Bento Layout Row 3) -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-4 bg-discordSurface/50 rounded-xl p-8 border border-white/5 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <span class="text-[10px] font-extrabold text-discordMagenta uppercase tracking-widest block">Geographic Map Info</span>
+                    <h3 class="text-2xl font-extrabold text-white mb-3 flex items-center gap-2.5 font-display uppercase">
+                        <span class="text-2xl">🏛️</span> 16개 구·군 고령화 지도
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        영도구(41.4%)를 필두로 원도심의 고령화가 매우 심각한 수준입니다. 강서구(21.1%)만이 유일하게 20%대를 유지하고 있습니다.
+                    </p>
+                </div>
+                
+                <div class="bg-discordOnyx/50 rounded-lg p-5 border border-white/5 border-l-4 border-discordMagenta mt-8">
+                    <h4 class="font-bold text-discordMagenta mb-2 uppercase tracking-wider text-xs">핵심 주의 구역</h4>
+                    <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                        <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-discordMagenta"></span> 영도구 (41.4%): 전국 최상위권 고령화</li>
+                        <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-discordMagenta"></span> 해운대구 (12.1만명): 고령자 수 최대 밀집</li>
                     </ul>
                 </div>
             </div>
-            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <div class="lg:col-span-8 bg-discordSurface/50 rounded-xl p-6 md:p-8 border border-white/5 shadow-2xl">
                 <div class="chart-container" style="height: 450px; max-height: 500px;">
                     <canvas id="districtChart"></canvas>
                 </div>
             </div>
         </section>
 
-        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-10 border-l-8 border-teal-500">
+        <!-- 속도 영역 (Bento Layout Row 4) -->
+        <section class="bg-discordSurface/50 rounded-xl p-6 md:p-10 border border-white/5 border-l-8 border-discordGreen shadow-2xl">
             <div class="max-w-3xl mb-8">
-                <h3 class="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span class="text-3xl">⚠️</span> 가장 빠르게 늙어가는 지역 (고령화 속도)
+                <span class="text-[10px] font-extrabold text-discordGreen uppercase tracking-widest block mb-1">Analytical Chart 02</span>
+                <h3 class="text-2xl font-extrabold text-white mb-3 flex items-center gap-2.5 font-display uppercase">
+                    <span class="text-2xl">⚠️</span> 가장 빠르게 늙어가는 지역 (고령화 속도)
                 </h3>
-                <p class="text-slate-600">
+                <p class="text-slate-300 text-sm leading-relaxed">
                     기장군은 신도시 개발에도 불구하고 고령 인구 유입 및 전환 속도가 부산에서 가장 빠른 6.4%p 증가를 기록했습니다.
                 </p>
             </div>
@@ -159,8 +220,12 @@
 
     </main>
 
-    <footer class="bg-slate-100 border-t border-slate-200 py-8 text-center text-slate-500 text-sm mt-10">
-        <p>본 데이터 리포트는 부산광역시 공공데이터를 기반으로 재구성되었습니다.</p>
+    <!-- 푸터 -->
+    <footer class="bg-discordCanvas border-t border-discordOnyx py-10 text-center text-xs opacity-70 mt-16">
+        <div class="max-w-6xl mx-auto px-6 space-y-2">
+            <p class="text-white/60 font-medium">본 데이터 리포트는 부산광역시 공공데이터를 기반으로 재구성되었습니다.</p>
+            <p class="text-discordPrimary font-bold uppercase tracking-widest text-[10px]">Busan Demographic Analysis Center @ 2026</p>
+        </div>
     </footer>
 
     <script>
@@ -180,14 +245,39 @@
             video.currentTime = 0;
         }
 
-        // Charts Logic
-        const wrapLabel = (label) => label;
+        // ESC 키로 모달 닫기 지원
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVideo();
+            }
+        });
+
+        // Common Chart Config Defaults for Dark Discord Canvas
+        const commonScaleConfig = {
+            grid: {
+                color: 'rgba(255, 255, 255, 0.05)',
+                drawBorder: false
+            },
+            ticks: {
+                color: '#b9bbbe',
+                font: {
+                    family: 'Plus Jakarta Sans',
+                    size: 11
+                }
+            }
+        };
 
         const commonTooltipConfig = {
+            backgroundColor: '#1e2353',
+            titleFont: { family: 'Plus Jakarta Sans', weight: 'bold' },
+            bodyFont: { family: 'Plus Jakarta Sans' },
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1,
             mode: 'index',
             intersect: false
         };
 
+        // Trend Chart Configuration
         const trendCtx = document.getElementById('trendChart').getContext('2d');
         new Chart(trendCtx, {
             type: 'line',
@@ -199,16 +289,16 @@
                         data: [3349016, 3324335, 3295760, 3279604, 3257256],
                         type: 'bar',
                         yAxisID: 'y',
-                        backgroundColor: '#1E3A8A',
-                        borderRadius: 4
+                        backgroundColor: '#5865f2',
+                        borderRadius: 6
                     },
                     {
                         label: '60세 이상 비중 (%)',
                         data: [26.6, 28.1, 29.3, 30.4, 31.3],
                         type: 'line',
                         yAxisID: 'y1',
-                        borderColor: '#F97316',
-                        backgroundColor: '#F97316',
+                        borderColor: '#ec48bd',
+                        backgroundColor: '#ec48bd',
                         borderWidth: 4,
                         pointRadius: 5,
                         tension: 0.4
@@ -219,18 +309,38 @@
                 maintainAspectRatio: false,
                 plugins: {
                     tooltip: commonTooltipConfig,
-                    legend: { position: 'top' }
+                    legend: { 
+                        position: 'top',
+                        labels: {
+                            color: '#ffffff',
+                            font: { family: 'Plus Jakarta Sans', weight: 'bold' }
+                        }
+                    }
                 },
                 scales: {
-                    y: { min: 3200000, max: 3400000, position: 'left' },
-                    y1: { min: 20, max: 35, position: 'right', grid: { display: false } }
+                    y: { 
+                        ...commonScaleConfig,
+                        min: 3200000, 
+                        max: 3400000, 
+                        position: 'left' 
+                    },
+                    y1: { 
+                        ...commonScaleConfig,
+                        min: 20, 
+                        max: 35, 
+                        position: 'right', 
+                        grid: { display: false } 
+                    },
+                    x: commonScaleConfig
                 }
             }
         });
 
+        // District Chart Configuration
         const distLabels = ['영도구', '중구', '동구', '서구', '금정구', '사하구', '연제구', '수영구', '사상구', '해운대구', '북구', '부산진구', '남구', '동래구', '기장군', '강서구'];
         const distData = [41.4, 37.9, 37.0, 36.6, 33.4, 31.6, 31.5, 31.4, 31.3, 31.2, 31.0, 30.8, 30.6, 28.7, 26.7, 21.1];
-        const distColors = distData.map(v => v > 40 ? '#C2410C' : v < 25 ? '#0D9488' : '#3B82F6');
+        // Discord Palette Mapping: Over 40: Magenta, Under 25: Green, Default: Blurple
+        const distColors = distData.map(v => v > 40 ? '#ec48bd' : v < 25 ? '#35ed7e' : '#5865f2');
 
         const distCtx = document.getElementById('districtChart').getContext('2d');
         new Chart(distCtx, {
@@ -240,19 +350,28 @@
                 datasets: [{
                     data: distData,
                     backgroundColor: distColors,
-                    borderRadius: 4
+                    borderRadius: 6
                 }]
             },
             options: {
                 indexAxis: 'y',
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                },
                 scales: {
-                    x: { min: 15, max: 45 }
+                    x: { 
+                        ...commonScaleConfig,
+                        min: 15, 
+                        max: 45 
+                    },
+                    y: commonScaleConfig
                 }
             }
         });
 
+        // Speed Chart Configuration
         const speedLabels = ['기장군', '사상구', '사하구', '해운대구', '영도구', '북구', '금정구', '연제구'];
         const speedData = [6.4, 6.2, 6.2, 6.1, 6.1, 5.9, 5.8, 5.5];
 
@@ -264,14 +383,27 @@
                 datasets: [{
                     label: '5년간 비중 증가폭 (%p)',
                     data: speedData,
-                    backgroundColor: '#14B8A6',
+                    backgroundColor: '#35ed7e',
                     borderRadius: 6
                 }]
             },
             options: {
                 maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        labels: {
+                            color: '#ffffff',
+                            font: { family: 'Plus Jakarta Sans', weight: 'bold' }
+                        }
+                    },
+                    tooltip: commonTooltipConfig
+                },
                 scales: {
-                    y: { min: 4.0 }
+                    y: { 
+                        ...commonScaleConfig,
+                        min: 4.0 
+                    },
+                    x: commonScaleConfig
                 }
             }
         });
