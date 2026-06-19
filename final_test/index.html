@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>양적 공급의 착시와 문화 양극화: 공공 통계 융합 데이터 분석을 통해 본 지역별 여가 만족도와 인구 소멸 연관성 연구</title>
+    <meta name="description" content="부산대학교 김진서 - 양적 공급의 착시와 문화 양극화: 공공 통계 융합 데이터 분석을 통해 본 지역별 여가 만족도와 인구 소멸 연관성 연구">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #131a26;
+            --bg-card: rgba(25, 35, 51, 0.45);
+            --border-color: rgba(255, 255, 255, 0.08);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --accent-blue: #38bdf8;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            
+            --gradient-blue: linear-gradient(135deg, #38bdf8 0%, #0369a1 100%);
+            --gradient-emerald: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            --gradient-amber: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+            --gradient-red: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            
+            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --card-hover-border: rgba(255, 255, 255, 0.12);
+            --card-hover-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+            --tab-active-bg: #1e293b;
+            --tab-active-border: rgba(255, 255, 255, 0.05);
+            --chart-bg: #0f141f;
+            --chart-border: rgba(255, 255, 255, 0.05);
+            --table-header-bg: rgba(255, 255, 255, 0.02);
+            --report-bg: #131a26;
+            --report-text: #cbd5e1;
+            
+            --btn-secondary-bg: rgba(255, 255, 255, 0.04);
+            --btn-secondary-text: #e2e8f0;
+            --btn-secondary-border: rgba(255, 255, 255, 0.08);
+            --btn-secondary-hover-bg: rgba(255, 255, 255, 0.08);
+        }
+
+        body.light-theme {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(0, 0, 0, 0.08);
+            
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            
+            --accent-blue: #0284c7;
+            --accent-emerald: #059669;
+            --accent-amber: #d97706;
+            --accent-red: #dc2626;
+            --accent-purple: #7c3aed;
+            
+            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            
+            --card-hover-border: rgba(0, 0, 0, 0.15);
+            --card-hover-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.08);
+            --tab-active-bg: #e2e8f0;
+            --tab-active-border: rgba(0, 0, 0, 0.05);
+            --chart-bg: #f1f5f9;
+            --chart-border: rgba(0, 0, 0, 0.05);
+            --table-header-bg: rgba(0, 0, 0, 0.02);
+            --report-bg: #f1f5f9;
+            --report-text: #334155;
+            
+            --btn-secondary-bg: rgba(0, 0, 0, 0.04);
+            --btn-secondary-text: #1e293b;
+            --btn-secondary-border: rgba(0, 0, 0, 0.08);
+            --btn-secondary-hover-bg: rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--btn-secondary-bg);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--btn-secondary-hover-bg);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .header-glow {
+            position: absolute;
+            top: -100px;
+            left: 20%;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0) 70%);
+            filter: blur(40px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .header-top-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .header-title-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        .author-meta {
+            font-size: 0.95rem;
+            color: var(--accent-blue);
+            margin-top: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .badge-premium {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--accent-blue);
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn-home {
+            background: var(--btn-secondary-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--btn-secondary-border);
+            padding: 0.55rem 1.15rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-home:hover {
+            background: var(--btn-secondary-hover-bg);
+            transform: translateX(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+            border: 1px solid var(--btn-secondary-border);
+            padding: 0.65rem 1.35rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--btn-secondary-hover-bg);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--gradient-blue);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem;
+            border-radius: 14px;
+            margin-bottom: 2.5rem;
+            gap: 0.25rem;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        body.light-theme .tab-btn:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .tab-btn.active {
+            background: var(--tab-active-bg);
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--tab-active-border);
+        }
+
+        /* Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-premium);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .glass-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .card-title i {
+            color: var(--accent-blue);
+        }
+
+        /* Dashboard Overview Grid */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .icon-blue { background: var(--gradient-blue); }
+        .icon-emerald { background: var(--gradient-emerald); }
+        .icon-amber { background: var(--gradient-amber); }
+        .icon-red { background: var(--gradient-red); }
+        .icon-purple { background: linear-gradient(135deg, #8b5cf6 0%, #5b21b6 100%); }
+
+        .stat-info .stat-val {
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* Grid Layouts */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Display Panels */
+        .chart-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .chart-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            background: var(--chart-bg);
+            border: 1px solid var(--chart-border);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart-container img {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .chart-container:hover img {
+            transform: scale(1.015);
+        }
+
+        .chart-caption {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            width: 100%;
+        }
+
+        /* Region Explorer View */
+        .explorer-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .explorer-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .selector-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.9rem 1.25rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+
+        .select-wrapper::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .region-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .region-item-btn {
+            text-align: left;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        body.light-theme .region-item-btn {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .region-item-btn:hover {
+            background: var(--btn-secondary-hover-bg);
+            color: var(--text-primary);
+        }
+
+        .region-item-btn.selected {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: rgba(56, 189, 248, 0.3);
+            color: var(--accent-blue);
+        }
+
+        /* Detailed Region Info Card */
+        .detail-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .region-detail-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .region-name-large {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .region-category {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #c084fc;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .metric-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .metric-mini-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        body.light-theme .metric-mini-card {
+            background: rgba(0, 0, 0, 0.01);
+        }
+
+        .metric-mini-card .val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .metric-mini-card .lbl {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Progress bars */
+        .progress-container {
+            margin-top: 0.5rem;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-track {
+            height: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fill-blue { background: var(--gradient-blue); }
+        .fill-emerald { background: var(--gradient-emerald); }
+        .fill-amber { background: var(--gradient-amber); }
+        .fill-red { background: var(--gradient-red); }
+
+        /* Interactive Correlation Matrix Table */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .matrix-table th, .matrix-table td {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .matrix-table th {
+            background: var(--table-header-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .matrix-cell-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 8px;
+        }
+
+        .matrix-cell-btn:hover {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+        }
+
+        /* Correlation explanation widget */
+        .explain-box {
+            background: rgba(56, 189, 248, 0.06);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 0 12px 12px 0;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .explain-box-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Styled Markdown Report Viewer */
+        .report-markdown {
+            background: var(--report-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-height: 800px;
+            overflow-y: auto;
+            color: var(--report-text);
+        }
+
+        .report-markdown h2 {
+            color: var(--text-primary);
+            font-size: 1.6rem;
+            margin: 2.25rem 0 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .report-markdown h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .report-markdown ul, .report-markdown ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .report-markdown li {
+            margin-bottom: 0.5rem;
+        }
+
+        .report-markdown blockquote {
+            background: rgba(139, 92, 246, 0.08);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.25rem;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .report-markdown p {
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        .tab-icon-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header>
+            <div class="header-glow"></div>
+            <div class="header-top-navigation">
+                <a href="https://elimis03.github.io/AI2026-202366243/" class="btn-home"><i class="fa-solid fa-house"></i> 홈으로 이동</a>
+                <div class="action-bar">
+                    <button id="theme-toggle" class="btn-secondary" onclick="toggleTheme()"><i class="fa-solid fa-sun"></i> 라이트 모드 (White)</button>
+                    <button class="btn-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> 현재화면 PDF화</button>
+                </div>
+            </div>
+            <div class="header-title-container">
+                <div>
+                    <span class="badge-premium"><i class="fa-solid fa-chart-line"></i> KOSIS 공공 통계 융합 데이터 분석</span>
+                    <h1>양적 공급의 착시와 문화 양극화</h1>
+                    <p style="font-weight: 500; font-size: 1.15rem; color: var(--text-primary); margin-top: 0.4rem;">
+                        공공 통계 융합 데이터 분석을 통해 본 지역별 여가 만족도와 인구 소멸 연관성 연구
+                    </p>
+                    <div class="author-meta">
+                        <span><i class="fa-solid fa-graduation-cap"></i> 부산대학교 디자인학과 디지털테크놀로지 전공</span>
+                        <span><i class="fa-solid fa-user"></i> 작성자: <strong>김진서</strong> (학번: 202366243)</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs" role="tablist" aria-label="Dashboard Navigation">
+            <button class="tab-btn active" id="tab-overview" role="tab" aria-selected="true" aria-controls="content-overview" onclick="switchTab('overview')">
+                <i class="fa-solid fa-square-poll-vertical"></i> <span class="tab-icon-label">시각화 차트 대시보드</span>
+            </button>
+            <button class="tab-btn" id="tab-explorer" role="tab" aria-selected="false" aria-controls="content-explorer" onclick="switchTab('explorer')">
+                <i class="fa-solid fa-map-location-dot"></i> <span class="tab-icon-label">지역별 정밀 지표 진단</span>
+            </button>
+            <button class="tab-btn" id="tab-analysis" role="tab" aria-selected="false" aria-controls="content-analysis" onclick="switchTab('analysis')">
+                <i class="fa-solid fa-calculator"></i> <span class="tab-icon-label">상관관계 정밀 분석</span>
+            </button>
+            <button class="tab-btn" id="tab-collaboration" role="tab" aria-selected="false" aria-controls="content-collaboration" onclick="switchTab('collaboration')">
+                <i class="fa-solid fa-robot"></i> <span class="tab-icon-label">AI 협업 프로세스</span>
+            </button>
+            <a href="최종 분석 보고서.pdf" download class="tab-btn" id="tab-report" style="text-decoration: none; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; gap: 0.6rem;">
+                <i class="fa-solid fa-file-arrow-down"></i> <span class="tab-icon-label">최종 보고서 PDF 다운로드</span>
+            </a>
+        </nav>
+
+        <!-- CONTENT 1: OVERVIEW & CHARTS -->
+        <div id="content-overview" class="tab-content active" role="tabpanel" aria-labelledby="tab-overview">
+            
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-people-group"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-val" style="color: var(--accent-blue);">+4.70%</div>
+                        <div class="stat-label">인구 최대 증가 지역 (세종)</div>
+                    </div>
+                </div>
+                <div class="glass-card stat-card">
+                    <div class="stat-icon icon-red"><i class="fa-solid fa-users-slash"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-val" style="color: var(--accent-red);">-4.49%</div>
+                        <div class="stat-label">인구 최대 감소 지역 (경북)</div>
+                    </div>
+                </div>
+                <div class="glass-card stat-card">
+                    <div class="stat-icon icon-emerald"><i class="fa-solid fa-face-smile"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-val" style="color: var(--accent-emerald);">48.6%</div>
+                        <div class="stat-label">여가 만족도 최고 지역 (세종)</div>
+                    </div>
+                </div>
+                <div class="glass-card stat-card">
+                    <div class="stat-icon icon-amber"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-val" style="color: var(--accent-amber);">4.7%</div>
+                        <div class="stat-label">여가시설 부족 최대 체감 (전남)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main dashboard layout -->
+            <div class="dashboard-grid">
+                
+                <!-- Chart display gallery -->
+                <div class="glass-card">
+                    <div class="card-title"><i class="fa-solid fa-image"></i> 대중적 분석 시각화 자료 (일반인 대상 설계)</div>
+                    
+                    <div class="chart-gallery">
+                        <!-- Chart 1 -->
+                        <div class="chart-container">
+                            <img src="시각화_일반인_여가만족도_인구변화.png" alt="지역별 여가 만족도 및 인구 변화율 비교 차트">
+                            <div class="chart-caption">
+                                <strong>[차트 1] 여가 만족도 vs 인구 증감 연계 정렬 차트</strong><br>
+                                여가생활의 만족도 순위와 지역 인구의 유입(파란색)/유출(빨간색) 구조가 뚜렷하게 결합되어 있음을 드러냅니다.
+                            </div>
+                        </div>
+
+                        <!-- Chart 2 -->
+                        <div class="chart-container" style="margin-top: 1.5rem;">
+                            <img src="시각화_일반인_문화시설_관람격차.png" alt="문화시설 밀도와 실제 관람율 비교 차트">
+                            <div class="chart-caption">
+                                <strong>[차트 2] 문화시설 밀도(공급)와 관람 향유율(수요)의 격차</strong><br>
+                                인구당 양적인 시설 공급 밀도는 도(道) 지역이 높으나, 질적인 실제 참여 빈도 및 관람 시도율은 특광역시가 훨씬 강한 왜곡 현상을 보여줍니다.
+                            </div>
+                        </div>
+
+                        <!-- Chart 5 -->
+                        <div class="chart-container" style="margin-top: 1.5rem;">
+                            <img src="문화·여가_인프라와_인구_소멸.png" alt="문화·여가 인프라와 인구 소멸 시각화 자료">
+                            <div class="chart-caption">
+                                <strong>[차트 5] 문화·여가 인프라와 지역 인구 소멸 분석 보드</strong><br>
+                                지역별 문화/여가 생활 여건과 인구 소멸 위험 지수 간의 지리적·통계적 연관성을 융합한 심층 시각화 데이터입니다.
+                            </div>
+                        </div>
+
+                        <!-- Video 1 -->
+                        <div class="chart-container" style="margin-top: 1.5rem;">
+                            <video controls style="width: 100%; max-width: 900px; border-radius: 8px; background: #000;">
+                                <source src="지방_소멸의_데이터와_문화_인프라.mp4" type="video/mp4">
+                                브라우저가 비디오 태그를 지원하지 않습니다.
+                            </video>
+                            <div class="chart-caption">
+                                <strong>[시각 자료] 지방 소멸의 데이터와 문화 인프라 해설 영상</strong><br>
+                                지방 소멸 위험에 처한 지역들의 인구학적 데이터와 문화 인프라 부족 실태를 해설한 동영상 자료입니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side quick insight panel & Research Background -->
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <!-- Research Background Card -->
+                    <div class="glass-card" style="background: rgba(56, 189, 248, 0.05); border-color: rgba(56, 189, 248, 0.25);">
+                        <div class="card-title" style="color: var(--accent-blue);"><i class="fa-solid fa-graduation-cap"></i> 연구 배경 및 주제 선정 이유</div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;">
+                            최근 일상 속에서 다양한 문화·여가 생활을 직접 경험하며, 특히 <strong>부산 콘텐츠 공모전</strong>과 같은 대회를 직접 준비하고 참가하면서 지역의 문화, 예술, 관람, 관광 산업이 가진 사회적 가치에 대한 관심도가 크게 높아졌습니다.
+                            <br><br>
+                            이러한 과정에서 주민들이 체감하는 여가 생활의 만족도/불만족도, 그리고 지역별 문화시설의 개수가 실제로 지방 인구수의 감소 또는 증가와 어떠한 연관성을 가지고 작동하는지 깊은 의문이 생겨 본 연구 주제를 직접 선정하였습니다.
+                        </p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-title"><i class="fa-solid fa-lightbulb"></i> 핵심 시사점 (Key Insights)</div>
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                            <div>
+                                <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem; font-weight: 600;">1. 정주 여건으로서의 여가 인프라</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    인구가 유입되며 성장세를 보이는 세종, 인천, 경기는 여가 만족도가 최상위권을 기록했습니다. 문화·여가 환경이 단순 복지를 넘어 인구 이탈을 차단하는 실질적 정주 요인임을 가리킵니다.
+                                </p>
+                            </div>
+                            <hr style="border: 0; border-top: 1px solid var(--border-color);">
+                            <div>
+                                <h4 style="color: var(--accent-amber); margin-bottom: 0.5rem; font-weight: 600;">2. 양적 공급과 주민 체감의 괴리</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    인구 10만명당 문화시설수가 가장 많은 제주, 강원, 전남의 여가 만족도가 최하위권(30%대)에 머물렀습니다. 단순한 양적 개수 증가 정책의 허점을 명확히 보여줍니다.
+                                </p>
+                            </div>
+                            <hr style="border: 0; border-top: 1px solid var(--border-color);">
+                            <div>
+                                <h4 style="color: var(--accent-emerald); margin-bottom: 0.5rem; font-weight: 600;">3. 풍요 속의 빈곤 (질적 격차)</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    농어촌 도 지역은 지자체 예산으로 지어지는 공공 중심의 노후화된 정적 인프라만 많을 뿐, 실제 주민이 원하는 동적 문화 여가 환경(영화관, 스포츠 체육시설 등)이 부족해 체감 불만족도가 도시 대비 4배 이상 높습니다.
+                                </p>
+                            </div>
+                            
+                            <div style="margin-top: 1rem;">
+                                <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="switchTab('explorer')">
+                                    <i class="fa-solid fa-arrow-right"></i> 우리 지역 상세 진단하기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="glass-card chart-container">
+                    <img src="시각화_일반인_여가불만족_이유.png" alt="전국 여가 불만족 요인 도넛 차트">
+                    <div class="chart-caption">
+                        <strong>[차트 3] 전국 기준 여가 불만족 6대 요인 비율</strong><br>
+                        국민 10명 중 7명은 여가를 즐기지 못하는 이유로 '경제적 부담(48.7%)'과 '시간 부족(21.9%)'을 꼽습니다.
+                    </div>
+                </div>
+                <div class="glass-card chart-container">
+                    <img src="시각화_일반인_여가시설부족_비교.png" alt="지역별 여가시설 부족 응답 비교 차트">
+                    <div class="chart-caption">
+                        <strong>[차트 4] 여가시설 부족에 따른 불만족 체감도 비교</strong><br>
+                        전남(4.7%), 전북(4.2%), 제주(3.7%) 등 문화시설 공급 밀도가 높아 보이는 지방 도(道) 지역 주민들이 도시 주민보다 문화 인프라 결핍을 4배 이상 더 겪고 있습니다.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CONTENT 2: REGION EXPLORER -->
+        <div id="content-explorer" class="tab-content" role="tabpanel" aria-labelledby="tab-explorer">
+            
+            <div class="explorer-layout">
+                
+                <!-- Region list / select -->
+                <div class="glass-card selector-panel">
+                    <div class="card-title"><i class="fa-solid fa-map-location-dot"></i> 시도 행정구역 선택</div>
+                    <div class="select-wrapper">
+                        <select id="region-selector" onchange="onRegionSelect(this.value)" aria-label="Select region to explore">
+                            <!-- Injected by JS -->
+                        </select>
+                    </div>
+                    <div class="region-list" id="region-btn-list" role="listbox" aria-label="Region list">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Detailed diagnostic view -->
+                <div class="glass-card detail-panel">
+                    <div class="region-detail-header">
+                        <div class="region-name-large" id="det-region-name">서울특별시</div>
+                        <span class="region-category" id="det-region-type">특광역시</span>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="metric-cards-grid">
+                        <div class="metric-mini-card">
+                            <span class="lbl"><i class="fa-solid fa-arrow-trend-up"></i> 인구수 변화율 (22-25)</span>
+                            <span class="val" id="det-pop-change" style="color: var(--accent-blue);">-2.17%</span>
+                        </div>
+                        <div class="metric-mini-card">
+                            <span class="lbl"><i class="fa-solid fa-landmark"></i> 10만명당 문화시설 (24)</span>
+                            <span class="val" id="det-infra-density" style="color: var(--accent-amber);">5.10개</span>
+                        </div>
+                        <div class="metric-mini-card">
+                            <span class="lbl"><i class="fa-solid fa-eye"></i> 문화 관람 시도율 (25)</span>
+                            <span class="val" id="det-viewing-rate" style="color: var(--accent-emerald);">62.3%</span>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Diagnostics -->
+                    <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                        
+                        <!-- Progress 1: Satisfaction -->
+                        <div class="progress-container">
+                            <div class="progress-meta">
+                                <span>여가 생활 만족도 (2025)</span>
+                                <strong id="det-sat-rate-text">41.3%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill fill-emerald" id="det-sat-rate-bar" style="width: 41.3%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Progress 2: Dissatisfaction -->
+                        <div class="progress-container">
+                            <div class="progress-meta">
+                                <span>여가 생활 불만족도 (2025)</span>
+                                <strong id="det-unsat-rate-text">16.8%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill fill-red" id="det-unsat-rate-bar" style="width: 16.8%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Progress 3: Facility Shortage Complaint -->
+                        <div class="progress-container">
+                            <div class="progress-meta">
+                                <span>여가시설 부족 불만율 (불만 요인 중)</span>
+                                <strong id="det-facility-shortage-text">1.1%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill fill-amber" id="det-facility-shortage-bar" style="width: 1.1%;"></div>
+                            </div>
+                        </div>
+
+                        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
+
+                        <!-- Analysis Diagnostic explanation -->
+                        <div>
+                            <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary);"><i class="fa-solid fa-stethoscope"></i> 종합 진단 평정</h4>
+                            <p id="det-summary-text" style="font-size: 0.95rem; color: var(--text-secondary);">
+                                로딩 중...
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CONTENT 3: STATISTICAL CORRELATION -->
+        <div id="content-analysis" class="tab-content" role="tabpanel" aria-labelledby="tab-analysis">
+            
+            <div class="glass-card">
+                <div class="card-title"><i class="fa-solid fa-table-cells"></i> 상관관계 분석 메트릭스 (Pearson Correlation Matrix)</div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                    각 계수(셀)를 클릭하시면 통계학적 연관성의 의미와 상세 해석을 확인할 수 있습니다.
+                </p>
+
+                <div style="overflow-x: auto;">
+                    <table class="matrix-table" id="corr-table" aria-label="Correlation Matrix Table">
+                        <thead>
+                            <tr>
+                                <th>지표명</th>
+                                <th>인구 변화율</th>
+                                <th>문화시설수 (총)</th>
+                                <th>10만명당 문화시설</th>
+                                <th>여가 만족도</th>
+                                <th>여가 불만족도</th>
+                                <th>문화 관람 시도율</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="explain-box" id="corr-explain-widget">
+                    <div class="explain-box-title" id="corr-title">
+                        <i class="fa-solid fa-circle-info"></i> 통계 지표를 클릭해 주세요
+                    </div>
+                    <p id="corr-body" style="color: var(--text-secondary); font-size: 0.95rem;">
+                        위 상관행렬의 각 수치들을 누르시면 인구 변화와 문화 공급, 주민 효용 간의 연관성에 관한 데이터 기반 해석이 여기에 표시됩니다.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CONTENT: AI-HUMAN COLLABORATION -->
+        <div id="content-collaboration" class="tab-content" role="tabpanel" aria-labelledby="tab-collaboration">
+            <div class="glass-card">
+                <div class="card-title"><i class="fa-solid fa-robot"></i> 생성형 AI 기반 연구 및 인간-AI 협업 프로세스</div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 2rem;">
+                    본 연구는 생성형 AI의 분석 생산성과 인간 분석가(김진서)의 데이터 검증 및 설계 역량을 결합한 <strong>멀티 AI 워크플로우(Multi-AI Workflow)</strong>를 가동하여 설계되었습니다.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                    <div class="glass-card metric-mini-card">
+                        <h4 style="color: var(--accent-blue);"><i class="fa-solid fa-bolt"></i> 1. 자료 탐색 및 수집</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.6;">
+                            <strong>Gemini 3.5 Flash 활용</strong><br>
+                            KOSIS 내 방대한 시계열 데이터베이스 중에서 인구 및 사회조사 통계표를 신속하고 정확하게 분류하고 융합하기 위한 탐색 지침 획득.
+                        <        
+    <script>
+        // Injected Cleaned Datasets
+        const regionsData = [{"지역": "강원특별자치도", "인구_2022_01": 1538660, "인구_2025_12": 1508500, "인구_2026_05": 1507237, "인구_변화량_22_25": -30160, "인구_변화율_22_25_pct": -1.9601471410188087, "인구_변화량_total": -31423, "인구_변화율_total_pct": -2.042231552129775, "시설수_2022": 246, "시설수_2023": 247, "시설수_2024": 250, "십만명당_시설수_2022": 16.0, "십만명당_시설수_2023": 16.2, "십만명당_시설수_2024": 16.5, "시설수_변화량_22_24": 4, "시설수_변화율_22_24_pct": 1.6260162601626018, "만족도_2021": 27.9, "불만족도_2021": 20.8, "만족도_2023": 33.4, "불만족도_2023": 16.099999999999998, "만족도_2025": 37.1, "불만족도_2025": 16.7, "2025_매우만족": 11.6, "2025_약간만족": 25.5, "2025_보통": 46.2, "2025_약간불만족": 12.4, "2025_매우불만족": 4.3, "2025_경제적부담": 37.1, "2025_시간부족": 26.7, "2025_교통혼잡": 2.4, "2025_여가시설부족": 1.4, "2025_여가정보부족": null, "2025_여가프로그램부족": 0.9, "2025_취미없음": 4.6, "2025_건강체력부족": 24.4, "2025_동반자없음": 2.2, "2025_기타": 0.3, "2023_경제적부담": 40.7, "2023_시간부족": 26.3, "2023_교통혼잡": 1.1, "2023_여가시설부족": 4.6, "2023_여가정보부족": 0.7, "2023_여가프로그램부족": 0.3, "2023_취미없음": 3.6, "2023_건강체력부족": 20.0, "2023_동반자없음": 2.7, "2023_기타": null, "관람시도율_2021": 18.2, "평균관람횟수_2021": 4.2, "관람시도율_2023": 47.3, "평균관람횟수_2023": 6.6, "관람시도율_2025": 49.5, "평균관람횟수_2025": 7.7, "영화관람율_2025": 72.4, "스포츠관람율_2025": 25.6}, {"지역": "경기도", "인구_2022_01": 13571450, "인구_2025_12": 13730135, "인구_2026_05": 13755126, "인구_변화량_22_25": 158685, "인구_변화율_22_25_pct": 1.1692560485430814, "인구_변화량_total": 183676, "인구_변화율_total_pct": 1.3533999683158395, "시설수_2022": 609, "시설수_2023": 622, "시설수_2024": 633, "십만명당_시설수_2022": 4.5, "십만명당_시설수_2023": 4.6, "십만명당_시설수_2024": 4.6, "시설수_변화량_22_24": 24, "시설수_변화율_22_24_pct": 3.940886699507389, "만족도_2021": 27.8, "불만족도_2021": 26.200000000000003, "만족도_2023": 34.8, "불만족도_2023": 18.7, "만족도_2025": 39.8, "불만족도_2025": 16.2, "2025_매우만족": 13.1, "2025_약간만족": 26.7, "2025_보통": 44.0, "2025_약간불만족": 12.4, "2025_매우불만족": 3.8, "2025_경제적부담": 48.6, "2025_시간부족": 25.5, "2025_교통혼잡": 2.9, "2025_여가시설부족": 2.1, "2025_여가정보부족": 1.0, "2025_여가프로그램부족": 1.0, "2025_취미없음": 4.6, "2025_건강체력부족": 12.3, "2025_동반자없음": 1.5, "2025_기타": 0.4, "2023_경제적부담": 52.2, "2023_시간부족": 23.8, "2023_교통혼잡": 1.8, "2023_여가시설부족": 1.7, "2023_여가정보부족": 0.4, "2023_여가프로그램부족": 0.5, "2023_취미없음": 4.0, "2023_건강체력부족": 12.6, "2023_동반자없음": 2.4, "2023_기타": 0.5, "관람시도율_2021": 24.8, "평균관람횟수_2021": 4.8, "관람시도율_2023": 56.9, "평균관람횟수_2023": 7.2, "관람시도율_2025": 60.6, "평균관람횟수_2025": 6.8, "영화관람율_2025": 74.8, "스포츠관람율_2025": 27.2}, {"지역": "경상남도", "인구_2022_01": 3311438, "인구_2025_12": 3207383, "인구_2026_05": 3196632, "인구_변화량_22_25": -104055, "인구_변화율_22_25_pct": -3.1422904490435872, "인구_변화량_total": -114806, "인구_변화율_total_pct": -3.466953027657471, "시설수_2022": 235, "시설수_2023": 233, "시설수_2024": 233, "십만명당_시설수_2022": 7.2, "십만명당_시설수_2023": 7.2, "십만명당_시설수_2024": 7.2, "시설수_변화량_22_24": -2, "시설수_변화율_22_24_pct": -0.851063829787234, "만족도_2021": 26.0, "불만족도_2021": 21.2, "만족도_2023": 33.8, "불만족도_2023": 19.7, "만족도_2025": 37.9, "불만족도_2025": 16.2, "2025_매우만족": 11.6, "2025_약간만족": 26.3, "2025_보통": 45.9, "2025_약간불만족": 13.2, "2025_매우불만족": 3.0, "2025_경제적부담": 50.8, "2025_시간부족": 16.9, "2025_교통혼잡": 0.7, "2025_여가시설부족": 2.6, "2025_여가정보부족": 1.7, "2025_여가프로그램부족": 0.5, "2025_취미없음": 7.2, "2025_건강체력부족": 16.3, "2025_동반자없음": 3.3, "2025_기타": null, "2023_경제적부담": 46.2, "2023_시간부족": 21.4, "2023_교통혼잡": 1.5, "2023_여가시설부족": 4.0, "2023_여가정보부족": 0.6, "2023_여가프로그램부족": 0.5, "2023_취미없음": 6.1, "2023_건강체력부족": 17.5, "2023_동반자없음": 1.8, "2023_기타": 0.4, "관람시도율_2021": 21.7, "평균관람횟수_2021": 4.9, "관람시도율_2023": 55.4, "평균관람횟수_2023": 6.8, "관람시도율_2025": 54.6, "평균관람횟수_2025": 6.5, "영화관람율_2025": 76.3, "스포츠관람율_2025": 28.0}, {"지역": "경상북도", "인구_2022_01": 2624310, "인구_2025_12": 2506526, "인구_2026_05": 2496706, "인구_변화량_22_25": -117784, "인구_변화율_22_25_pct": -4.488189276419326, "인구_변화량_total": -127604, "인구_변화율_total_pct": -4.862382873974493, "시설수_2022": 232, "시설수_2023": 224, "시설수_2024": 228, "십만명당_시설수_2022": 8.9, "십만명당_시설수_2023": 8.8, "십만명당_시설수_2024": 9.0, "시설수_변화량_22_24": -4, "시설수_변화율_22_24_pct": -1.7241379310344829, "만족도_2021": 23.1, "불만족도_2021": 24.200000000000003, "만족도_2023": 29.7, "불만족도_2023": 17.8, "만족도_2025": 31.700000000000003, "불만족도_2025": 16.6, "2025_매우만족": 6.9, "2025_약간만족": 24.8, "2025_보통": 51.6, "2025_약간불만족": 13.8, "2025_매우불만족": 2.8, "2025_경제적부담": 42.5, "2025_시간부족": 22.0, "2025_교통혼잡": 0.5, "2025_여가시설부족": 2.6, "2025_여가정보부족": 0.8, "2025_여가프로그램부족": 0.9, "2025_취미없음": 4.9, "2025_건강체력부족": 24.9, "2025_동반자없음": 0.9, "2025_기타": null, "2023_경제적부담": 44.4, "2023_시간부족": 24.7, "2023_교통혼잡": 0.5, "2023_여가시설부족": 2.3, "2023_여가정보부족": 0.2, "2023_여가프로그램부족": 0.6, "2023_취미없음": 4.7, "2023_건강체력부족": 20.6, "2023_동반자없음": 1.4, "2023_기타": 0.7, "관람시도율_2021": 16.1, "평균관람횟수_2021": 3.8, "관람시도율_2023": 44.2, "평균관람횟수_2023": 6.1, "관람시도율_2025": 48.5, "평균관람횟수_2025": 6.1, "영화관람율_2025": 76.8, "스포츠관람율_2025": 21.2}, {"지역": "광주광역시", "인구_2022_01": 1441636, "인구_2025_12": 1392013, "인구_2026_05": 1386379, "인구_변화량_22_25": -49623, "인구_변화율_22_25_pct": -3.442131023365121, "인구_변화량_total": -55257, "인구_변화율_total_pct": -3.832937024325142, "시설수_2022": 78, "시설수_2023": 88, "시설수_2024": 90, "십만명당_시설수_2022": 5.5, "십만명당_시설수_2023": 6.2, "십만명당_시설수_2024": 6.4, "시설수_변화량_22_24": 12, "시설수_변화율_22_24_pct": 15.384615384615383, "만족도_2021": 25.4, "불만족도_2021": 24.9, "만족도_2023": 32.4, "불만족도_2023": 18.6, "만족도_2025": 38.4, "불만족도_2025": 14.1, "2025_매우만족": 11.5, "2025_약간만족": 26.9, "2025_보통": 47.4, "2025_약간불만족": 10.6, "2025_매우불만족": 3.5, "2025_경제적부담": 47.7, "2025_시간부족": 20.2, "2025_교통혼잡": null, "2025_여가시설부족": 1.0, "2025_여가정보부족": 0.5, "2025_여가프로그램부족": 0.5, "2025_취미없음": 9.0, "2025_건강체력부족": 17.5, "2025_동반자없음": 2.7, "2025_기타": 0.9, "2023_경제적부담": 45.0, "2023_시간부족": 25.1, "2023_교통혼잡": 1.5, "2023_여가시설부족": 2.5, "2023_여가정보부족": 0.5, "2023_여가프로그램부족": null, "2023_취미없음": 4.3, "2023_건강체력부족": 16.7, "2023_동반자없음": 3.5, "2023_기타": 1.0, "관람시도율_2021": 27.3, "평균관람횟수_2021": 4.2, "관람시도율_2023": 58.4, "평균관람횟수_2023": 6.3, "관람시도율_2025": 61.5, "평균관람횟수_2025": 7.8, "영화관람율_2025": 70.9, "스포츠관람율_2025": 40.8}, {"지역": "대구광역시", "인구_2022_01": 2383858, "인구_2025_12": 2353032, "인구_2026_05": 2349305, "인구_변화량_22_25": -30826, "인구_변화율_22_25_pct": -1.2931139354777004, "인구_변화량_total": -34553, "인구_변화율_total_pct": -1.4494571404840388, "시설수_2022": 95, "시설수_2023": 102, "시설수_2024": 107, "십만명당_시설수_2022": 4.0, "십만명당_시설수_2023": 4.3, "십만명당_시설수_2024": 4.5, "시설수_변화량_22_24": 12, "시설수_변화율_22_24_pct": 12.63157894736842, "만족도_2021": 23.200000000000003, "불만족도_2021": 21.6, "만족도_2023": 29.9, "불만족도_2023": 18.5, "만족도_2025": 33.1, "불만족도_2025": 19.1, "2025_매우만족": 8.3, "2025_약간만족": 24.8, "2025_보통": 47.8, "2025_약간불만족": 15.7, "2025_매우불만족": 3.4, "2025_경제적부담": 52.9, "2025_시간부족": 16.7, "2025_교통혼잡": 0.3, "2025_여가시설부족": 3.1, "2025_여가정보부족": 1.8, "2025_여가프로그램부족": 0.8, "2025_취미없음": 5.2, "2025_건강체력부족": 17.0, "2025_동반자없음": 1.8, "2025_기타": 0.4, "2023_경제적부담": 57.7, "2023_시간부족": 21.5, "2023_교통혼잡": 0.3, "2023_여가시설부족": 2.1, "2023_여가정보부족": 0.6, "2023_여가프로그램부족": 0.2, "2023_취미없음": 4.9, "2023_건강체력부족": 10.0, "2023_동반자없음": 2.4, "2023_기타": 0.4, "관람시도율_2021": 18.6, "평균관람횟수_2021": 4.3, "관람시도율_2023": 50.7, "평균관람횟수_2023": 6.8, "관람시도율_2025": 51.9, "평균관람횟수_2025": 7.3, "영화관람율_2025": 73.0, "스포츠관람율_2025": 35.2}, {"지역": "대전광역시", "인구_2022_01": 1451272, "인구_2025_12": 1440729, "인구_2026_05": 1442213, "인구_변화량_22_25": -10543, "인구_변화율_22_25_pct": -0.726466162097801, "인구_변화량_total": -9059, "인구_변화율_total_pct": -0.6242110369386304, "시설수_2022": 61, "시설수_2023": 62, "시설수_2024": 63, "십만명당_시설수_2022": 4.2, "십만명당_시설수_2023": 4.3, "십만명당_시설수_2024": 4.4, "시설수_변화량_22_24": 2, "시설수_변화율_22_24_pct": 3.278688524590164, "만족도_2021": 31.2, "불만족도_2021": 23.5, "만족도_2023": 38.2, "불만족도_2023": 16.6, "만족도_2025": 42.0, "불만족도_2025": 13.2, "2025_매우만족": 12.3, "2025_약간만족": 29.7, "2025_보통": 44.7, "2025_약간불만족": 9.3, "2025_매우불만족": 3.9, "2025_경제적부담": 50.1, "2025_시간부족": 15.5, "2025_교통혼잡": 2.0, "2025_여가시설부족": 1.8, "2025_여가정보부족": null, "2025_여가프로그램부족": null, "2025_취미없음": 5.5, "2025_건강체력부족": 23.2, "2025_동반자없음": 1.9, "2025_기타": null, "2023_경제적부담": 48.4, "2023_시간부족": 25.4, "2023_교통혼잡": 1.5, "2023_여가시설부족": 2.4, "2023_여가정보부족": 0.3, "2023_여가프로그램부족": 0.6, "2023_취미없음": 7.3, "2023_건강체력부족": 12.4, "2023_동반자없음": 1.8, "2023_기타": null, "관람시도율_2021": 26.9, "평균관람횟수_2021": 3.9, "관람시도율_2023": 57.7, "평균관람횟수_2023": 7.2, "관람시도율_2025": 60.8, "평균관람횟수_2025": 7.3, "영화관람율_2025": 71.1, "스포츠관람율_2025": 39.8}, {"지역": "부산광역시", "인구_2022_01": 3348874, "인구_2025_12": 3241600, "인구_2026_05": 3234293, "인구_변화량_22_25": -107274, "인구_변화율_22_25_pct": -3.203285641681353, "인구_변화량_total": -114581, "인구_변화율_total_pct": -3.421478383480537, "시설수_2022": 143, "시설수_2023": 144, "시설수_2024": 148, "십만명당_시설수_2022": 4.3, "십만명당_시설수_2023": 4.4, "십만명당_시설수_2024": 4.5, "시설수_변화량_22_24": 5, "시설수_변화율_22_24_pct": 3.4965034965034967, "만족도_2021": 23.4, "불만족도_2021": 26.5, "만족도_2023": 33.0, "불만족도_2023": 18.2, "만족도_2025": 38.7, "불만족도_2025": 15.8, "2025_매우만족": 9.1, "2025_약간만족": 29.6, "2025_보통": 45.5, "2025_약간불만족": 12.6, "2025_매우불만족": 3.2, "2025_경제적부담": 46.1, "2025_시간부족": 23.6, "2025_교통혼잡": 0.7, "2025_여가시설부족": 0.8, "2025_여가정보부족": 0.3, "2025_여가프로그램부족": null, "2025_취미없음": 3.5, "2025_건강체력부족": 20.7, "2025_동반자없음": 4.0, "2025_기타": 0.4, "2023_경제적부담": 52.4, "2023_시간부족": 21.2, "2023_교통혼잡": 1.0, "2023_여가시설부족": 0.7, "2023_여가정보부족": 1.6, "2023_여가프로그램부족": 1.1, "2023_취미없음": 5.8, "2023_건강체력부족": 14.9, "2023_동반자없음": 1.3, "2023_기타": null, "관람시도율_2021": 25.5, "평균관람횟수_2021": 4.1, "관람시도율_2023": 55.6, "평균관람횟수_2023": 6.7, "관람시도율_2025": 56.5, "평균관람횟수_2025": 6.4, "영화관람율_2025": 75.8, "스포츠관람율_2025": 26.9}, {"지역": "서울특별시", "인구_2022_01": 9505926, "인구_2025_12": 9299548, "인구_2026_05": 9295082, "인구_변화량_22_25": -206378, "인구_변화율_22_25_pct": -2.171045724530151, "인구_변화량_total": -210844, "인구_변화율_total_pct": -2.2180269444554903, "시설수_2022": 449, "시설수_2023": 469, "시설수_2024": 472, "십만명당_시설수_2022": 4.8, "십만명당_시설수_2023": 5.0, "십만명당_시설수_2024": 5.1, "시설수_변화량_22_24": 23, "시설수_변화율_22_24_pct": 5.122494432071269, "만족도_2021": 28.9, "불만족도_2021": 22.1, "만족도_2023": 37.4, "불만족도_2023": 18.4, "만족도_2025": 41.3, "불만족도_2025": 16.8, "2025_매우만족": 11.0, "2025_약간만족": 30.3, "2025_보통": 41.8, "2025_약간불만족": 12.3, "2025_매우불만족": 4.5, "2025_경제적부담": 56.0, "2025_시간부족": 18.0, "2025_교통혼잡": 1.0, "2025_여가시설부족": 1.1, "2025_여가정보부족": 0.7, "2025_여가프로그램부족": 0.7, "2025_취미없음": 4.8, "2025_건강체력부족": 14.6, "2025_동반자없음": 2.3, "2025_기타": 0.8, "2023_경제적부담": 52.4, "2023_시간부족": 22.6, "2023_교통혼잡": 1.4, "2023_여가시설부족": 1.1, "2023_여가정보부족": 0.6, "2023_여가프로그램부족": 0.5, "2023_취미없음": 6.9, "2023_건강체력부족": 13.3, "2023_동반자없음": 1.1, "2023_기타": 0.2, "관람시도율_2021": 29.5, "평균관람횟수_2021": 4.6, "관람시도율_2023": 62.2, "평균관람횟수_2023": 7.7, "관람시도율_2025": 62.3, "평균관람횟수_2025": 8.2, "영화관람율_2025": 77.5, "스포츠관람율_2025": 28.2}, {"지역": "세종특별자치시", "인구_2022_01": 374377, "인구_2025_12": 391965, "인구_2026_05": 391064, "인구_변화량_22_25": 17588, "인구_변화율_22_25_pct": 4.69793817462077, "인구_변화량_total": 16687, "인구_변화율_total_pct": 4.457271680685512, "시설수_2022": 26, "시설수_2023": 26, "시설수_2024": 29, "십만명당_시설수_2022": 6.8, "십만명당_시설수_2023": 6.7, "십만명당_시설수_2024": 7.4, "시설수_변화량_22_24": 3, "시설수_변화율_22_24_pct": 11.538461538461538, "만족도_2021": 31.7, "불만족도_2021": 24.3, "만족도_2023": 38.6, "불만족도_2023": 16.6, "만족도_2025": 48.6, "불만족도_2025": 13.4, "2025_매우만족": 13.1, "2025_약간만족": 35.5, "2025_보통": 38.1, "2025_약간불만족": 11.0, "2025_매우불만족": 2.4, "2025_경제적부담": 50.4, "2025_시간부족": 27.8, "2025_교통혼잡": 0.8, "2025_여가시설부족": 1.9, "2025_여가정보부족": 1.0, "2025_여가프로그램부족": 0.3, "2025_취미없음": 6.7, "2025_건강체력부족": 7.5, "2025_동반자없음": 0.6, "2025_기타": 2.9, "2023_경제적부담": 44.9, "2023_시간부족": 32.8, "2023_교통혼잡": null, "2023_여가시설부족": 1.3, "2023_여가정보부족": 2.3, "2023_여가프로그램부족": 1.5, "2023_취미없음": 3.2, "2023_건강체력부족": 10.3, "2023_동반자없음": 2.6, "2023_기타": 1.1, "관람시도율_2021": 30.0, "평균관람횟수_2021": 4.3, "관람시도율_2023": 65.0, "평균관람횟수_2023": 7.7, "관람시도율_2025": 71.0, "평균관람횟수_2025": 7.5, "영화관람율_2025": 70.8, "스포츠관람율_2025": 36.2}, {"지역": "울산광역시", "인구_2022_01": 1121100, "인구_2025_12": 1091948, "인구_2026_05": 1087466, "인구_변화량_22_25": -29152, "인구_변화율_22_25_pct": -2.6003032735706, "인구_변화량_total": -33634, "인구_변화율_total_pct": -3.000089198109, "시설수_2022": 46, "시설수_2023": 50, "시설수_2024": 49, "십만명당_시설수_2022": 4.1, "십만명당_시설수_2023": 4.5, "십만명당_시설수_2024": 4.5, "시설수_변화량_22_24": 3, "시설수_변화율_22_24_pct": 6.521739130434782, "만족도_2021": 31.2, "불만족도_2021": 19.7, "만족도_2023": 31.1, "불만족도_2023": 19.5, "만족도_2025": 43.0, "불만족도_2025": 15.3, "2025_매우만족": 13.7, "2025_약간만족": 29.3, "2025_보통": 41.7, "2025_약간불만족": 11.9, "2025_매우불만족": 3.4, "2025_경제적부담": 44.5, "2025_시간부족": 31.8, "2025_교통혼잡": 1.2, "2025_여가시설부족": 2.9, "2025_여가정보부족": null, "2025_여가프로그램부족": 1.3, "2025_취미없음": 4.6, "2025_건강체력부족": 9.7, "2025_동반자없음": 2.5, "2025_기타": 1.6, "2023_경제적부담": 59.0, "2023_시간부족": 19.7, "2023_교통혼잡": 2.6, "2023_여가시설부족": 1.1, "2023_여가정보부족": 0.9, "2023_여가프로그램부족": 0.6, "2023_취미없음": 2.5, "2023_건강체력부족": 12.3, "2023_동반자없음": 1.3, "2023_기타": null, "관람시도율_2021": 23.2, "평균관람횟수_2021": 4.3, "관람시도율_2023": 57.5, "평균관람횟수_2023": 7.2, "관람시도율_2025": 62.3, "평균관람횟수_2025": 6.6, "영화관람율_2025": 70.4, "스포츠관람율_2025": 34.3}, {"지역": "인천광역시", "인구_2022_01": 2949150, "인구_2025_12": 3051961, "인구_2026_05": 3058623, "인구_변화량_22_25": 102811, "인구_변화율_22_25_pct": 3.4861231202210803, "인구_변화량_total": 109473, "인구_변화율_total_pct": 3.7120187172575143, "시설수_2022": 127, "시설수_2023": 132, "시설수_2024": 126, "십만명당_시설수_2022": 4.3, "십만명당_시설수_2023": 4.4, "십만명당_시설수_2024": 4.2, "시설수_변화량_22_24": -1, "시설수_변화율_22_24_pct": -0.7874015748031495, "만족도_2021": 26.9, "불만족도_2021": 21.6, "만족도_2023": 32.9, "불만족도_2023": 20.0, "만족도_2025": 41.9, "불만족도_2025": 10.5, "2025_매우만족": 12.6, "2025_약간만족": 29.3, "2025_보통": 47.7, "2025_약간불만족": 7.6, "2025_매우불만족": 2.9, "2025_경제적부담": 57.2, "2025_시간부족": 19.5, "2025_교통혼잡": 0.7, "2025_여가시설부족": 2.8, "2025_여가정보부족": 1.0, "2025_여가프로그램부족": 0.5, "2025_취미없음": 1.4, "2025_건강체력부족": 14.6, "2025_동반자없음": 2.3, "2025_기타": null, "2023_경제적부담": 57.6, "2023_시간부족": 19.5, "2023_교통혼잡": 0.6, "2023_여가시설부족": 1.4, "2023_여가정보부족": 0.4, "2023_여가프로그램부족": 0.5, "2023_취미없음": 6.3, "2023_건강체력부족": 9.1, "2023_동반자없음": 4.0, "2023_기타": 0.6, "관람시도율_2021": 26.7, "평균관람횟수_2021": 4.4, "관람시도율_2023": 57.1, "평균관람횟수_2023": 6.7, "관람시도율_2025": 60.8, "평균관람횟수_2025": 6.7, "영화관람율_2025": 73.8, "스포츠관람율_2025": 26.7}, {"지역": "전라남도", "인구_2022_01": 1832604, "인구_2025_12": 1779135, "인구_2026_05": 1774082, "인구_변화량_22_25": -53469, "인구_변화율_22_25_pct": -2.9176516039471703, "인구_변화량_total": -58522, "인구_변화율_total_pct": -3.1933794753258207, "시설수_2022": 244, "시설수_2023": 240, "시설수_2024": 243, "십만명당_시설수_2022": 13.4, "십만명당_시설수_2023": 13.3, "십만명당_시설수_2024": 13.6, "시설수_변화량_22_24": -1, "시설수_변화율_22_24_pct": -0.4098360655737705, "만족도_2021": 29.2, "불만족도_2021": 18.3, "만족도_2023": 31.3, "불만족도_2023": 17.5, "만족도_2025": 36.1, "불만족도_2025": 16.4, "2025_매우만족": 11.0, "2025_약간만족": 25.1, "2025_보통": 47.4, "2025_약간불만족": 13.5, "2025_매우불만족": 2.9, "2025_경제적부담": 36.1, "2025_시간부족": 20.3, "2025_교통혼잡": null, "2025_여가시설부족": 4.7, "2025_여가정보부족": 0.3, "2025_여가프로그램부족": 0.9, "2025_취미없음": 10.0, "2025_건강체력부족": 23.1, "2025_동반자없음": 4.5, "2025_기타": null, "2023_경제적부담": 44.2, "2023_시간부족": 22.8, "2023_교통혼잡": 0.2, "2023_여가시설부족": 3.3, "2023_여가정보부족": 0.8, "2023_여가프로그램부족": 1.5, "2023_취미없음": 3.7, "2023_건강체력부족": 19.9, "2023_동반자없음": 2.9, "2023_기타": 0.6, "관람시도율_2021": 18.2, "평균관람횟수_2021": 4.1, "관람시도율_2023": 44.8, "평균관람횟수_2023": 6.5, "관람시도율_2025": 49.8, "평균관람횟수_2025": 6.5, "영화관람율_2025": 75.3, "스포츠관람율_2025": 31.9}, {"지역": "전북특별자치도", "인구_2022_01": 1785392, "인구_2025_12": 1724856, "인구_2026_05": 1719420, "인구_변화량_22_25": -60536, "인구_변화율_22_25_pct": -3.390627940530707, "인구_변화량_total": -65972, "인구_변화율_total_pct": -3.6950988914479286, "시설수_2022": 191, "시설수_2023": 188, "시설수_2024": 190, "십만명당_시설수_2022": 10.8, "십만명당_시설수_2023": 10.7, "십만명당_시설수_2024": 10.9, "시설수_변화량_22_24": -1, "시설수_변화율_22_24_pct": -0.5235602094240838, "만족도_2021": 25.4, "불만족도_2021": 26.7, "만족도_2023": 35.5, "불만족도_2023": 20.200000000000003, "만족도_2025": 41.3, "불만족도_2025": 17.9, "2025_매우만족": 12.0, "2025_약간만족": 29.3, "2025_보통": 40.8, "2025_약간불만족": 14.4, "2025_매우불만족": 3.5, "2025_경제적부담": 40.8, "2025_시간부족": 23.7, "2025_교통혼잡": 1.2, "2025_여가시설부족": 4.2, "2025_여가정보부족": 1.2, "2025_여가프로그램부족": 0.5, "2025_취미없음": 6.1, "2025_건강체력부족": 18.6, "2025_동반자없음": 2.8, "2025_기타": 1.0, "2023_경제적부담": 48.8, "2023_시간부족": 21.8, "2023_교통혼잡": 1.6, "2023_여가시설부족": 2.5, "2023_여가정보부족": 0.8, "2023_여가프로그램부족": 1.2, "2023_취미없음": 5.4, "2023_건강체력부족": 16.9, "2023_동반자없음": 1.2, "2023_기타": null, "관람시도율_2021": 21.3, "평균관람횟수_2021": 4.6, "관람시도율_2023": 47.9, "평균관람횟수_2023": 7.2, "관람시도율_2025": 51.8, "평균관람횟수_2025": 7.8, "영화관람율_2025": 71.9, "스포츠관람율_2025": 30.8}, {"지역": "제주특별자치도", "인구_2022_01": 676691, "인구_2025_12": 664792, "인구_2026_05": 662969, "인구_변화량_22_25": -11899, "인구_변화율_22_25_pct": -1.7584096729526475, "인구_변화량_total": -13722, "인구_변화율_total_pct": -2.027808852193985, "시설수_2022": 131, "시설수_2023": 126, "시설수_2024": 127, "십만명당_시설수_2022": 19.3, "십만명당_시설수_2023": 18.7, "십만명당_시설수_2024": 18.9, "시설수_변화량_22_24": -4, "시설수_변화율_22_24_pct": -3.0534351145038165, "만족도_2021": 29.1, "불만족도_2021": 20.6, "만족도_2023": 36.5, "불만족도_2023": 15.7, "만족도_2025": 42.2, "불만족도_2025": 15.8, "2025_매우만족": 12.5, "2025_약간만족": 29.7, "2025_보통": 42.0, "2025_약간불만족": 13.6, "2025_매우불만족": 2.2, "2025_경제적부담": 42.0, "2025_시간부족": 27.6, "2025_교통혼잡": 1.9, "2025_여가시설부족": 3.7, "2025_여가정보부족": 0.9, "2025_여가프로그램부족": 1.7, "2025_취미없음": 6.6, "2025_건강체력부족": 13.4, "2025_동반자없음": 1.4, "2025_기타": 0.7, "2023_경제적부담": 40.5, "2023_시간부족": 20.3, "2023_교통혼잡": 0.3, "2023_여가시설부족": 3.3, "2023_여가정보부족": 3.3, "2023_여가프로그램부족": 0.2, "2023_취미없음": 7.6, "2023_건강체력부족": 19.9, "2023_동반자없음": 3.1, "2023_기타": 1.4, "관람시도율_2021": 25.9, "평균관람횟수_2021": 3.9, "관람시도율_2023": 54.0, "평균관람횟수_2023": 6.6, "관람시도율_2025": 54.5, "평균관람횟수_2025": 6.9, "영화관람율_2025": 73.9, "스포츠관람율_2025": 27.4}, {"지역": "충청남도", "인구_2022_01": 2118638, "인구_2025_12": 2136753, "인구_2026_05": 2138517, "인구_변화량_22_25": 18115, "인구_변화율_22_25_pct": 0.8550304488072054, "인구_변화량_total": 19879, "인구_변화율_total_pct": 0.9382914872668195, "시설수_2022": 193, "시설수_2023": 199, "시설수_2024": 203, "십만명당_시설수_2022": 9.1, "십만명당_시설수_2023": 9.3, "십만명당_시설수_2024": 9.5, "시설수_변화량_22_24": 10, "시설수_변화율_22_24_pct": 5.181347150259067, "만족도_2021": 25.200000000000003, "불만족도_2021": 21.3, "만족도_2023": 31.1, "불만족도_2023": 19.7, "만족도_2025": 41.2, "불만족도_2025": 13.4, "2025_매우만족": 11.7, "2025_약간만족": 29.5, "2025_보통": 45.4, "2025_약간불만족": 10.9, "2025_매우불만족": 2.5, "2025_경제적부담": 42.2, "2025_시간부족": 22.7, "2025_교통혼잡": 1.3, "2025_여가시설부족": 2.5, "2025_여가정보부족": 0.6, "2025_여가프로그램부족": 0.4, "2025_취미없음": 8.1, "2025_건강체력부족": 19.3, "2025_동반자없음": 2.2, "2025_기타": 0.6, "2023_경제적부담": 38.1, "2023_시간부족": 27.0, "2023_교통혼잡": 1.1, "2023_여가시설부족": 4.1, "2023_여가정보부족": 1.4, "2023_여가프로그램부족": 1.3, "2023_취미없음": 7.9, "2023_건강체력부족": 16.8, "2023_동반자없음": 1.7, "2023_기타": 0.6, "관람시도율_2021": 19.4, "평균관람횟수_2021": 4.0, "관람시도율_2023": 50.4, "평균관람횟수_2023": 6.1, "관람시도율_2025": 51.7, "평균관람횟수_2025": 6.4, "영화관람율_2025": 75.6, "스포츠관람율_2025": 23.4}, {"지역": "충청북도", "인구_2022_01": 1597097, "인구_2025_12": 1596502, "인구_2026_05": 1600216, "인구_변화량_22_25": -595, "인구_변화율_22_25_pct": -0.0372550947124689, "인구_변화량_total": 3119, "인구_변화율_total_pct": 0.1952918326188077, "시설수_2022": 142, "시설수_2023": 142, "시설수_2024": 146, "십만명당_시설수_2022": 8.9, "십만명당_시설수_2023": 8.9, "십만명당_시설수_2024": 9.2, "시설수_변화량_22_24": 4, "시설수_변화율_22_24_pct": 2.8169014084507045, "만족도_2021": 24.1, "불만족도_2021": 24.4, "만족도_2023": 35.0, "불만족도_2023": 21.0, "만족도_2025": 38.7, "불만족도_2025": 15.8, "2025_매우만족": 11.2, "2025_약간만족": 27.5, "2025_보통": 45.6, "2025_약간불만족": 13.1, "2025_매우불만족": 2.7, "2025_경제적부담": 44.4, "2025_시간부족": 25.0, "2025_교통혼잡": 0.8, "2025_여가시설부족": 2.0, "2025_여가정보부족": 0.3, "2025_여가프로그램부족": 1.8, "2025_취미없음": 6.3, "2025_건강체력부족": 16.5, "2025_동반자없음": 3.0, "2025_기타": null, "2023_경제적부담": 46.8, "2023_시간부족": 25.0, "2023_교통혼잡": 1.7, "2023_여가시설부족": 1.7, "2023_여가정보부족": 0.4, "2023_여가프로그램부족": 0.6, "2023_취미없음": 5.5, "2023_건강체력부족": 16.0, "2023_동반자없음": 1.5, "2023_기타": 0.7, "관람시도율_2021": 17.8, "평균관람횟수_2021": 3.9, "관람시도율_2023": 48.8, "평균관람횟수_2023": 6.2, "관람시도율_2025": 51.2, "평균관람횟수_2025": 6.9, "영화관람율_2025": 73.1, "스포츠관람율_2025": 26.4}];
+        const nationalData = {"지역": "전국", "인구_2022_01": 51632473, "인구_2025_12": 51117378, "인구_2026_05": 51095330, "인구_변화량_22_25": -515095, "인구_변화율_22_25_pct": -0.9976183011803444, "인구_변화량_total": -537143, "인구_변화율_total_pct": -1.0403201101756254, "시설수_2022": 3248, "시설수_2023": 3294, "시설수_2024": 3337, "십만명당_시설수_2022": 6.3, "십만명당_시설수_2023": 6.4, "십만명당_시설수_2024": 6.5, "시설수_변화량_22_24": 89, "시설수_변화율_22_24_pct": 2.740147783251232, "만족도_2021": 27.0, "불만족도_2021": 23.5, "만족도_2023": 34.2, "불만족도_2023": 18.7, "만족도_2025": 39.4, "불만족도_2025": 15.9, "2025_매우만족": 11.5, "2025_약간만족": 27.9, "2025_보통": 44.8, "2025_약간불만족": 12.3, "2025_매우불만족": 3.6, "2025_경제적부담": 48.7, "2025_시간부족": 21.9, "2025_교통혼잡": 1.4, "2025_여가시설부족": 2.1, "2025_여가정보부족": 0.8, "2025_여가프로그램부족": 0.8, "2025_취미없음": 5.3, "2025_건강체력부족": 16.3, "2025_동반자없음": 2.3, "2025_기타": 0.4, "2023_경제적부담": 50.2, "2023_시간부족": 23.1, "2023_교통혼잡": 1.3, "2023_여가시설부족": 2.0, "2023_여가정보부족": 0.7, "2023_여가프로그램부족": 0.6, "2023_취미없음": 5.3, "2023_건강체력부족": 14.3, "2023_동반자없음": 2.0, "2023_기타": 0.4, "관람시도율_2021": 24.1, "평균관람횟수_2021": 4.5, "관람시도율_2023": 55.3, "평균관람횟수_2023": 7.0, "관람시도율_2025": 57.7, "평균관람횟수_2025": 7.1, "영화관람율_2025": 74.9, "스포츠관람율_2025": 28.5};
+
+        // Correlation Matrix details (computed)
+        const corrData = {
+            "인구_변화율_pct": [1.000, -0.056, -0.209, 0.615, -0.615, 0.535],
+            "시설수_2024": [-0.056, 1.000, -0.034, -0.200, 0.324, -0.098],
+            "십만명당_시설수_2024": [-0.209, -0.034, 1.000, -0.089, 0.240, -0.529],
+            "만족도_2025": [0.615, -0.200, -0.089, 1.000, -0.555, 0.758],
+            "불만족도_2025": [-0.615, 0.324, 0.240, -0.555, 1.000, -0.515],
+            "관람시도율_2025": [0.535, -0.098, -0.529, 0.758, -0.515, 1.000]
+        };
+
+        const corrExplanations = {
+            "인구_변화율_pct-만족도_2025": "인구 변화율과 여가 만족도 (상관계수 +0.615): 매우 뚜렷한 양의 상관관계입니다. 인구가 지속적으로 유입되고 성장하는 지역일수록 여가 인프라 유입이 원활하고 삶의 질에 대한 주민 만족도가 높음을 가리킵니다.",
+            "십만명당_시설수_2024-관람시도율_2025": "10만명당 문화시설수와 실제 관람율 (상관계수 -0.529): 뚜렷한 음의 상관관계입니다. 통계상의 인구당 인프라 개수가 많아도, 지리적으로 접근성이 취약하고 다양한 킬러 콘텐츠가 부족한 도 지역의 특성으로 인해 실질 주민의 관람 행유율은 떨어지는 '인프라 밀도의 역설'을 설명합니다.",
+            "만족도_2025-관람시도율_2025": "여가 만족도와 문화 관람율 (상관계수 +0.758): 매우 강력한 양의 상관관계입니다. 실제 영화, 공연, 스포츠 경기 등을 직접 관람하러 나가는 빈도와 기회가 보장될수록 전반적인 여가 생활에 대한 주민 체감 만족도가 극대화됨을 가리킵니다.",
+            "십만명당_시설수_2024-만족도_2025": "10만명당 문화시설수와 여가 만족도 (상관계수 -0.089): 선형 상관관계가 거의 존재하지 않습니다. 단순히 공공 문화시설의 개수를 지어 늘리는 정책은 주민 만족도 증대로 직접 귀결되지 않음을 입증합니다.",
+            "인구_변화율_pct-십만명당_시설수_2024": "인구 변화율과 10만명당 문화시설수 (상관계수 -0.209): 약한 음의 상관관계입니다. 인구가 밀집하고 급증하는 지역(인천, 경기 등)일수록 10만명당 시설 지표는 낮게 계산되고, 인구 소멸 위험 지역(강원, 전남)일수록 인구 분모 효과에 의해 10만명당 수치는 높게 잡히는 통계 왜곡을 반영합니다."
+        };
+
+        // Switch Navigation Tabs
+        function switchTab(tabId) {
+            // Deactivate all
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Activate select
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('tab-' + tabId).setAttribute('aria-selected', 'true');
+            document.getElementById('content-' + tabId).classList.add('active');
+        }
+
+        // Setup Region Explorer Selectors
+        function setupExplorer() {
+            const selectEl = document.getElementById("region-selector");
+            const btnListEl = document.getElementById("region-btn-list");
+            
+            // Clear
+            selectEl.innerHTML = "";
+            btnListEl.innerHTML = "";
+
+            regionsData.forEach((r, idx) => {
+                // Dropdown Option
+                const opt = document.createElement("option");
+                opt.value = r.지역;
+                opt.textContent = r.지역;
+                selectEl.appendChild(opt);
+
+                // List Button
+                const btn = document.createElement("button");
+                btn.className = "region-item-btn" + (idx === 0 ? " selected" : "");
+                btn.id = "reg-btn-" + r.지역;
+                btn.textContent = r.지역;
+                btn.onclick = () => onRegionSelect(r.지역);
+                btnListEl.appendChild(btn);
+            });
+
+            // Load initial detail
+            if(regionsData.length > 0) {
+                renderRegionDetail(regionsData[0]);
+            }
+        }
+
+        // Handle Region Selection
+        function onRegionSelect(regionName) {
+            // Sync dropdown and side list
+            document.getElementById("region-selector").value = regionName;
+            
+            document.querySelectorAll(".region-item-btn").forEach(btn => {
+                btn.classList.remove("selected");
+            });
+            const activeBtn = document.getElementById("reg-btn-" + regionName);
+            if(activeBtn) {
+                activeBtn.classList.add("selected");
+                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            const region = regionsData.find(r => r.지역 === regionName);
+            if(region) {
+                renderRegionDetail(region);
+            }
+        }
+
+        // Render detailed card metrics
+        function renderRegionDetail(r) {
+            document.getElementById("det-region-name").textContent = r.지역;
+            
+            const isDo = r.지역.endsWith("도") || r.지역.includes("특별자치도");
+            document.getElementById("det-region-type").textContent = isDo ? "도 지역 (도형)" : "특광역시 (시형)";
+            document.getElementById("det-region-type").style.background = isDo ? "rgba(139, 92, 246, 0.15)" : "rgba(56, 189, 248, 0.15)";
+            document.getElementById("det-region-type").style.color = isDo ? "#c084fc" : "var(--accent-blue)";
+
+            // Set metric values
+            const popChg = r.인구_변화율_22_25_pct;
+            const popValEl = document.getElementById("det-pop-change");
+            popValEl.textContent = (popChg > 0 ? "+" : "") + popChg.toFixed(2) + "%";
+            popValEl.style.color = popChg > 0 ? "var(--accent-blue)" : "var(--accent-red)";
+
+            document.getElementById("det-infra-density").textContent = r.십만명당_시설수_2024.toFixed(2) + "개";
+            document.getElementById("det-viewing-rate").textContent = r.관람시도율_2025.toFixed(1) + "%";
+
+            // Progress fills
+            document.getElementById("det-sat-rate-text").textContent = r.만족도_2025.toFixed(1) + "%";
+            document.getElementById("det-sat-rate-bar").style.width = r.만족도_2025 + "%";
+
+            document.getElementById("det-unsat-rate-text").textContent = r.불만족도_2025.toFixed(1) + "%";
+            document.getElementById("det-unsat-rate-bar").style.width = r.불만족도_2025 + "%";
+
+            document.getElementById("det-facility-shortage-text").textContent = r["2025_여가시설부족"].toFixed(1) + "%";
+            document.getElementById("det-facility-shortage-bar").style.width = (r["2025_여가시설부족"] * 15) + "%"; // Scale for visibility (max around 5%)
+
+            // Custom diagnostic text
+            let diagnostic = "";
+            if (popChg > 0 && r.만족도_2025 > 40) {
+                diagnostic = `현재 **${r.지역}**은(는) 지속적인 인구 유입(성장세)과 함께 주민 여가 만족도가 전국 상위권에 속해 있는 매우 활력 있는 정주 여건을 갖춘 모범 지자체입니다.`;
+            } else if (popChg < 0 && r.만족도_2025 < 35) {
+                diagnostic = `**${r.지역}**은(는) 급격한 인구 이탈과 함께 여가 만족도 지표가 매우 낮게 나타납니다. 지역 내 여가의 질과 정주 여건 보강이 필요한 시점입니다.`;
+            } else if (isDo && r.십만명당_시설수_2024 > 10.0) {
+                diagnostic = `**${r.지역}**은(는) 10만명당 문화 시설수 지표가 ${r.십만명당_시설수_2024.toFixed(1)}개로 양적으로 매우 높지만, 주민들의 실제 관람 시도율은 ${r.관람시도율_2025.toFixed(1)}%에 머물러 공급과 체감 간의 괴리가 나타납니다. 질적 개선과 접근성(모빌리티) 보강이 권장됩니다.`;
+            } else {
+                diagnostic = `**${r.지역}**은(는) 비교적 균형적인 지표를 가지고 있습니다. 다만 향후 더 높은 정주 효용감을 위해 주민이 선호하는 상업/문화 민관 협력 인프라 유치와 공공 프로그램 현대화가 병행되어야 합니다.`;
+            }
+            
+            // Format bold text for markdown in JS
+            document.getElementById("det-summary-text").innerHTML = diagnostic.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // Render Correlation Table
+        function renderCorrelationTable() {
+            const tableBody = document.querySelector("#corr-table tbody");
+            tableBody.innerHTML = "";
+
+            const rowLabels = {
+                "인구_변화율_pct": "인구 변화율 (%)",
+                "시설수_2024": "문화시설수 (개)",
+                "십만명당_시설수_2024": "10만명당 시설수 (개)",
+                "만족도_2025": "여가 만족도 (%)",
+                "불만족도_2025": "여가 불만족도 (%)",
+                "관람시도율_2025": "관람 시도율 (%)"
+            };
+
+            const cols = ["인구_변화율_pct", "시설수_2024", "십만명당_시설수_2024", "만족도_2025", "불만족도_2025", "관람시도율_2025"];
+
+            cols.forEach(rowKey => {
+                const tr = document.createElement("tr");
+                const th = document.createElement("th");
+                th.textContent = rowLabels[rowKey];
+                tr.appendChild(th);
+
+                cols.forEach(colKey => {
+                    const td = document.createElement("td");
+                    const val = corrData[rowKey][cols.indexOf(colKey)];
+                    
+                    const btn = document.createElement("button");
+                    btn.className = "matrix-cell-btn";
+                    btn.textContent = (val >= 0 ? "+" : "") + val.toFixed(3);
+                    
+                    // Highlight colors based on strength
+                    const absVal = Math.abs(val);
+                    if(rowKey === colKey) {
+                        btn.style.color = "var(--text-muted)";
+                    } else if (absVal >= 0.5) {
+                        btn.style.background = val > 0 ? "rgba(16, 185, 129, 0.12)" : "rgba(239, 68, 68, 0.12)";
+                        btn.style.color = val > 0 ? "#10b981" : "#ef4444";
+                    }
+                    
+                    btn.onclick = () => onCorrelationSelect(rowKey, colKey, val);
+                    
+                    td.appendChild(btn);
+                    tr.appendChild(td);
+                });
+
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Handle Correlation cell selection
+        function onCorrelationSelect(rowKey, colKey, val) {
+            const widget = document.getElementById("corr-explain-widget");
+            const titleEl = document.getElementById("corr-title");
+            const bodyEl = document.getElementById("corr-body");
+
+            const key1 = `${rowKey}-${colKey}`;
+            const key2 = `${colKey}-${rowKey}`;
+            const explanation = corrExplanations[key1] || corrExplanations[key2];
+
+            if(rowKey === colKey) {
+                titleEl.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> 자기 상관 (상관계수 1.000)`;
+                bodyEl.textContent = "지표 본인에 대한 상관도로, 항상 완벽한 선형 관계(1.00)를 나타내므로 통계적 해석에서 생략합니다.";
+                widget.style.borderLeftColor = "var(--text-muted)";
+                return;
+            }
+
+            if (explanation) {
+                titleEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> 정밀 지표 매칭 완료`;
+                bodyEl.textContent = explanation;
+                widget.style.borderLeftColor = val > 0 ? "var(--accent-emerald)" : "var(--accent-red)";
+            } else {
+                titleEl.innerHTML = `<i class="fa-solid fa-calculator"></i> 통계 지표 상관계수: ${val >= 0 ? "+" : ""}${val.toFixed(3)}`;
+                bodyEl.textContent = `두 변수 간의 피어슨 상관계수가 ${val.toFixed(3)}입니다. ${Math.abs(val) >= 0.5 ? "상당히 유의미하고 강한 선형적 연관성" : "상대적으로 약한 선형 관계"}를 보이고 있음을 뜻합니다.`;
+                widget.style.borderLeftColor = "var(--accent-blue)";
+            }
+        }
+
+        // Toggle Theme (Black / White)
+        function toggleTheme() {
+            const body = document.body;
+            const toggleBtn = document.getElementById("theme-toggle");
+            body.classList.toggle("light-theme");
+
+            if (body.classList.contains("light-theme")) {
+                toggleBtn.innerHTML = `<i class="fa-solid fa-moon"></i> 다크 모드 (Black)`;
+            } else {
+                toggleBtn.innerHTML = `<i class="fa-solid fa-sun"></i> 라이트 모드 (White)`;
+            }
+        }
+
+        window.onload = function() {
+            setupExplorer();
+            renderCorrelationTable();
+        };
+    </script>
+</body>
+</html>
