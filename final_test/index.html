@@ -3,37 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>양적 공급의 착시와 문화 양극화: 지역별 여가 만족도와 인구 소멸 연관성 연구</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
+    <title>양적 공급의 착시와 문화 양극화: 공공 통계 융합 데이터 분석을 통해 본 지역별 여가 만족도와 인구 소멸 연관성 연구</title>
+    <meta name="description" content="부산대학교 김진서 - 양적 공급의 착시와 문화 양극화: 공공 통계 융합 데이터 분석을 통해 본 지역별 여가 만족도와 인구 소멸 연관성 연구">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        discordCanvas: '#0a0d3a',
-                        discordPrimary: '#5865f2',
-                        discordGreen: '#35ed7e',
-                        discordMagenta: '#ec48bd',
-                        discordSurface: '#1e2353',
-                        discordOnyx: '#23272a',
-                    },
-                    borderRadius: {
-                        'xs': '6px',
-                        'sm': '12px',
-                        'md': '14px',
-                        'lg': '16px',
-                        'xl': '24px',
-                    }
-                }
-            }
-        }
-    </script>
+    
     <style>
         :root {
             --color-canvas: #0a0d3a;
@@ -42,16 +21,23 @@
             --color-magenta: #ec48bd;
             --color-surface-indigo: #1e2353;
             --color-surface-onyx: #23272a;
+            --color-surface-black: #000000;
             --color-border: rgba(255, 255, 255, 0.05);
-            --sidebar-width: 280px;
+        }
+
+        .light, [data-theme='light'] {
+            --color-canvas: #f4f5f9;
+            --color-surface-indigo: #ffffff;
+            --color-surface-onyx: #e3e5e8;
+            --color-surface-black: #f2f3f5;
+            --color-border: rgba(0, 0, 0, 0.08);
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--color-canvas);
             color: #ffffff;
-            line-height: 1.6;
-            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         h1, h2, h3, h4, .font-display {
@@ -59,161 +45,16 @@
             letter-spacing: -0.02em;
         }
 
-        /* App Layout */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
+        .light body {
+            color: #23272a;
         }
 
-        /* Sidebar Navigation */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: #04061a;
-            color: #ffffff;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid var(--color-border);
-        }
-
-        .sidebar-header {
-            padding: 2rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-header i {
-            font-size: 1.35rem;
-            color: var(--color-magenta);
-        }
-
-        .sidebar-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-list {
-            list-style: none;
-            padding: 1.5rem 0.75rem;
-            flex-grow: 1;
-        }
-
-        .nav-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0.75rem 1rem;
-            color: #94a3b8;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.08);
-        }
-
-        .nav-link.active {
-            border-left: 4px solid var(--color-primary);
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-footer {
-            padding: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .btn-download-sidebar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--color-primary);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.2s, transform 0.1s;
-            text-transform: uppercase;
-        }
-
-        .btn-download-sidebar:hover {
-            background-color: #4752c4;
-            transform: scale(1.02);
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            flex-grow: 1;
-            padding: 2.5rem;
-            max-width: 1200px;
-        }
-
-        /* Section Styling */
-        section {
-            padding: 2.5rem 0;
-            scroll-margin-top: 1rem;
-        }
-
-        .section-header {
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .section-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            background-color: rgba(88, 101, 242, 0.1);
-            color: var(--color-primary);
-            border-radius: 12px;
-            font-size: 1.15rem;
-            border: 1px solid rgba(88, 101, 242, 0.2);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.5px;
-        }
-
-        /* Bento Cards */
+        /* 벤토 카드 공통 geometry */
         .bento-card {
             background-color: var(--color-surface-indigo);
             border: 1px solid var(--color-border);
-            border-radius: 20px;
-            padding: 1.75rem;
+            border-radius: 24px;
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s;
-            position: relative;
-            overflow: hidden;
         }
 
         .bento-card:hover {
@@ -221,36 +62,47 @@
             border-color: var(--color-primary);
         }
 
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--color-primary);
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .bento-card.red::before { background-color: var(--color-magenta); }
-        .bento-card.green::before { background-color: var(--color-green); }
-        .bento-card.orange::before { background-color: #f59e0b; }
+        .tab-content.active {
+            display: block;
+        }
 
-        /* Tables */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-container img, .chart-container video {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .chart-container:hover img {
+            transform: scale(1.015);
+        }
+
+        /* 테이블 공통 디자인 */
         .table-container {
             overflow-x: auto;
-            border-radius: 14px;
+            border-radius: 16px;
             border: 1px solid var(--color-border);
-            background-color: rgba(0, 0, 0, 0.2);
-            margin: 1.5rem 0;
+            background-color: rgba(0, 0, 0, 0.15);
         }
 
-        .data-table {
+        .data-table, .matrix-table {
             width: 100%;
             border-collapse: collapse;
             text-align: center;
         }
 
-        .data-table th {
+        .data-table th, .matrix-table th {
             background-color: rgba(255, 255, 255, 0.02);
             color: #ffffff;
             font-weight: 700;
@@ -261,803 +113,667 @@
             letter-spacing: 0.05em;
         }
 
-        .data-table td {
+        .light th {
+            color: #23272a;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .data-table td, .matrix-table td {
             padding: 1.1rem;
             font-size: 0.9rem;
             border-bottom: 1px solid var(--color-border);
-            transition: background 0.2s;
-            font-weight: 500;
             color: #cbd5e1;
+        }
+
+        .light td {
+            color: #23272a;
         }
 
         .data-table tr:hover td {
             background-color: rgba(255, 255, 255, 0.04);
-            color: #ffffff;
+        }
+        
+        .light .data-table tr:hover td {
+            background-color: rgba(0, 0, 0, 0.02);
         }
 
-        .data-table td.highlight {
-            font-weight: 700;
-            color: var(--color-magenta);
-        }
-
-        /* Tabs UI */
-        .tab-panel {
-            background-color: var(--color-surface-indigo);
-            border: 1px solid var(--color-border);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-
-        .tab-header {
-            display: flex;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid var(--color-border);
-            padding: 0.5rem 1rem 0;
-            gap: 8px;
-        }
-
-        .tab-btn {
-            padding: 0.85rem 1.25rem;
-            background: none;
+        .matrix-cell-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: transparent;
             border: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #94a3b8;
-            cursor: pointer;
-            border-radius: 8px 8px 0 0;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        .tab-btn:hover {
             color: #ffffff;
-        }
-
-        .tab-btn.active {
-            color: var(--color-primary);
-            border-bottom-color: var(--color-primary);
-            background-color: var(--color-surface-indigo);
-        }
-
-        .tab-content {
-            padding: 2rem;
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-image-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .tab-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            border: 1px solid var(--color-border);
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .image-caption {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            font-style: italic;
-            text-align: center;
-        }
-
-        /* Region Inspector Section */
-        .inspector-container {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 2rem;
-            background-color: var(--color-surface-indigo);
-            border: 1px solid var(--color-border);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .region-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .region-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.1rem 1.25rem;
-            background-color: rgba(0, 0, 0, 0.15);
-            border: 1px solid var(--color-border);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
             font-weight: 700;
-            color: #94a3b8;
-            transition: all 0.2s;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 8px;
+        }
+        .light .matrix-cell-btn {
+            color: #23272a;
+        }
+
+        .matrix-cell-btn:hover {
+            background-color: rgba(88, 101, 242, 0.15);
+        }
+
+        .region-item-btn {
             text-align: left;
-        }
-
-        .region-btn:hover {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-        }
-
-        .region-btn.active {
-            background-color: var(--color-primary);
-            color: #ffffff;
-            border-color: var(--color-primary);
-        }
-
-        .region-btn .badge {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 50px;
-            background-color: rgba(236, 72, 189, 0.15);
-            color: var(--color-magenta);
-            border: 1px solid rgba(236, 72, 189, 0.2);
-        }
-
-        .region-btn.active .badge {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            border-color: transparent;
-        }
-
-        .inspector-details {
-            background-color: rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            padding: 1.75rem;
+            padding: 0.9rem 1.2rem;
+            background: rgba(0, 0, 0, 0.2);
             border: 1px solid var(--color-border);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            color: #b9bbbe;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .inspector-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--color-border);
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
+        .light .region-item-btn {
+            background: rgba(0, 0, 0, 0.02);
+            color: #4f5660;
         }
 
-        .inspector-region-name {
-            font-size: 1.3rem;
-            font-weight: 800;
+        .region-item-btn:hover {
+            background-color: rgba(255, 255, 255, 0.03);
             color: #ffffff;
         }
-
-        .stat-group {
-            margin-bottom: 1.5rem;
+        .light .region-item-btn:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+            color: #23272a;
         }
 
-        .stat-label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            letter-spacing: 0.02em;
-        }
-
-        .stat-value {
-            font-size: 1.15rem;
-            font-weight: 800;
+        .region-item-btn.selected {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
             color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
-
-        .stat-diff {
-            font-size: 0.85rem;
-            font-weight: 700;
-            padding: 0.15rem 0.5rem;
-            border-radius: 6px;
-        }
-
-        .diff-up {
-            background-color: rgba(53, 237, 126, 0.15);
-            color: var(--color-green);
-        }
-
-        .diff-down {
-            background-color: rgba(236, 72, 189, 0.15);
-            color: var(--color-magenta);
-        }
-
-        .progress-bar {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.05);
+        
+        .progress-track {
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 9999px;
             overflow: hidden;
-            margin-top: 0.5rem;
+        }
+        .light .progress-track {
+            background-color: rgba(0, 0, 0, 0.08);
         }
 
         .progress-fill {
             height: 100%;
-            background-color: var(--color-primary);
             border-radius: 9999px;
-            transition: width 0.8s ease-in-out;
-        }
-
-        .progress-fill.red { background-color: var(--color-magenta); }
-
-        .region-commentary {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            line-height: 1.65;
-            margin-top: 1rem;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1.15rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--color-primary);
-        }
-
-        /* Sticky Floating Download Button */
-        .floating-download {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 99;
-            background-color: var(--color-magenta);
-            color: #ffffff;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(236, 72, 189, 0.4);
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.25s;
-        }
-
-        .floating-download:hover {
-            transform: scale(1.1) rotate(5deg);
-            background-color: #d83eb3;
-        }
-
-        .floating-download i {
-            font-size: 1.35rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .app-container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                position: relative;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--color-border);
-            }
-            .sidebar-header {
-                padding: 1.5rem;
-            }
-            .nav-list {
-                padding: 0.75rem;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            .nav-item {
-                margin-bottom: 0;
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 1.5rem;
-            }
-            .inspector-container {
-                grid-template-columns: 1fr;
-            }
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pb-20">
 
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <i class="fa-solid fa-chart-line"></i>
-                <span class="sidebar-title">여가만족-인구소멸 분석</span>
-            </div>
-            
-            <nav class="nav-list">
-                <li class="nav-item w-full lg:w-auto" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
-                    <a href="https://elimis03.github.io/AI2026-202366243/" class="nav-link" style="color: #60a5fa; font-weight: bold;">
-                        <i class="fa-solid fa-house" style="color: #60a5fa;"></i> 홈 (Home)
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#summary" class="nav-link active" onclick="setActiveLink(this)">
-                        <i class="fa-solid fa-list-check"></i> 요약 및 총괄
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#trends" class="nav-link" onclick="setActiveLink(this)">
-                        <i class="fa-solid fa-chart-area"></i> 전국 단위 추이
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#correlation" class="nav-link" onclick="setActiveLink(this)">
-                        <i class="fa-solid fa-calculator"></i> 상관관계 분석
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#regions" class="nav-link" onclick="setActiveLink(this)">
-                        <i class="fa-solid fa-map-location-dot"></i> 지역별 분석
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#conclusion" class="nav-link" onclick="setActiveLink(this)">
-                        <i class="fa-solid fa-lightbulb"></i> 정책 제언
-                    </a>
-                </li>
-            </nav>
-            
-            <div class="sidebar-footer">
-                <a href="./최종_분석_보고서.pdf" class="btn-download-sidebar" download>
-                    <i class="fa-solid fa-file-pdf"></i> PDF 보고서 다운로드
+    <div class="fixed inset-0 z-[-1] pointer-events-none opacity-40 dark:opacity-40 light:opacity-10 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-discordPrimary blur-[130px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-discordMagenta blur-[130px]"></div>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto px-6 pt-6">
+        
+        <header class="mb-10">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 dark:border-white/5 light:border-slate-200 pb-6 mb-8">
+                <a href="https://elimis03.github.io/AI2026-202366243/" class="px-4 py-2.5 bg-discordSurface light:bg-slate-200 text-white light:text-slate-900 border border-white/5 light:border-slate-300 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors hover:bg-discordPrimary hover:text-white">
+                    <i class="fa-solid fa-house"></i> 홈으로 이동
                 </a>
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle" class="px-4 py-2.5 bg-discordSurface light:bg-slate-200 text-white light:text-slate-900 border border-white/5 light:border-slate-300 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors hover:bg-discordPrimary hover:text-white" onclick="toggleTheme()">
+                        <i class="fa-solid fa-sun"></i> 라이트 모드 (White)
+                    </button>
+                    <button class="px-4 py-2.5 bg-discordGreen border border-discordGreen/20 text-discordOnyx rounded-md font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 transition-all hover:scale-[1.02]" onclick="window.print()">
+                        <i class="fa-solid fa-print"></i> 현재화면 PDF화
+                    </button>
+                </div>
             </div>
-        </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Hero Header -->
-            <header class="bg-gradient-to-br from-discordOnyx to-discordSurface p-8 lg:p-12 rounded-xl mb-10 relative overflow-hidden shadow-2xl border border-white/5">
-                <div class="absolute inset-0 bg-gradient-to-tr from-discordPrimary/5 to-transparent pointer-events-none"></div>
-                <div class="relative z-10">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-discordMagenta/10 border border-discordMagenta/20 text-discordMagenta text-xs font-bold uppercase tracking-wider mb-6 font-display">
-                        <i class="fa-solid fa-award"></i> KOSIS 공공 통계 융합 데이터 분석
-                    </div>
-                    <h1 class="text-3xl lg:text-5xl font-extrabold mb-4 leading-tight tracking-tight text-white font-display uppercase">
-                        양적 공급의 착시와 문화 양극화
-                    </h1>
-                    <p class="text-sm lg:text-base text-slate-300 max-w-3xl mb-8 leading-relaxed font-medium">
-                        지역별 여가 만족도와 인구 소멸 연관성 연구를 토대로 공공 통계 데이터 모델링 분석을 통한 정책적 제언을 제시합니다.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="https://elimis03.github.io/AI2026-202366243/" class="px-5 py-2.5 bg-discordSurface hover:bg-[#2e3472] border border-white/5 rounded-sm font-bold text-xs uppercase tracking-wider transition-all text-[#60a5fa]">
-                            <i class="fa-solid fa-house mr-1.5"></i> 홈으로 이동
-                        </a>
-                        <a href="./최종_분석_보고서.pdf" class="px-5 py-2.5 bg-discordMagenta hover:bg-[#d83eb3] text-white rounded-sm font-extrabold text-xs uppercase tracking-wider border border-discordMagenta/20 transition-all shadow-lg" download>
-                            <i class="fa-solid fa-download mr-1.5"></i> PDF 보고서 다운로드
-                        </a>
-                        <a href="./merged_data.csv" class="px-5 py-2.5 bg-discordSurface hover:bg-[#2e3472] border border-white/5 rounded-sm font-bold text-xs uppercase tracking-wider transition-all text-white" download>
-                            <i class="fa-solid fa-table mr-1.5"></i> 병합 데이터 CSV 다운로드
-                        </a>
+            <div class="flex flex-col items-start max-w-5xl">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-discordPrimary/10 border border-discordPrimary/20 text-discordPrimary text-xs font-bold tracking-widest uppercase mb-4 font-display">
+                    <i class="fa-solid fa-chart-line"></i> KOSIS 공공 통계 융합 데이터 분석
+                </span>
+                <h1 class="text-3xl md:text-6xl font-black tracking-tight leading-[1.05] font-display uppercase text-white light:text-slate-900 mb-3">
+                    양적 공급의 착시와 문화 양극화
+                </h1>
+                <p class="text-base md:text-xl font-medium text-slate-300 light:text-slate-600 leading-relaxed max-w-4xl">
+                    공공 통계 융합 데이터 분석을 통해 본 지역별 여가 만족도와 인구 소멸 연관성 연구
+                </p>
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-4 text-xs font-bold text-discordPrimary tracking-wide">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-graduation-cap"></i> 부산대학교 디자인학과 디지털테크놀로지 전공</span>
+                    <span class="flex items-center gap-2 text-white light:text-slate-800"><i class="fa-solid fa-user text-discordPrimary"></i> 작성자: <strong>김진서</strong> (학번: 202366243)</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-tabs flex flex-wrap bg-discordOnyx/50 light:bg-slate-200 p-1.5 rounded-xl border border-white/5 light:border-slate-300 mb-10 gap-1.5 shadow-2xl" role="tablist" aria-label="Dashboard Navigation">
+            <button class="tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-white light:text-slate-800 bg-discordPrimary shadow-md active" id="tab-overview" role="tab" aria-selected="true" aria-controls="content-overview" onclick="switchTab('overview')">
+                <i class="fa-solid fa-square-poll-vertical mr-1.5"></i>시각화 차트 대시보드
+            </button>
+            <button class="tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-slate-400 hover:text-white light:hover:text-slate-900" id="tab-explorer" role="tab" aria-selected="false" aria-controls="content-explorer" onclick="switchTab('explorer')">
+                <i class="fa-solid fa-map-location-dot mr-1.5"></i>지역별 정밀 지표 진단
+            </button>
+            <button class="tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-slate-400 hover:text-white light:hover:text-slate-900" id="tab-analysis" role="tab" aria-selected="false" aria-controls="content-analysis" onclick="switchTab('analysis')">
+                <i class="fa-solid fa-calculator mr-1.5"></i>상관관계 정밀 분석
+            </button>
+            <button class="tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-slate-400 hover:text-white light:hover:text-slate-900" id="tab-collaboration" role="tab" aria-selected="false" aria-controls="content-collaboration" onclick="switchTab('collaboration')">
+                <i class="fa-solid fa-robot mr-1.5"></i>AI 협업 프로세스
+            </button>
+            <a href="최종 분석 보고서.pdf" download class="tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-slate-400 hover:text-white light:hover:text-slate-900 text-center flex items-center justify-center gap-1.5" id="tab-report">
+                <i class="fa-solid fa-file-arrow-down"></i>최종 보고서 PDF 다운로드
+            </a>
+        </nav>
+
+        <div id="content-overview" class="tab-content active space-y-8" role="tabpanel" aria-labelledby="tab-overview">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bento-card p-6 flex items-center gap-5 border-l-4 border-l-discordPrimary">
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl text-white bg-gradient-to-br from-discordPrimary to-[#311b92]"><i class="fa-solid fa-people-group"></i></div>
+                    <div>
+                        <div class="text-2xl font-black text-white light:text-slate-900 font-display">+4.70%</div>
+                        <div class="text-xs text-slate-400 light:text-slate-500 font-bold uppercase mt-0.5">인구 최대 증가 지역 (세종)</div>
                     </div>
                 </div>
-            </header>
-
-            <!-- 1. Summary Section -->
-            <section id="summary" class="space-y-6">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fa-solid fa-bullseye"></i></div>
-                    <h2 class="section-title">1. 요약 (Executive Summary)</h2>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bento-card red">
-                        <div class="card-icon"><i class="fa-solid fa-users-slash"></i></div>
-                        <h3 class="card-title">인구 불균형 가속화</h3>
-                        <p class="card-desc">수도권 및 일부 신도시로의 인구 쏠림이 가중되는 반면, 지방 도(道) 지역의 인구 감소 속도는 임계점을 돌파하고 있습니다.</p>
-                    </div>
-                    <div class="bento-card orange">
-                        <div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
-                        <h3 class="card-title">양적 공급의 왜곡</h3>
-                        <p class="card-desc">인구당 문화 인프라 개수는 지방이 월등하나 실제 주민 체감 만족도 및 활용 비율은 최하위권에 머무르는 역설이 관찰됩니다.</p>
-                    </div>
-                    <div class="bento-card green">
-                        <div class="card-icon"><i class="fa-solid fa-shuffle"></i></div>
-                        <h3 class="card-title">질적 여가만족 연관성</h3>
-                        <p class="card-desc">영화, 공연, 스포츠 관람 등 실제 활동적인 여가를 향유할 수 있는 환경 차이가 인구 증감율과 밀접한 선형 상관관계를 보입니다.</p>
+                <div class="bento-card p-6 flex items-center gap-5 border-l-4 border-l-discordMagenta">
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl text-white bg-gradient-to-br from-discordMagenta to-purple-900"><i class="fa-solid fa-users-slash"></i></div>
+                    <div>
+                        <div class="text-2xl font-black text-white light:text-slate-900 font-display text-[#ff5a5a]">-4.49%</div>
+                        <div class="text-xs text-slate-400 light:text-slate-500 font-bold uppercase mt-0.5">인구 최대 감소 지역 (경북)</div>
                     </div>
                 </div>
-
-                <div class="p-6 bg-discordMagenta/10 border-l-4 border-discordMagenta rounded-r-xl flex gap-4 items-start">
-                    <div class="text-discordMagenta text-lg mt-0.5"><i class="fa-solid fa-circle-exclamation"></i></div>
-                    <div class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-                        <div class="font-extrabold text-white mb-1">여가 환경 격차와 소멸 분석 피드백</div>
-                        공공 시설의 기계적인 배치를 뛰어넘어 주민들이 실제로 원하는 상업/체육 시설의 다변화 및 공간적 접근성이 지방 인구 유출을 억제하는 핵심 가이드라인이 될 수 있습니다.
+                <div class="bento-card p-6 flex items-center gap-5 border-l-4 border-l-discordGreen">
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl text-discordOnyx bg-discordGreen"><i class="fa-solid fa-face-smile"></i></div>
+                    <div>
+                        <div class="text-2xl font-black text-white light:text-slate-900 font-display text-discordGreen">48.6%</div>
+                        <div class="text-xs text-slate-400 light:text-slate-500 font-bold uppercase mt-0.5">여가 만족도 최고 지역 (세종)</div>
                     </div>
                 </div>
-            </section>
+                <div class="bento-card p-6 flex items-center gap-5 border-l-4 border-l-orange-500">
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl text-white bg-gradient-to-br from-orange-500 to-amber-700"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div>
+                        <div class="text-2xl font-black text-white light:text-slate-900 font-display text-orange-400">4.7%</div>
+                        <div class="text-xs text-slate-400 light:text-slate-500 font-bold uppercase mt-0.5">여가시설 부족 최대 체감 (전남)</div>
+                    </div>
+                </div>
+            </div>
 
-            <!-- 2. Nationwide Trends Section -->
-            <section id="trends" class="space-y-6">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <h2 class="section-title">2. 전국 주요 여가 지표 비교</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div class="lg:col-span-8 bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-6 sm:p-8">
+                    <h3 class="text-lg font-bold text-white light:text-slate-950 mb-6 font-display uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-image text-discordPrimary"></i> 대중적 분석 시각화 자료 (일반인 대상 설계)
+                    </h3>
+                    
+                    <div class="space-y-8">
+                        <div class="chart-container border border-white/5 bg-discordBlack/30 p-4">
+                            <img src="시각화_일반인_여가만족도_인구변화.png" alt="지역별 여가 만족도 및 인구 변화율 비교 차트" onerror="this.src='https://via.placeholder.com/900x450/1e2353/ffffff?text=Chart+1+Not+Found'">
+                            <div class="chart-caption">
+                                <strong>[차트 1] 여가 만족도 vs 인구 증감 연계 정렬 차트</strong><br>
+                                여가생활의 만족도 순위와 지역 인구의 유입(파란색)/유출(빨간색) 구조가 뚜렷하게 결합되어 있음을 드러냅니다.
+                            </div>
+                        </div>
+
+                        <div class="chart-container border border-white/5 bg-discordBlack/30 p-4">
+                            <img src="시각화_일반인_문화시설_관람격차.png" alt="문화시설 밀도와 실제 관람율 비교 차트" onerror="this.src='https://via.placeholder.com/900x450/1e2353/ffffff?text=Chart+2+Not+Found'">
+                            <div class="chart-caption">
+                                <strong>[차트 2] 문화시설 밀도(공급)와 관람 향유율(수요)의 격차</strong><br>
+                                인구당 양적인 시설 공급 밀도는 도(道) 지역이 높으나, 질적인 실제 참여 빈도 및 관람 시도율은 특광역시가 훨씬 강한 왜곡 현상을 보여줍니다.
+                            </div>
+                        </div>
+
+                        <div class="chart-container border border-white/5 bg-discordBlack/30 p-4">
+                            <img src="문화·여가_인프라와_인구_소멸.png" alt="문화·여가 인프라와 인구 소멸 시각화 자료" onerror="this.src='https://via.placeholder.com/900x450/1e2353/ffffff?text=Chart+5+Not+Found'">
+                            <div class="chart-caption">
+                                <strong>[차트 5] 문화·여가 인프라와 지역 인구 소멸 분석 보드</strong><br>
+                                지역별 문화/여가 생활 여건과 인구 소멸 위험 지수 간의 지리적·통계적 연관성을 융합한 심층 시각화 데이터입니다.
+                            </div>
+                        </div>
+
+                        <div class="chart-container border border-white/5 bg-discordBlack/30 p-4">
+                            <video controls>
+                                <source src="지방_소멸의_데이터와_문화_인프라.mp4" type="video/mp4">
+                                브라우저가 비디오 태그를 지원하지 않습니다.
+                            </video>
+                            <div class="chart-caption">
+                                <strong>[시각 자료] 지방 소멸의 데이터와 문화 인프라 해설 영상</strong><br>
+                                지방 소멸 위험에 처한 지역들의 인구학적 데이터와 문화 인프라 부족 실태를 해설한 동영상 자료입니다.
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <p class="text-sm text-slate-300 font-medium">대한민국 전체(전국 평균)의 주요 연도별 여가 만족도 지표 변화 구조입니다. 양적 인프라 밀도와는 대조되는 질적 불일치 현상이 확인됩니다.</p>
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <div class="bg-discordPrimary/30 border border-discordPrimary/20 rounded-xl p-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-base font-extrabold text-discordPrimary mb-3 font-display uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap"></i> 연구 배경 및 주제 선정 이유
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-300 light:text-slate-600 leading-relaxed font-medium">
+                                최근 일상 속에서 다양한 문화·여가 생활을 직접 경험하며, 특히 <strong>부산 콘텐츠 공모전</strong>과 같은 대회를 직접 준비하고 참가하면서 지역의 문화, 예술, 관람, 관광 산업이 가진 사회적 가치에 대한 관심도가 크게 높아졌습니다.
+                                <br><br>
+                                이러한 과정에서 주민들이 체감하는 여가 생활의 만족도/불만족도, 그리고 지역별 문화시설의 개수가 실제로 지방 인구수의 감소 또는 증가와 어떠한 연관성을 가지고 작동하는지 깊은 의문이 생겨 본 연구 주제를 직접 선정하였습니다.
+                            </p>
+                        </div>
+                    </div>
 
-                <div class="table-container">
-                    <table class="data-table">
+                    <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-6 flex flex-col justify-between flex-1">
+                        <div>
+                            <h3 class="text-base font-extrabold text-white light:text-slate-950 mb-5 font-display uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-lightbulb text-discordPrimary"></i> 핵심 시사점 (Key Insights)
+                            </h3>
+                            <div class="space-y-4 text-xs sm:text-sm">
+                                <div class="p-4 bg-discordBlack/20 light:bg-slate-50 border border-white/5 rounded-lg">
+                                    <h4 class="text-discordPrimary font-bold mb-1">1. 정주 여건으로서의 여가 인프라</h4>
+                                    <p class="text-slate-400 light:text-slate-600 leading-relaxed">
+                                        인구가 유입되며 성장세를 보이는 세종, 인천, 경기는 여가 만족도가 최상위권을 기록했습니다. 문화·여가 환경이 단순 복지를 넘어 인구 이탈을 차단하는 실질적 정주 요인임을 가리킵니다.
+                                    </p>
+                                </div>
+                                <div class="p-4 bg-discordBlack/20 light:bg-slate-50 border border-white/5 rounded-lg">
+                                    <h4 class="text-orange-400 font-bold mb-1">2. 양적 공급과 주민 체감의 괴리</h4>
+                                    <p class="text-slate-400 light:text-slate-600 leading-relaxed">
+                                        인구 10만명당 문화시설수가 가장 많은 제주, 강원, 전남의 여가 만족도가 최하위권(30%대)에 머물렀습니다. 단순한 양적 개수 증가 정책의 허점을 명확히 보여줍니다.
+                                    </p>
+                                </div>
+                                <div class="p-4 bg-discordBlack/20 light:bg-slate-50 border border-white/5 rounded-lg">
+                                    <h4 class="text-discordGreen font-bold mb-1">3. 풍요 속의 빈곤 (질적 격차)</h4>
+                                    <p class="text-slate-400 light:text-slate-600 leading-relaxed">
+                                        농어촌 도 지역은 지자체 예산으로 지어지는 공공 중심의 노후화된 정적 인프라만 많을 뿐, 실제 주민이 원하는 동적 문화 여가 환경(영화관, 스포츠 체육시설 등)이 부족해 체감 불만족도가 도시 대비 4배 이상 높습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full justify-center text-xs tracking-wider uppercase font-display font-bold mt-6" onclick="switchTab('explorer')">
+                            <i class="fa-solid fa-arrow-right"></i> 우리 지역 상세 진단하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-4 chart-container">
+                    <img src="시각화_일반인_여가불만족_이유.png" alt="전국 여가 불만족 요인 도넛 차트" onerror="this.src='https://via.placeholder.com/600x350/1e2353/ffffff?text=Chart+3+Not+Found'">
+                    <div class="chart-caption">
+                        <strong>[차트 3] 전국 기준 여가 불만족 6대 요인 비율</strong><br>
+                        국민 10명 중 7명은 여가를 즐기지 못하는 이유로 '경제적 부담(48.7%)'과 '시간 부족(21.9%)'을 꼽습니다.
+                    </div>
+                </div>
+                <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-4 chart-container">
+                    <img src="시각화_일반인_여가시설부족_비교.png" alt="지역별 여가시설 부족 응답 비교 차트" onerror="this.src='https://via.placeholder.com/600x350/1e2353/ffffff?text=Chart+4+Not+Found'">
+                    <div class="chart-caption">
+                        <strong>[차트 4] 여가시설 부족에 따른 불만족 체감도 비교</strong><br>
+                        전남(4.7%), 전북(4.2%), 제주(3.7%) 등 문화시설 공급 밀도가 높아 보이는 지방 도(道) 지역 주민들이 도시 주민보다 문화 인프라 결핍을 4배 이상 더 겪고 있습니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-explorer" class="tab-content">
+            <div class="explorer-layout">
+                <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-6 selector-panel">
+                    <div class="text-sm font-extrabold text-white light:text-slate-950 mb-3 flex items-center gap-2 font-display uppercase">
+                        <i class="fa-solid fa-map-location-dot text-discordPrimary"></i> 시도 행정구역 선택
+                    </div>
+                    <div class="select-wrapper md:hidden">
+                        <select id="region-selector" onchange="onRegionSelect(this.value)" aria-label="Select region to explore">
+                            </select>
+                    </div>
+                    <div class="region-list hidden md:flex" id="region-btn-list" role="listbox" aria-label="Region list">
+                        </div>
+                </div>
+
+                <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-6 sm:p-8 detail-panel">
+                    <div class="region-detail-header">
+                        <div class="region-name-large font-display" id="det-region-name">서울특별시</div>
+                        <span class="region-category font-display text-xs" id="det-region-type">특광역시</span>
+                    </div>
+
+                    <div class="metric-cards-grid">
+                        <div class="metric-mini-card">
+                            <span class="lbl font-semibold flex items-center gap-1.5"><i class="fa-solid fa-arrow-trend-up text-discordPrimary"></i> 인구수 변화율 (22-25)</span>
+                            <span class="val font-display" id="det-pop-change">-2.17%</span>
+                        </div>
+                        <div class="metric-mini-card">
+                            <span class="lbl font-semibold flex items-center gap-1.5"><i class="fa-solid fa-landmark text-orange-400"></i> 10만명당 문화시설 (24)</span>
+                            <span class="val font-display" id="det-infra-density">5.10개</span>
+                        </div>
+                        <div class="metric-mini-card">
+                            <span class="lbl font-semibold flex items-center gap-1.5"><i class="fa-solid fa-eye text-discordGreen"></i> 문화 관람 시도율 (25)</span>
+                            <span class="val font-display" id="det-viewing-rate">62.3%</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 space-y-5">
+                        <div class="progress-container">
+                            <div class="progress-meta">
+                                <span class="font-semibold text-xs uppercase tracking-wider text-slate-400">여가 생활 만족도 (2025)</span>
+                                <strong class="font-display text-sm text-discordGreen" id="det-sat-rate-text">41.3%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill bg-discordGreen" id="det-sat-rate-bar" style="width: 41.3%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-meta">
+                                <span class="font-semibold text-xs uppercase tracking-wider text-slate-400">여가 생활 불만족도 (2025)</span>
+                                <strong class="font-display text-sm text-discordMagenta" id="det-unsat-rate-text">16.8%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill bg-discordMagenta" id="det-unsat-rate-bar" style="width: 16.8%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-meta">
+                                <span class="font-semibold text-xs uppercase tracking-wider text-slate-400">여가시설 부족 불만율 (불만 요인 중)</span>
+                                <strong class="font-display text-sm text-orange-400" id="det-facility-shortage-text">1.1%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill bg-orange-400" id="det-facility-shortage-bar" style="width: 1.1%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="h-px bg-white/5 dark:bg-white/5 light:bg-slate-200 my-4"></div>
+
+                        <div>
+                            <h4 class="font-extrabold text-sm text-white light:text-slate-900 mb-2 font-display uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-stethoscope text-discordPrimary"></i> 종합 진단 평정
+                            </h4>
+                            <p id="det-summary-text" class="text-xs sm:text-sm text-slate-300 light:text-slate-600 leading-relaxed font-medium">
+                                로딩 중...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-analysis" class="tab-content">
+            <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-6 sm:p-8">
+                <div class="text-base font-extrabold text-white light:text-slate-950 mb-3 font-display uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-table-cells text-discordPrimary"></i> 상관관계 분석 메트릭스 (Pearson Correlation Matrix)
+                </div>
+                <p class="text-xs sm:text-sm text-slate-300 light:text-slate-600 mb-6 font-medium">
+                    각 계수(셀)를 클릭하시면 통계학적 연관성의 의미와 상세 해석을 확인할 수 있습니다.
+                </p>
+
+                <div class="table-container shadow-2xl">
+                    <table class="matrix-table" id="corr-table" aria-label="Correlation Matrix Table">
                         <thead>
                             <tr>
-                                <th>구분 지표</th>
-                                <th>2021년 통계 결과</th>
-                                <th>2023년 통계 결과</th>
-                                <th>2025년 전망 지표</th>
-                                <th>격차 요인 분석</th>
+                                <th>지표명</th>
+                                <th>인구 변화율</th>
+                                <th>문화시설수 (총)</th>
+                                <th>10만명당 문화시설</th>
+                                <th>여가 만족도</th>
+                                <th>여가 불만족도</th>
+                                <th>문화 관람 시도율</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>여가 생활 만족도 (%)</td>
-                                <td>27.0%</td>
-                                <td>34.2%</td>
-                                <td class="text-discordGreen font-extrabold">39.4% ↑</td>
-                                <td>수도권 및 특광역시 중심의 회복 효과 주도</td>
-                            </tr>
-                            <tr class="bg-discordMagenta/5">
-                                <td>여가 생활 불만족도 (%)</td>
-                                <td class="text-discordMagenta font-extrabold">23.5%</td>
-                                <td>18.7%</td>
-                                <td class="text-discordMagenta font-extrabold">15.9% ↓</td>
-                                <td>문화 정보 격차 및 도-농 편중 불만 상존</td>
-                            </tr>
-                            <tr>
-                                <td>문화 관람 시도율 (%)</td>
-                                <td>24.1%</td>
-                                <td>55.3%</td>
-                                <td>57.7%</td>
-                                <td>수요는 급증했으나 영남/호남 산간지역 공급 한계</td>
-                            </tr>
-                            <tr>
-                                <td>10만명당 문화시설 (개)</td>
-                                <td>6.1개</td>
-                                <td>6.4개</td>
-                                <td class="highlight">6.5개</td>
-                                <td>지속적인 증가세 속 실질 체감 효율성은 분화됨</td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
 
-                <!-- Tab panel for Nationwide & Gender comparison charts -->
-                <div class="tab-panel">
-                    <div class="tab-header">
-                        <button class="tab-btn active" onclick="switchTab(event, 'tab-trend')">지역 여가 만족도 & 인구 변화</button>
-                        <button class="tab-btn" onclick="switchTab(event, 'tab-gender')">문화시설 밀도 & 관람 격차</button>
+                <div class="bg-discordPrimary/10 border-l-4 border-l-discordPrimary rounded-r-lg p-5 mt-8" id="corr-explain-widget">
+                    <div class="text-sm font-bold text-white light:text-slate-950 flex items-center gap-2 mb-2 font-display uppercase" id="corr-title">
+                        <i class="fa-solid fa-circle-info text-discordPrimary"></i> 통계 지표를 클릭해 주세요
                     </div>
-                    <div id="tab-trend" class="tab-content active">
-                        <div class="tab-image-container">
-                            <img src="./시각화_일반인_여가만족도_인구변화.png" alt="여가만족도 인구변화" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Leisure+Satisfaction+vs+Population+Trend'">
-                            <span class="image-caption">여가 만족 비율(좌축)과 최근 연도별 지역 정주 인구 변화 관계</span>
-                        </div>
-                    </div>
-                    <div id="tab-gender" class="tab-content">
-                        <div class="tab-image-container">
-                            <img src="./시각화_일반인_문화시설_관람격차.png" alt="문화시설 관람격차" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Infrastructure+vs+Viewing+Rate'">
-                            <span class="image-caption">지자체 단위 10만명당 시설 밀도 분포 대비 실질 관람 향유 기회의 쏠림 대조</span>
-                        </div>
-                    </div>
+                    <p id="corr-body" class="text-xs sm:text-sm text-slate-300 light:text-slate-600 leading-relaxed font-medium">
+                        위 상관행렬의 각 수치들을 누르시면 인구 변화와 문화 공급, 주민 효용 간의 연관성에 관한 데이터 기반 해석이 여기에 표시됩니다.
+                    </p>
                 </div>
-            </section>
+            </div>
+        </div>
 
-            <!-- 3. Correlation Section -->
-            <section id="correlation" class="space-y-6">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fa-solid fa-calculator"></i></div>
-                    <h2 class="section-title">3. 변수 간 상관관계 분석 및 해설</h2>
+        <div id="content-collaboration" class="tab-content">
+            <div class="bg-discordSurface/50 light:bg-white border border-white/5 light:border-slate-200 rounded-xl p-6 sm:p-8">
+                <div class="text-base font-extrabold text-white light:text-slate-950 mb-3 font-display uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-robot text-discordPrimary"></i> 생성형 AI 기반 연구 및 인간-AI 협업 프로세스
                 </div>
+                <p class="text-xs sm:text-sm text-slate-300 light:text-slate-600 mb-8 font-medium">
+                    본 연구는 생성형 AI의 분석 생산성과 인간 분석가(김진서)의 데이터 검증 및 설계 역량을 결합한 <strong>멀티 AI 워크플로우(Multi-AI Workflow)</strong>를 가동하여 설계되었습니다.
+                </p>
 
-                <p class="text-sm text-slate-300 font-medium">행정구역 수집 통계를 상호 정렬하여 피어슨 선형 상관계수를 추적했습니다. 계수의 수치가 도로 위 인구 이탈의 원인을 어떻게 명시하는지 진단합니다.</p>
-
-                <!-- Tabs for correlation charts -->
-                <div class="tab-panel">
-                    <div class="tab-header">
-                        <button class="tab-btn active" onclick="switchTab(event, 'tab-heatmap')">상관분석 메트릭스</button>
-                        <button class="tab-btn" onclick="switchTab(event, 'tab-scatter')">여가불만족 요인 분석</button>
-                        <button class="tab-btn" onclick="switchTab(event, 'tab-change')">여가시설 부족 불만율</button>
-                    </div>
-                    <div id="tab-heatmap" class="tab-content active">
-                        <div class="tab-image-container">
-                            <img src="./문화·여가_인프라와_인구_소멸.png" alt="상관분석 데이터" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Correlation+Analysis+Board'">
-                            <p class="image-caption">문화 여가 시설 지표와 주민 웰빙, 지방 소멸 지수 간 가중 데이터 분포</p>
-                            <div class="region-commentary border-l-discordPrimary w-full">
-                                <strong>💡 통계적 상관계수 가이드라인:</strong><br>
-                                • **여가 만족도와 인구 증가율**: **r = +0.615**로 매우 강한 양의 선형 관계를 나타냅니다. 쾌적한 여가 정주 여건이 우수한 인구 보전 및 유입에 직접적으로 기여함을 증명합니다.<br>
-                                • **인프라 밀도와 주민 관람 시도율**: **r = -0.529**로 뚜렷한 음의 관계가 성립됩니다. 시설물 가용 수치만 높을 뿐, 접근성이 차단된 지방 산간 권역의 질적 정체를 여실히 노출합니다.
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-scatter" class="tab-content">
-                        <div class="tab-image-container">
-                            <img src="./시각화_일반인_여가불만족_이유.png" alt="여가불만족 요인 분석" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Dissatisfaction+Reason+Chart'">
-                            <span class="image-caption">전체 설문 조사 응답자 여가생활 불만 원인(경제적 한계, 동반자 결핍, 시설 원거리 배치) 비율</span>
-                        </div>
-                    </div>
-                    <div id="tab-change" class="tab-content">
-                        <div class="tab-image-container">
-                            <img src="./시각화_일반인_여가시설부족_비교.png" alt="여가시설 부족 지수" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Leisure+Shortage+Chart'">
-                            <div class="region-commentary border-l-discordMagenta w-full">
-                                <strong>💡 지역별 여가시설 부족 응답 대조:</strong><br>
-                                전남(4.7%), 전북(4.2%), 강원(1.4%) 등의 주민들이 시설이 수치상 많음에도 불구하고 인프라 한계 불만을 가장 민감하게 보고하였습니다. 이는 실제 체감 가능한 문화 서비스 전달 경로의 설계 부재를 반증합니다.
-                            </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-discordBlack/20 light:bg-slate-50 border border-white/5 p-5 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-discordPrimary font-extrabold text-sm font-display uppercase flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-bolt"></i> 1. 자료 탐색 및 수집
+                            </h4>
+                            <p class="text-xs text-slate-400 light:text-slate-600 leading-relaxed font-medium">
+                                <strong>Gemini 3.5 Flash 활용</strong><br>
+                                KOSIS 내 방대한 시계열 데이터베이스 중에서 인구 및 사회조사 통계표를 신속하고 정확하게 분류하고 융합하기 위한 탐색 지침 획득.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
 
-            <!-- 4. Regions Section -->
-            <section id="regions" class="space-y-6">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                    <h2 class="section-title">4. 지역별 분석 (Regional Case Studies)</h2>
-                </div>
-
-                <p class="text-sm text-slate-300 font-medium">아래 인터랙티브 지역 탐색기에서 각 시도를 클릭해 보십시오. 2020년 대비 2024년의 삶의 만족도 및 자살률 지표의 다이내믹한 수치 변동과 상세 사례 분석을 보실 수 있습니다.</p>
-
-                <!-- Interactive Region Explorer -->
-                <div class="inspector-container">
-                    <div class="region-list">
-                        <button class="region-btn active" onclick="inspectRegion('sejong', this)">
-                            <span>세종특별자치시</span>
-                            <span class="badge">여가 만족 1위</span>
-                        </button>
-                        <button class="region-btn" onclick="inspectRegion('incheon', this)">
-                            <span>인천광역시</span>
-                            <span class="badge">인구 유입 우수</span>
-                        </button>
-                        <button class="region-btn" onclick="inspectRegion('gwangju', this)">
-                            <span>광주광역시</span>
-                            <span class="badge">여가 만족 양호</span>
-                        </button>
-                        <button class="region-btn" onclick="inspectRegion('jeju', this)">
-                            <span>제주특별자치도</span>
-                            <span class="badge">시설 밀도 최고</span>
-                        </button>
-                        <button class="region-btn" onclick="inspectRegion('chungnam', this)">
-                            <span>충청남도</span>
-                            <span class="badge">수요 증가 추세</span>
-                        </button>
-                    </div>
-
-                    <!-- Dynamic Details Panel -->
-                    <div id="inspector-details" class="inspector-details">
-                        <!-- Default/Initial view (Sejong data rendered by JS on load) -->
-                    </div>
-                </div>
-
-                <div class="tab-image-container" style="margin-top: 2rem;">
-                    <img src="./시각화_일반인_여가만족도_인구변화.png" alt="여가만족도 인구변화" class="tab-image" onerror="this.src='https://via.placeholder.com/900x500/1e2353/ffffff?text=Regional+Comparison+Chart'">
-                    <span class="image-caption">여가 생활 만족 분포 대비 인구 변화 추이</span>
-                </div>
-            </section>
-
-            <!-- 5. Conclusion Section -->
-            <section id="conclusion" class="space-y-6">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                    <h2 class="section-title">5. 정책 제언 (Conclusion & Policy Implications)</h2>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="bento-card">
-                        <div class="card-icon" style="color: var(--color-primary);"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3 class="card-title text-white">단순 공급 위주의 산술적 평정 극복</h3>
-                        <p class="card-desc text-sm text-slate-300">인구 10만명당 개수 중심의 양적 실적 홍보를 중단하고, 시설의 지리적 근접도와 실질 가동 퀄리티를 중심에 둔 수요자 중심 평가 모델을 안착시켜야 합니다.</p>
-                    </div>
-                    <div class="bento-card red">
-                        <div class="card-icon" style="color: var(--color-magenta);"><i class="fa-solid fa-users-viewfinder"></i></div>
-                        <h3 class="card-title text-white">찾아가는 문화 및 유연성 모빌리티 보조</h3>
-                        <p class="card-desc text-sm text-slate-300">물리적 이동이 차단되어 문화 혜택을 체감하지 못하는 농어촌 주민들을 타겟팅한 스마트 문화 셔틀, 찾아가는 이동식 예술 복지 차량 사업의 입법 예산 편성이 긴급합니다.</p>
-                    </div>
-                    <div class="bento-card green">
-                        <div class="card-icon" style="color: var(--color-green);"><i class="fa-solid fa-house-medical"></i></div>
-                        <h3 class="card-title text-white">민관 협력형 라이프스타일 랜드마크 유치</h3>
-                        <p class="card-desc text-sm text-slate-300">경직된 공공 문화원 배치에서 벗어나, 상업용 극장, 피트니스 짐 등 라이프스타일 변화가 연계된 민간 협력 앵커 테넌트 유치를 지방 정주 매력도 핵심 축으로 삼아야 합니다.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
     </div>
 
-    <!-- Sticky Floating PDF Download Button -->
-    <a href="./최종_분석_보고서.pdf" class="floating-download" title="PDF 보고서 다운로드" download>
-        <i class="fa-solid fa-file-pdf"></i>
-    </a>
-
-    <!-- JavaScript for Interactions -->
     <script>
-        // Data for Region Inspector
-        const regionData = {
-            sejong: {
-                name: "세종특별자치시",
-                badge: "여가 만족 1위",
-                sat2020: 31.7,
-                sat2024: 48.6,
-                satDiff: 16.9,
-                sui2020: 4.4,
-                sui2024: 4.7,
-                suiDiff: 0.3,
-                commentary: "세종특별자치시는 계획 정주 설계의 혜택으로, 공공 공원 및 자전거 전용도로 연계 인프라가 극도로 우수하게 조성되어 있어 여가 생활 만족도가 전국 최고 수준(48.6%)으로 집계되며 지속적인 젊은층 유입을 주도하고 있습니다."
-            },
-            incheon: {
-                name: "인천광역시",
-                badge: "인구 유입 우수",
-                sat2020: 26.9,
-                sat2024: 41.9,
-                satDiff: 15.0,
-                sui2020: 3.4,
-                sui2024: 3.7,
-                suiDiff: 0.3,
-                commentary: "인천광역시는 바이오 벨트 및 송도 신도시 중심의 정주 요건 확충과 고도화된 문화 전용 복합 센터 설립이 활성화되어, 최근 정주 인구수가 비약적으로 유입되는 추이와 함께 주민 여가 만족도가 개선되고 있습니다."
-            },
-            gwangju: {
-                name: "광주광역시",
-                badge: "여가 만족 양호",
-                sat2020: 25.4,
-                sat2024: 38.4,
-                satDiff: 13.0,
-                sui2020: -3.4,
-                sui2024: -3.8,
-                suiDiff: -0.4,
-                commentary: "광주광역시는 아시아문화전당(ACC) 등 중점 거점 예술 인프라의 가동률이 상승하고, 자발적인 민간 골목 중심의 예술, 인문학 살롱이 청년층을 결합하며 평균 만족 비율 및 문화 시도지표가 회복 기조를 타는 중입니다."
-            },
-            jeju: {
-                name: "제주특별자치도",
-                badge: "시설 밀도 최고",
-                sat2020: 29.1,
-                sat2024: 42.2,
-                satDiff: 13.1,
-                sui2020: -1.7,
-                sui2024: -2.0,
-                suiDiff: -0.3,
-                commentary: "제주특별자치도는 10만명당 박물관, 미술관 개수가 압도적인 전국 최고치(18.9개)를 지키고 있으나, 대중교통 불편 및 노후 시설물 편중으로 인해 실제 주민 관람 빈도나 체감 불만은 오히려 높게 분기되는 인프라 역설의 전형입니다."
-            },
-            chungnam: {
-                name: "충청남도",
-                badge: "수요 증가 추세",
-                sat2020: 25.2,
-                sat2024: 41.2,
-                satDiff: 16.0,
-                sui2020: 0.8,
-                sui2024: 0.9,
-                suiDiff: 0.1,
-                commentary: "충청남도는 천안, 아산 벨트를 포함한 산업 배후 지구의 성장과 더불어, 가구당 문화 시도 참여 의향 및 체육 활동 결합 수요가 매년 가파르게 복리 상승하여 정책적 질적 전면 지원이 요구되는 성장 지역입니다."
-            }
+        // Injected Cleaned Datasets 원형보존
+        const regionsData = [{"지역": "강원특별자치도", "인구_2022_01": 1538660, "인구_2025_12": 1508500, "인구_2026_05": 1507237, "인구_변화량_22_25": -30160, "인구_변화율_22_25_pct": -1.9601471410188087, "인구_변화량_total": -31423, "인구_변화율_total_pct": -2.042231552129775, "시설수_2022": 246, "시설수_2023": 247, "시설수_2024": 250, "십만명당_시설수_2022": 16.0, "십만명당_시설수_2023": 16.2, "십만명당_시설수_2024": 16.5, "시설수_변화량_22_24": 4, "시설수_변화율_22_24_pct": 1.6260162601626018, "만족도_2021": 27.9, "불만족도_2021": 20.8, "만족도_2023": 33.4, "불만족도_2023": 16.099999999999998, "만족도_2025": 37.1, "불만족도_2025": 16.7, "2025_매우만족": 11.6, "2025_약간만족": 25.5, "2025_보통": 46.2, "2025_약간불만족": 12.4, "2025_매우불만족": 4.3, "2025_경제적부담": 37.1, "2025_시간부족": 26.7, "2025_교통혼잡": 2.4, "2025_여가시설부족": 1.4, "2025_여가정보부족": null, "2025_여가프로그램부족": 0.9, "2025_취미없음": 4.6, "2025_건강체력부족": 24.4, "2025_동반자없음": 2.2, "2025_기타": 0.3, "2023_경제적부담": 40.7, "2023_시간부족": 26.3, "2023_교통혼잡": 1.1, "2023_여가시설부족": 4.6, "2023_여가정보부족": 0.7, "2023_여가프로그램부족": 0.3, "2023_취미없음": 3.6, "2023_건강체력부족": 20.0, "2023_동반자없음": 2.7, "2023_기타": null, "관람시도율_2021": 18.2, "평균관람횟수_2021": 4.2, "관람시도율_2023": 47.3, "평균관람횟수_2023": 6.6, "관람시도율_2025": 49.5, "평균관람횟수_2025": 7.7, "영화관람율_2025": 72.4, "스포츠관람율_2025": 25.6}, {"지역": "경기도", "인구_2022_01": 13571450, "인구_2025_12": 13730135, "인구_2026_05": 13755126, "인구_변화량_22_25": 158685, "인구_변화율_22_25_pct": 1.1692560485430814, "인구_변화량_total": 183676, "인구_변화율_total_pct": 1.3533999683158395, "시설수_2022": 609, "시설수_2023": 622, "시설수_2024": 633, "십만명당_시설수_2022": 4.5, "십만명당_시설수_2023": 4.6, "십만명당_시설수_2024": 4.6, "시설수_변화량_22_24": 24, "시설수_변화율_22_24_pct": 3.940886699507389, "만족도_2021": 27.8, "불만족도_2021": 26.200000000000003, "만족도_2023": 34.8, "불만족도_2023": 18.7, "만족도_2025": 39.8, "불만족도_2025": 16.2, "2025_매우만족": 13.1, "2025_약간만족": 26.7, "2025_보통": 44.0, "2025_약간불만족": 12.4, "2025_매우불만족": 3.8, "2025_경제적부담": 48.6, "2025_시간부족": 25.5, "2025_교통혼잡": 2.9, "2025_여가시설부족": 2.1, "2025_여가정보부족": 1.0, "2025_여가프로그램부족": 1.0, "2025_취미없음": 4.6, "2025_건강체력부족": 12.3, "2025_동반자없음": 1.5, "2025_기타": 0.4, "2023_경제적부담": 52.2, "2023_시간부족": 23.8, "2023_교통혼잡": 1.8, "2023_여가시설부족": 1.7, "2023_여가정보부족": 0.4, "2023_여가프로그램부족": 0.5, "2023_취미없음": 4.0, "2023_건강체력부족": 12.6, "2023_동반자없음": 2.4, "2023_기타": 0.5, "관람시도율_2021": 24.8, "평균관람횟수_2021": 4.8, "관람시도율_2023": 56.9, "평균관람횟수_2023": 7.2, "관람시도율_2025": 60.6, "평균관람횟수_2025": 6.8, "영화관람율_2025": 74.8, "스포츠관람율_2025": 27.2}, {"지역": "경상남도", "인구_2022_01": 3311438, "인구_2025_12": 3207383, "인구_2026_05": 3196632, "인구_변화량_22_25": -104055, "인구_변화율_22_25_pct": -3.1422904490435872, "인구_변화량_total": -114806, "인구_변화율_total_pct": -3.466953027657471, "시설수_2022": 235, "시설수_2023": 233, "시설수_2024": 233, "십만명당_시설수_2022": 7.2, "십만명당_시설수_2023": 7.2, "십만명당_시설수_2024": 7.2, "시설수_변화량_22_24": -2, "시설수_변화율_22_24_pct": -0.851063829787234, "만족도_2021": 26.0, "불만족도_2021": 21.2, "만족도_2023": 33.8, "불만족도_2023": 19.7, "만족도_2025": 37.9, "불만족도_2025": 16.2, "2025_매우만족": 11.6, "2025_약간만족": 26.3, "2025_보통": 45.9, "2025_약간불만족": 13.2, "2025_매우불만족": 3.0, "2025_경제적부담": 50.8, "2025_시간부족": 16.9, "2025_교통혼잡": 0.7, "2025_여가시설부족": 2.6, "2025_여가정보부족": 1.7, "2025_여가프로그램부족": 0.5, "2025_취미없음": 7.2, "2025_건강체력부족": 16.3, "2025_동반자없음": 3.3, "2025_기타": null, "2023_경제적부담": 46.2, "2023_시간부족": 21.4, "2023_교통혼잡": 1.5, "2023_여가시설부족": 4.0, "2023_여가정보부족": 0.6, "2023_여가프로그램부족": 0.5, "2023_취미없음": 6.1, "2023_건강체력부족": 17.5, "2023_동반자없음": 1.8, "2023_기타": 0.4, "관람시도율_2021": 21.7, "평균관람횟수_2021": 4.9, "관람시도율_2023": 55.4, "평균관람횟수_2023": 6.8, "관람시도율_2025": 54.6, "평균관람횟수_2025": 6.5, "영화관람율_2025": 76.3, "스포츠관람율_2025": 28.0}, {"지역": "경상북도", "인구_2022_01": 2624310, "인구_2025_12": 2506526, "인구_2026_05": 2496706, "인구_변화량_22_25": -117784, "인구_변화율_22_25_pct": -4.488189276419326, "인구_변화량_total": -127604, "인구_변화율_total_pct": -4.862382873974493, "시설수_2022": 232, "시설수_2023": 224, "시설수_2024": 228, "십만명당_시설수_2022": 8.9, "십만명당_시설수_2023": 8.8, "십만명당_시설수_2024": 9.0, "시설수_변화량_22_24": -4, "시설수_변화율_22_24_pct": -1.7241379310344829, "만족도_2021": 23.1, "불만족도_2021": 24.200000000000003, "만족도_2023": 29.7, "불만족도_2023": 17.8, "만족도_2025": 31.700000000000003, "불만족도_2025": 16.6, "2025_매우만족": 6.9, "2025_약간만족": 24.8, "2025_보통": 51.6, "2025_약간불만족": 13.8, "2025_매우불만족": 2.8, "2025_경제적부담": 42.5, "2025_시간부족": 22.0, "2025_교통혼잡": 0.5, "2025_여가시설부족": 2.6, "2025_여가정보부족": 0.8, "2025_여가프로그램부족": 0.9, "2025_취미없음": 4.9, "2025_건강체력부족": 24.9, "2025_동반자없음": 0.9, "2025_기타": null, "2023_경제적부담": 44.4, "2023_시간부족": 24.7, "2023_교통혼잡": 0.5, "2023_여가시설부족": 2.3, "2023_여가정보부족": 0.2, "2023_여가프로그램부족": 0.6, "2023_취미없음": 4.7, "2023_건강체력부족": 20.6, "2023_동반자없음": 1.4, "2023_기타": 0.7, "관람시도율_2021": 16.1, "평균관람횟수_2021": 3.8, "관람시도율_2023": 44.2, "평균관람횟수_2023": 6.1, "관람시도율_2025": 48.5, "평균관람횟수_2025": 6.1, "영화관람율_2025": 76.8, "스포츠관람율_2025": 21.2}, {"지역": "광주광역시", "인구_2022_01": 1441636, "인구_2025_12": 1392013, "인구_2026_05": 1386379, "인구_변화량_22_25": -49623, "인구_변화율_22_25_pct": -3.442131023365121, "인구_변화량_total": -55257, "인구_변화율_total_pct": -3.832937024325142, "시설수_2022": 78, "시설수_2023": 88, "시설수_2024": 90, "십만명당_시설수_2022": 5.5, "십만명당_시설수_2023": 6.2, "십만명당_시설수_2024": 6.4, "시설수_변화량_22_24": 12, "시설수_변화율_22_24_pct": 15.384615384615383, "만족도_2021": 25.4, "불만족도_2021": 24.9, "만족도_2023": 32.4, "불만족도_2023": 18.6, "만족도_2025": 38.4, "불만족도_2025": 14.1, "2025_매우만족": 11.5, "2025_약간만족": 26.9, "2025_보통": 47.4, "2025_약간불만족": 10.6, "2025_매우불만족": 3.5, "2025_경제적부담": 47.7, "2025_시간부족": 20.2, "2025_교통혼잡": null, "2025_여가시설부족": 1.0, "2025_여가정보부족": 0.5, "2025_여가프로그램부족": 0.5, "2025_취미없음": 9.0, "2025_건강체력부족": 17.5, "2025_동반자없음": 2.7, "2025_기타": 0.9, "2023_경제적부담": 45.0, "2023_시간부족": 25.1, "2023_교통혼잡": 1.5, "2023_여가시설부족": 2.5, "2023_여가정보부족": 0.5, "2023_여가프로그램부족": null, "2023_취미없음": 4.3, "2023_건강체력부족": 16.7, "2023_동반자없음": 3.5, "2023_기타": 1.0, "관람시도율_2021": 27.3, "평균관람횟수_2021": 4.2, "관람시도율_2023": 58.4, "평균관람횟수_2023": 6.3, "관람시도율_2025": 61.5, "평균관람횟수_2025": 7.8, "영화관람율_2025": 70.9, "스포츠관람율_2025": 40.8}, {"지역": "대구광역시", "인구_2022_01": 2383858, "인구_2025_12": 2353032, "인구_2026_05": 2349305, "인구_변화량_22_25": -30826, "인구_변화율_22_25_pct": -1.2931139354777004, "인구_변화량_total": -34553, "인구_변화율_total_pct": -1.4494571404840388, "시설수_2022": 95, "시설수_2023": 102, "시설수_2024": 107, "십만명당_시설수_2022": 4.0, "십만명당_시설수_2023": 4.3, "십만명당_시설수_2024": 4.5, "시설수_변화량_22_24": 12, "시설수_변화율_22_24_pct": 12.63157894736842, "만족도_2021": 23.200000000000003, "불만족도_2021": 21.6, "만족도_2023": 29.9, "불만족도_2023": 18.5, "만족도_2025": 33.1, "불만족도_2025": 19.1, "2025_매우만족": 8.3, "2025_약간만족": 24.8, "2025_보통": 47.8, "2025_약간불만족": 15.7, "2025_매우불만족": 3.4, "2025_경제적부담": 52.9, "2025_시간부족": 16.7, "2025_교통혼잡": 0.3, "2025_여가시설부족": 3.1, "2025_여가정보부족": 1.8, "2025_여가프로그램부족": 0.8, "2025_취미없음": 5.2, "2025_건강체력부족": 17.0, "2025_동반자없음": 1.8, "2025_기타": 0.4, "2023_경제적부담": 57.7, "2023_시간부족": 21.5, "2023_교통혼잡": 0.3, "2023_여가시설부족": 2.1, "2023_여가정보부족": 0.6, "2023_여가프로그램부족": 0.2, "2023_취미없음": 4.9, "2023_건강체력부족": 10.0, "2023_동반자없음": 2.4, "2023_기타": 0.4, "관람시도율_2021": 25.9, "평균관람횟수_2021": 3.9, "관람시도율_2023": 54.0, "평균관람횟수_2023": 6.6, "관람시도율_2025": 54.5, "평균관람횟수_2025": 6.9, "영화관람율_2025": 73.9, "스포츠관람율_2025": 27.4}, {"지역": "충청남도", "인구_2022_01": 2118638, "인구_2025_12": 2136753, "인구_2026_05": 2138517, "인구_변화량_22_25": 18115, "인구_변화율_22_25_pct": 0.8550304488072054, "인구_변화량_total": 19879, "인구_변화율_total_pct": 0.9382914872668195, "시설수_2022": 193, "시설수_2023": 199, "시설수_2024": 203, "십만명당_시설수_2022": 9.1, "십만명당_시설수_2023": 9.3, "십만명당_시설수_2024": 9.5, "시설수_변화량_22_24": 10, "시설수_변화율_22_24_pct": 5.181347150259067, "만족도_2021": 25.200000000000003, "불만족도_2021": 21.3, "만족도_2023": 31.1, "불만족도_2023": 19.7, "만족도_2025": 41.2, "불만족도_2025": 13.4, "2025_매우만족": 11.7, "2025_약간만족": 29.5, "2025_보통": 45.4, "2025_약간불만족": 10.9, "2025_매우불만족": 2.5, "2025_경제적부담": 42.2, "2025_시간부족": 22.7, "2025_교통혼잡": 1.3, "2025_여가시설부족": 2.5, "2025_여가정보부족": 0.6, "2025_여가프로그램부족": 0.4, "2025_취미없음": 8.1, "2025_건강체력부족": 19.3, "2025_동반자없음": 2.2, "2025_기타": 0.6, "2023_경제적부담": 38.1, "2023_시간부족": 27.0, "2023_교통혼잡": 1.1, "2023_여가시설부족": 4.1, "2023_여가정보부족": 1.4, "2023_여가프로그램부족": 1.3, "2023_취미없음": 7.9, "2023_건강체력부족": 16.8, "2023_동반자없음": 1.7, "2023_기타": 0.6, "관람시도율_2021": 19.4, "평균관람횟수_2021": 4.0, "관람시도율_2023": 50.4, "평균관람횟수_2023": 6.1, "관람시도율_2025": 51.7, "평균관람횟수_2025": 6.4, "영화관람율_2025": 75.6, "스포츠관람율_2025": 23.4}, {"지역": "충청북도", "인구_2022_01": 1597097, "인구_2025_12": 1596502, "인구_2026_05": 1600216, "인구_변화량_22_25": -595, "인구_변화율_22_25_pct": -0.0372550947124689, "인구_변화량_total": 3119, "인구_변화율_total_pct": 0.1952918326188077, "시설수_2022": 142, "시설수_2023": 142, "시설수_2024": 146, "십만명당_시설수_2022": 8.9, "십만명당_시설수_2023": 8.9, "십만명당_시설수_2024": 9.2, "시설수_변화량_22_24": 4, "시설수_변화율_22_24_pct": 2.8169014084507045, "만족도_2021": 24.1, "불만족도_2021": 24.4, "만족도_2023": 35.0, "불만족도_2023": 21.0, "만족도_2025": 38.7, "불만족도_2025": 15.8, "2025_매우만족": 11.2, "2025_약간만족": 27.5, "2025_보통": 45.6, "2025_약간불만족": 13.1, "2025_매우불만족": 2.7, "2025_경제적부담": 44.4, "2025_시간부족": 25.0, "2025_교통혼잡": 0.8, "2025_여가시설부족": 2.0, "2025_여가정보부족": 0.3, "2025_여가프로그램부족": 1.8, "2025_취미없음": 6.3, "2025_건강체력부족": 16.5, "2025_동반자없음": 3.0, "2025_기타": null, "2023_경제적부담": 46.8, "2023_시간부족": 25.0, "2023_교통혼잡": 1.7, "2023_여가시설부족": 1.7, "2023_여가정보부족": 0.4, "2023_여가프로그램부족": 0.6, "2023_취미없음": 5.5, "2023_건강체력부족": 16.0, "2023_동반자없음": 1.5, "2023_기타": 0.7, "관람시도율_2021": 17.8, "평균관람횟수_2021": 3.9, "관람시도율_2023": 48.8, "평균관람횟수_2023": 6.2, "관람시도율_2025": 51.2, "평균관람횟수_2025": 6.9, "영화관람율_2025": 73.1, "스포츠관람율_2025": 26.4}];
+        const nationalData = {"지역": "전국", "인구_2022_01": 51632473, "인구_2025_12": 51117378, "인구_2026_05": 51095330, "인구_변화량_22_25": -515095, "인구_변화율_22_25_pct": -0.9976183011803444, "인구_변화량_total": -537143, "인구_변화율_total_pct": -1.0403201101756254, "시설수_2022": 3248, "시설수_2023": 3294, "시설수_2024": 3337, "십만명당_시설수_2022": 6.3, "십만명당_시설수_2023": 6.4, "십만명당_시설수_2024": 6.5, "시설수_변화량_22_24": 89, "시설수_변화율_22_24_pct": 2.740147783251232, "만족도_2021": 27.0, "불만족도_2021": 23.5, "만족도_2023": 34.2, "불만족도_2023": 18.7, "만족도_2025": 39.4, "불만족도_2025": 15.9, "2025_매우만족": 11.5, "2025_약간만족": 27.9, "2025_보통": 44.8, "2025_약간불만족": 12.3, "2025_매우불만족": 3.6, "2025_경제적부담": 48.7, "2025_시간부족": 21.9, "2025_교통혼잡": 1.4, "2025_여가시설부족": 2.1, "2025_여가정보부족": 0.8, "2025_여가프로그램부족": 0.8, "2025_취미없음": 5.3, "2025_건강체력부족": 16.3, "2025_동반자없음": 2.3, "2025_기타": 0.4, "2023_경제적부담": 50.2, "2023_시간부족": 23.1, "2023_교통혼잡": 1.3, "2023_여가시설부족": 2.0, "2023_여가정보부족": 0.7, "2023_여가프로그램부족": 0.6, "2023_취미없음": 5.3, "2023_건강체력부족": 14.3, "2023_동반자없음": 2.0, "2023_기타": 0.4, "관람시도율_2021": 24.1, "평균관람횟수_2021": 4.5, "관람시도율_2023": 55.3, "평균관람횟수_2023": 7.0, "관람시도율_2025": 57.7, "평균관람횟수_2025": 7.1, "영화관람율_2025": 74.9, "스포츠관람율_2025": 28.5};
+
+        // Correlation Matrix details (computed)
+        const corrData = {
+            "인구_변화율_pct": [1.000, -0.056, -0.209, 0.615, -0.615, 0.535],
+            "시설수_2024": [-0.056, 1.000, -0.034, -0.200, 0.324, -0.098],
+            "십만명당_시설수_2024": [-0.209, -0.034, 1.000, -0.089, 0.240, -0.529],
+            "만족도_2025": [0.615, -0.200, -0.089, 1.000, -0.555, 0.758],
+            "불만족도_2025": [-0.615, 0.324, 0.240, -0.555, 1.000, -0.515],
+            "관람시도율_2025": [0.535, -0.098, -0.529, 0.758, -0.515, 1.000]
         };
 
-        // Render selected region details
-        function inspectRegion(key, btn) {
-            // Remove active classes
-            document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const data = regionData[key];
-            const satDiffClass = data.satDiff >= 0 ? "diff-up" : "diff-down";
-            const satDiffSign = data.satDiff >= 0 ? "+" : "";
-            const suiDiffClass = data.suiDiff >= 0 ? "diff-down" : "diff-up"; // up diff for decline is bad (rose/magenta)
-            const suiDiffSign = data.suiDiff >= 0 ? "+" : "";
-
-            // Calculate progress percentages (Scale metrics to 0-100 values)
-            const satPercent2024 = (data.sat2024 / 60.0) * 100;
-            const suiPercent2024 = (Math.abs(data.sui2024) / 10.0) * 100;
-
-            const html = `
-                <div class="inspector-header">
-                    <div class="inspector-region-name font-display uppercase">${data.name}</div>
-                    <span class="text-xs font-bold px-3 py-1 bg-discordMagenta/10 border border-discordMagenta/20 text-discordMagenta rounded-sm uppercase tracking-wider">${data.badge}</span>
-                </div>
-                
-                <div class="stat-group">
-                    <div class="stat-label">
-                        <span>여가 생활 체감 만족 지표 (%)</span>
-                        <span class="font-bold text-white">${data.sat2020}% &rarr; ${data.sat2024}%</span>
-                    </div>
-                    <div class="stat-value font-display">
-                        <span>${data.sat2024}%</span>
-                        <span class="stat-diff ${satDiffClass}">${satDiffSign}${data.satDiff}</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${satPercent2024}%"></div>
-                    </div>
-                </div>
-
-                <div class="stat-group">
-                    <div class="stat-label">
-                        <span>정주 인구수 가용 변동 추세 (%)</span>
-                        <span class="font-bold text-white">${data.sui2020}% &rarr; ${data.sui2024}%</span>
-                    </div>
-                    <div class="stat-value font-display">
-                        <span>${data.sui2024}%</span>
-                        <span class="stat-diff ${suiDiffClass}">${suiDiffSign}${data.suiDiff}</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill red" style="width: ${suiPercent2024}%"></div>
-                    </div>
-                </div>
-
-                <div class="region-commentary">
-                    <strong class="text-discordPrimary block mb-1 uppercase tracking-wider text-xs">📍 심층 리포트 및 지리적 해석</strong>
-                    ${data.commentary}
-                </div>
-            `;
-
-            document.getElementById('inspector-details').innerHTML = html;
-        }
-
-        // Initialize explorer on first load
-        window.onload = function() {
-            const firstBtn = document.querySelector('.region-btn');
-            if (firstBtn) inspectRegion('sejong', firstBtn);
+        const corrExplanations = {
+            "인구_변화율_pct-만족도_2025": "인구 변화율과 여가 만족도 (상관계수 +0.615): 매우 뚜렷한 양의 상관관계입니다. 인구가 지속적으로 유입되고 성장하는 지역일수록 여가 인프라 유입이 원활하고 삶의 질에 대한 주민 만족도가 높음을 가리킵니다.",
+            "십만명당_시설수_2024-관람시도율_2025": "10만명당 문화시설수와 실제 관람율 (상관계수 -0.529): 뚜렷한 음의 상관관계입니다. 통계상의 인구당 인프라 개수가 많아도, 지리적으로 접근성이 취약하고 다양한 킬러 콘텐츠가 부족한 도 지역의 특성으로 인해 실질 주민의 관람 행유율은 떨어지는 '인프라 밀도의 역설'을 설명합니다.",
+            "만족도_2025-관람시도율_2025": "여가 만족도와 문화 관람율 (상관계수 +0.758): 매우 강력한 양의 상관관계입니다. 실제 영화, 공연, 스포츠 경기 등을 직접 관람하러 나가는 빈도와 기회가 보장될수록 전반적인 여가 생활에 대한 주민 체감 만족도가 극대화됨을 가리킵니다.",
+            "십만명당_시설수_2024-만족도_2025": "10만명당 문화시설수와 여가 만족도 (상관계수 -0.089): 선형 상관관계가 거의 존재하지 않습니다. 단순히 공공 문화시설의 개수를 지어 늘리는 정책은 주민 만족도 증대로 직접 귀결되지 않음을 입증합니다.",
+            "인구_변화율_pct-십만명당_시설수_2024": "인구 변화율과 10만명당 문화시설수 (상관계수 -0.209): 약한 음의 상관관계입니다. 인구가 밀집하고 급증하는 지역(인천, 경기 등)일수록 10만명당 시설 지표는 낮게 계산되고, 인구 소멸 위험 지역(강원, 전남)일수록 인구 분모 효과에 의해 10만명당 수치는 높게 잡히는 통계 왜곡을 반영합니다."
         };
 
-        // Tab Switching Logic
-        function switchTab(evt, tabId) {
-            // Get all siblings content and hide
-            const parentPanel = evt.currentTarget.closest('.tab-panel');
-            parentPanel.querySelectorAll('.tab-content').forEach(content => {
+        // Switch Navigation Tabs (디스코드 액티브 스타일 매칭)
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-slate-400 hover:text-white light:hover:text-slate-900";
+                btn.setAttribute('aria-selected', 'false');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            parentPanel.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
 
-            // Show current
-            document.getElementById(tabId).classList.add('active');
-            evt.currentTarget.classList.add('active');
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.className = "tab-btn flex-1 py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider text-white light:text-slate-800 bg-discordPrimary shadow-md active";
+            activeBtn.setAttribute('aria-selected', 'true');
+            document.getElementById('content-' + tabId).classList.add('active');
         }
 
-        // Sidebar Active Nav Link highlight on click
-        function setActiveLink(link) {
-            document.querySelectorAll('.nav-link').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            link.classList.add('active');
-        }
-
-        // Auto highlight sidebar menu as user scrolls
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-link');
+        // Setup Region Explorer Selectors
+        function setupExplorer() {
+            const selectEl = document.getElementById("region-selector");
+            const btnListEl = document.getElementById("region-btn-list");
             
-            let currentSectionId = 'summary';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= (sectionTop - 150)) {
-                    currentSectionId = section.getAttribute('id');
-                }
+            selectEl.innerHTML = "";
+            btnListEl.innerHTML = "";
+
+            regionsData.forEach((r, idx) => {
+                const opt = document.createElement("option");
+                opt.value = r.지역;
+                opt.textContent = r.지역;
+                selectEl.appendChild(opt);
+
+                const btn = document.createElement("button");
+                btn.className = "region-item-btn" + (idx === 0 ? " selected" : "");
+                btn.id = "reg-btn-" + r.지역;
+                btn.textContent = r.지역;
+                btn.onclick = () => onRegionSelect(r.지역);
+                btnListEl.appendChild(btn);
             });
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${currentSectionId}`) {
-                    link.classList.add('active');
-                }
+            if(regionsData.length > 0) {
+                renderRegionDetail(regionsData[0]);
+            }
+        }
+
+        // Handle Region Selection
+        function onRegionSelect(regionName) {
+            document.getElementById("region-selector").value = regionName;
+            
+            document.querySelectorAll(".region-item-btn").forEach(btn => {
+                btn.classList.remove("selected");
             });
-        });
+            const activeBtn = document.getElementById("reg-btn-" + regionName);
+            if(activeBtn) {
+                activeBtn.classList.add("selected");
+                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            const region = regionsData.find(r => r.지역 === regionName);
+            if(region) {
+                renderRegionDetail(region);
+            }
+        }
+
+        // Render detailed card metrics
+        function renderRegionDetail(r) {
+            document.getElementById("det-region-name").textContent = r.지역;
+            
+            const isDo = r.지역.endsWith("도") || r.지역.includes("특별자치도");
+            document.getElementById("det-region-type").textContent = isDo ? "도 지역 (도형)" : "특광역시 (시형)";
+            document.getElementById("det-region-type").style.background = isDo ? "rgba(139, 92, 246, 0.15)" : "rgba(88, 101, 242, 0.15)";
+            document.getElementById("det-region-type").style.color = isDo ? "#c084fc" : "#5865f2";
+
+            const popChg = r.인구_변화율_22_25_pct;
+            const popValEl = document.getElementById("det-pop-change");
+            popValEl.textContent = (popChg > 0 ? "+" : "") + popChg.toFixed(2) + "%";
+            popValEl.style.color = popChg > 0 ? "#35ed7e" : "#ec48bd";
+
+            document.getElementById("det-infra-density").textContent = r.십만명당_시설수_2024.toFixed(2) + "개";
+            document.getElementById("det-viewing-rate").textContent = r.관람시도율_2025.toFixed(1) + "%";
+
+            document.getElementById("det-sat-rate-text").textContent = r.만족도_2025.toFixed(1) + "%";
+            document.getElementById("det-sat-rate-bar").style.width = r.만족도_2025 + "%";
+
+            document.getElementById("det-unsat-rate-text").textContent = r.불만족도_2025.toFixed(1) + "%";
+            document.getElementById("det-unsat-rate-bar").style.width = r.불만족도_2025 + "%";
+
+            document.getElementById("det-facility-shortage-text").textContent = r["2025_여가시설부족"].toFixed(1) + "%";
+            document.getElementById("det-facility-shortage-bar").style.width = (r["2025_여가시설부족"] * 15) + "%";
+
+            let diagnostic = "";
+            if (popChg > 0 && r.만족도_2025 > 40) {
+                diagnostic = `현재 **${r.지역}**은(는) 지속적인 인구 유입(성장세)과 함께 주민 여가 만족도가 전국 상위권에 속해 있는 매우 활력 있는 정주 여건을 갖춘 모범 지자체입니다.`;
+            } else if (popChg < 0 && r.만족도_2025 < 35) {
+                diagnostic = `**${r.지역}**은(는) 급격한 인구 이탈과 함께 여가 만족도 지표가 매우 낮게 나타납니다. 지역 내 여가의 질과 정주 여건 보강이 필요한 시점입니다.`;
+            } else if (isDo && r.십만명당_시설수_2024 > 10.0) {
+                diagnostic = `**${r.지역}**은(는) 10만명당 문화 시설수 지표가 ${r.십만명당_시설수_2024.toFixed(1)}개로 양적으로 매우 높지만, 주민들의 실제 관람 시도율은 ${r.관람시도율_2025.toFixed(1)}%에 머물러 공급과 체감 간의 괴리가 나타납니다. 질적 개선과 접근성(모빌리티) 보강이 권장됩니다.`;
+            } else {
+                diagnostic = `**${r.지역}**은(는) 비교적 균형적인 지표를 가지고 있습니다. 다만 향후 더 높은 정주 효용감을 위해 주민이 선호하는 상업/문화 민관 협력 인프라 유치와 공공 프로그램 현대화가 병행되어야 합니다.`;
+            }
+            
+            document.getElementById("det-summary-text").innerHTML = diagnostic.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // Render Correlation Table
+        function renderCorrelationTable() {
+            const tableBody = document.querySelector("#corr-table tbody");
+            tableBody.innerHTML = "";
+
+            const rowLabels = {
+                "인구_변화율_pct": "인구 변화율 (%)",
+                "시설수_2024": "문화시설수 (개)",
+                "십만명당_시설수_2024": "10만명당 시설수 (개)",
+                "만족도_2025": "여가 만족도 (%)",
+                "불만족도_2025": "여가 불만족도 (%)",
+                "관람시도율_2025": "관람 시도율 (%)"
+            };
+
+            const cols = ["인구_변화율_pct", "시설수_2024", "십만명당_시설수_2024", "만족도_2025", "불만족도_2025", "관람시도율_2025"];
+
+            cols.forEach(rowKey => {
+                const tr = document.createElement("tr");
+                const th = document.createElement("th");
+                th.textContent = rowLabels[rowKey];
+                tr.appendChild(th);
+
+                cols.forEach(colKey => {
+                    const td = document.createElement("td");
+                    const val = corrData[rowKey][cols.indexOf(colKey)];
+                    
+                    const btn = document.createElement("button");
+                    btn.className = "matrix-cell-btn";
+                    btn.textContent = (val >= 0 ? "+" : "") + val.toFixed(3);
+                    
+                    const absVal = Math.abs(val);
+                    if(rowKey === colKey) {
+                        btn.style.color = "rgba(255,255,255,0.25)";
+                    } else if (absVal >= 0.5) {
+                        btn.style.background = val > 0 ? "rgba(53, 237, 126, 0.12)" : "rgba(236, 72, 189, 0.12)";
+                        btn.style.color = val > 0 ? "#35ed7e" : "#ec48bd";
+                    }
+                    
+                    btn.onclick = () => onCorrelationSelect(rowKey, colKey, val);
+                    
+                    td.appendChild(btn);
+                    tr.appendChild(td);
+                });
+
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Handle Correlation cell selection
+        function onCorrelationSelect(rowKey, colKey, val) {
+            const widget = document.getElementById("corr-explain-widget");
+            const titleEl = document.getElementById("corr-title");
+            const bodyEl = document.getElementById("corr-body");
+
+            const key1 = `${rowKey}-${colKey}`;
+            const key2 = `${colKey}-${rowKey}`;
+            const explanation = corrExplanations[key1] || corrExplanations[key2];
+
+            if(rowKey === colKey) {
+                titleEl.innerHTML = `<i class="fa-solid fa-circle-xmark text-slate-500"></i> 자기 상관 (상관계수 1.000)`;
+                bodyEl.textContent = "지표 본인에 대한 상관도로, 항상 완벽한 선형 관계(1.00)를 나타내므로 통계적 해석에서 생략합니다.";
+                widget.style.borderLeftColor = "rgba(255,255,255,0.2)";
+                return;
+            }
+
+            if (explanation) {
+                titleEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> 정밀 지표 매칭 완료`;
+                bodyEl.textContent = explanation;
+                widget.style.borderLeftColor = val > 0 ? "#35ed7e" : "#ec48bd";
+            } else {
+                titleEl.innerHTML = `<i class="fa-solid fa-calculator text-discordPrimary"></i> 통계 지표 상관계수: ${val >= 0 ? "+" : ""}${val.toFixed(3)}`;
+                bodyEl.textContent = `두 변수 간의 피어슨 상관계수가 ${val.toFixed(3)}입니다. ${Math.abs(val) >= 0.5 ? "상당히 유의미하고 강한 선형적 연관성" : "상대적으로 약한 선형 관계"}를 보이고 있음을 뜻합니다.`;
+                widget.style.borderLeftColor = "#5865f2";
+            }
+        }
+
+        // Toggle Theme (디스코드 모드 스위처 전환 로직 보전)
+        function toggleTheme() {
+            const body = document.body;
+            const toggleBtn = document.getElementById("theme-toggle");
+            
+            const isLight = body.classList.toggle("light-theme");
+            if (isLight) {
+                body.setAttribute('data-theme', 'light');
+                toggleBtn.innerHTML = `<i class="fa-solid fa-moon"></i> 다크 모드 (Black)`;
+            } else {
+                body.removeAttribute('data-theme');
+                toggleBtn.innerHTML = `<i class="fa-solid fa-sun"></i> 라이트 모드 (White)`;
+            }
+        }
+
+        window.onload = function() {
+            setupExplorer();
+            renderCorrelationTable();
+        };
     </script>
 </body>
 </html>
